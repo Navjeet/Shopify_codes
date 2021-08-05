@@ -33,5 +33,7 @@
         $('.product-single__title_compare').append(compare_variant_price);
       }
            });
+
+
       
   });
