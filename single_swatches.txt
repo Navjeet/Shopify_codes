@@ -1,0 +1,37 @@
+  $('.u_swatch input').change(function(){
+    $click_value= $(this).val();
+        console.log('click value',$click_value);
+    
+    $('.product-form__variants').children("option").each(function(){
+       
+      if($(this).text().trim() == $click_value){
+       
+        $('.product-form__variants').val($(this).val()).trigger('change')
+        
+//         image change of varients
+        
+             let image_url =$(this).attr('data-image');
+        console.log('clicked image src',image_url);
+        
+       $(".product-single__thumbnail-image").each(function(){
+   
+        var image_src = $(this).attr("data-src");
+           
+          if($(this).attr("data-src") == image_url){
+                console.log("image_src",image_src);
+            $(this).trigger("click");
+          }
+         });
+  // variant change price
+       var variant_price = $(this).attr('price-data');
+        console.log('variant price',variant_price);
+        $('.product-single__title_price').empty();
+        $('.product-single__title_price').append(variant_price);
+        var compare_variant_price = $(this).attr('compare-price-data');
+        console.log('variant price',compare_variant_price);
+        $('.product-single__title_compare').empty();
+        $('.product-single__title_compare').append(compare_variant_price);
+      }
+           });
+      
+  });

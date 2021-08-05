@@ -1,0 +1,169 @@
+<div class="u_slider">
+  
+    {% for block in section.blocks %}
+<div class="u_block">
+
+  <div class="u_padding">
+     <img src="{{block.settings.u_img_picker | img_url:'master' }}" class="u_logo_width" alt="">
+  </div>
+  <div class="u_padding u_center">
+    <h4 class="u_text">{{block.settings.block_text}}</h4>
+  </div>
+    <div class="u_padding u_center">
+      <div>
+        <a class="u_btn_link" href="#">{{block.settings.btn_text}}</a>
+      </div>
+  </div>
+</div>
+   {% endfor %}
+  </div>
+ .slick-disabled {
+    opacity: 0.5;
+    cursor: auto !important;
+}
+  .u_chairman_arrows {
+    position: relative;
+}
+  .u_chairman_right_arrow {
+       position: absolute;
+    top: 215px;
+    right: 5%;
+    cursor: pointer;
+    z-index: 9999;
+}
+  .u_chairman_left_arrow {
+        position: absolute;
+    top: 215px;
+    left: 5%;
+    cursor: pointer;
+    z-index: 9999;
+}
+  .slick-dots li a, .slick-dots li button {
+   
+    border: 1px solid black !important;
+    border-radius: 50% !important;
+}
+  .slick-dots li a:before, .slick-dots li button:before {
+    font-size: 55px !important;
+  }
+  .slick-dots li.slick-active button:before {
+    color: black !important;
+ }
+  
+  @media screen and (max-width:990px){
+     .u_chairman_left_arrow {
+        position: absolute;
+    top: 215px;
+    left: 8%;
+    cursor: pointer;
+    z-index: 9999;
+}
+    .u_chairman_right_arrow {
+       position: absolute;
+    top: 215px;
+    right: 8%;
+    cursor: pointer;
+    z-index: 9999;
+}
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  {{'slick.js' | asset_url | script_tag }}
+<script>
+  // c_slider
+$('.u_slider').slick({
+    dots: true,
+    arrows:true,
+   
+    slidesToShow: 3,
+    slidesToScroll: 1,
+   nextArrow: '.u_chairman_right_arrow',
+    prevArrow: '.u_chairman_left_arrow',
+   responsive: [
+    {
+      breakpoint: 990,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        infinite: false,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: false,
+      }
+    }
+     ]
+   
+  });
+</script>
+{% schema %}
+{
+"name": "u_blocks",
+"settings": [
+{
+"type":"text",
+"id":"u_heading",
+"label":"heading"
+},
+{
+"type":"image_picker",
+"id":"u_left_arrow",
+"label":"u_left_arrow"
+},
+{
+"type":"image_picker",
+"id":"u_right_arrow",
+"label":"u_right_arrow"
+}
+],
+"blocks":[
+{
+"type":"select",
+"name":"add img block",
+
+"settings":[
+{
+"type":"image_picker",
+"id":"u_img_picker",
+"label":"logo"
+},
+{
+"id":"block_text",
+"label":"block_text",
+"type":"text"
+}
+,
+{
+"type":"text",
+"id":"btn_text",
+"label":"btn_text"
+}
+
+]
+}
+],
+"presets":[
+{
+"name":"add img block",
+"category":"block",
+"blocks":[
+{
+"type":"select"
+}
+]
+}
+]
+
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

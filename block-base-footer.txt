@@ -1,0 +1,142 @@
+<div class="u_container_block">
+  <div class="u_container_bg">
+  <div class="u_footer_content">
+    {% for block in section.blocks %}
+    
+    {% case.block.type %}
+    {% when 'block_1'%}
+    <div class="u_footer_item">
+     <img src="{{ block.settings.u_logo | img_url:'master'}}" alt="no  image" class="u_img_tag" >
+    </div>
+    
+     {% when 'block_2' %}
+    <div class="u_footer_item">
+    <ul class="u_footer_list">
+      {% for list in linklists[block.settings.u_link_list].links %}
+      <li class="u_footer_li">
+        <a href="#" class="u_list_link" >{{ list.title }}</a>
+      </li>
+      {% endfor %}
+      </ul>
+       {% include 'social-links' %}
+    </div>
+    {% when 'block_3' %}
+    <div class="u_footer_item">
+      <h4 class="u_text">{{block.settings.u_text}}</h4>
+       {% include 'newsletter-form' %}
+    </div>
+    
+    {% endcase %}
+     {% endfor %}
+  </div>
+</div>
+</div>
+<style>
+  .u_container_bg{
+    background:{{section.settings.u_color}}}
+  }
+  .u_container_block{
+  max-width:1200px;
+  margin:auto
+  }
+  .u_footer_content {
+    display: flex;
+    flex-wrap:wrap;
+}
+  .u_footer_item {
+    width: 33.3%;
+    padding: 10px;
+}
+  .u_img_tag {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+  .u_footer_list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+  .u_footer_li {
+    padding: 5px 0;
+}
+  .u_list_link {
+    color: white;
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 600;
+    position: relative;
+}
+  .u_list_link:before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    width: 0%;
+    height: 3px;
+    background: black;
+    transition: all linear .7s;
+    margin: auto;
+}
+  .u_list_link:hover{
+  color:white !important;
+  }
+  .u_list_link:hover:before{
+  width:100%;
+  }
+  
+ </style>
+{% schema %}
+ {
+   "name":"block base footer",
+"settings":[
+{
+"type":"color",
+"label":"u_color",
+"id":"u_color"
+}
+],
+   "blocks":[
+      {
+         "name":"block_1",
+         "type":"block_1",
+         "settings":[
+            {
+               "type":"image_picker",
+               "id":"u_logo",
+               "label":"logo"
+            }
+         ]
+      },
+      {
+         "name":"block_2",
+         "type":"block_2",
+         "settings":[
+            {
+               "type":"link_list",
+               "id":"u_link_list",
+               "label":"u_link_list"
+            }
+         ]
+      },
+      {
+         "name":"block_3",
+         "type":"block_3",
+         "settings":[
+            {
+               "type":"text",
+               "id":"u_text",
+               "label":"u_text"
+            }
+         ]
+      }
+   ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
