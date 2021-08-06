@@ -1,0 +1,14 @@
+ {% for option in release_product.options_with_values%}
+           {% if option.name =='Size' %}
+           {% for value in option.values %}
+           {%- assign product_available = true -%}
+
+           {%- assign product_available = release_product.variants[forloop.index0].available -%}
+
+
+           <span class="u_size_variant {% unless product_available %} u_disabled {% endunless %}"  data-id="{{release_product.variants[forloop.index0].id}}" data-qty="{{release_product.variants[forloop.index0].inventory_quantity}}">{{ value }}</span>
+
+
+           {% endfor %}
+           {% endif %}
+           {% endfor %}
