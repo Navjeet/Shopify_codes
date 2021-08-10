@@ -1,0 +1,128 @@
+   <!--           featured images -->
+                  <div class="u_featured_section">
+                    <h2 class="u_featured_title">{{section.settings.u_featured_img_title}}</h2>
+                    {% for featured_img in section.blocks %}
+                    {% if featured_img.type == 'pick'%}
+                       {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                       {% assign hover_title = first_level.title | downcase %}
+                    {% if  img_handle == hover_title %}
+                    <div class="u_featured_img_block">
+                      <a class="" href="{{featured_img.url}}">
+                        <div class="u_featured_position">
+                          <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                          <div class="u_featured_img_text_block">
+                            <h4 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h4>
+                          </div>
+                        </div>
+                      </a>
+
+
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+
+
+{% schema %}
+{
+   "name":"gymshark_header",
+   "settings":[
+      {
+         "type":"link_list",
+         "id":"u_link_list",
+         "label":"Topbar_list"
+      },
+      {
+         "type":"link_list",
+         "id":"u_link_list_mb",
+         "label":"bottom_list_mb"
+      },
+      {
+         "type":"color",
+         "id":"u_topbar_bg",
+         "label":"Topbar_bg"
+      },
+      {
+         "type":"image_picker",
+         "id":"u_account_icon",
+         "label":"Account_icon"
+      },
+      {
+         "type":"image_picker",
+         "id":"u_flag_icon",
+         "label":"Flag_icon"
+      },
+      {
+         "type":"image_picker",
+         "id":"u_navbar_logo",
+         "label":"Navbar_logo"
+      },
+      {
+         "type":"image_picker",
+         "id":"u_search_icon",
+         "label":"search_icon"
+      },
+      {
+         "type":"image_picker",
+         "id":"u_cart_icon",
+         "label":"Cart_icon"
+      },
+      {
+         "type":"link_list",
+         "id":"u_navbarlink_list",
+         "label":"Navbar_list"
+      },
+      {
+         "type":"text",
+         "id":"u_featured_img_title",
+         "label":"featured_img_title"
+      }
+   ],
+   "blocks":[
+      {
+         "type":"select",
+         "name":"header_message_slider",
+         "settings":[
+            {
+               "type":"textarea",
+               "id":"u_header_slider_text",
+               "label":"Header_slider_text"
+            }
+         ]
+      },
+      {
+         "type":"pick",
+         "name":"featured-img-block",
+         "settings":[
+            {
+               "type":"image_picker",
+               "id":"u_featured_image",
+               "label":"featured_image"
+            },
+            {
+               "type":"text",
+               "id":"u_featured_image_text",
+               "label":"featured image text"
+            },
+            {
+               "type":"text",
+               "id":"u_featured_image_handle",
+               "label":"featured image handle"
+            }
+         ]
+      }
+   ],
+   "presets":[
+      {
+         "name":"Header_slider_text",
+         "category":"block",
+         "blocks":[
+            {
+               "type":"select"
+            }
+         ]
+      }
+   ]
+}
+{% endschema %}

@@ -1,0 +1,206 @@
+<div class="u_navbar_block">
+          <ul class="u_nav_ul">
+            {% for first_level in linklists[section.settings.u_navbarlink_list].links  %}
+            <li class="u_nav_li">
+              <a class="u_navbar_list_link" href="#">{{ first_level.title}}</a>
+              <div class="u_mega_menu_content">
+                <div class="u_mega_row">
+                  <div class="u_mega_menu_container">
+                    {% if first_level.links!=blank %}
+                    <ul class="u_nav_ul_second_level">
+                      {% for second_level in first_level.links %}
+                      <li  class="u_nav_li_second_level">
+                        <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
+                        {% if second_level.links!=blank %}
+                        <ul class="u_nav_ul_third_level">
+                          {% for third_level in second_level.links %}
+                          <li class="u_third_level_li">
+                            <a class="u_third_level_links" href="#">{{third_level.title}}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                        {% endif %}
+                      </li>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
+                  </div>
+                  <!--           featured images -->
+                  <div class="u_featured_section">
+                    <h2 class="u_featured_title">{{section.settings.u_featured_img_title}}</h2>
+                    {% for featured_img in section.blocks %}
+                    {% if featured_img.type == 'pick'%}
+                       {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                       {% assign hover_title = first_level.title | downcase %}
+                    {% if  img_handle == hover_title %}
+                    <div class="u_featured_img_block">
+                      <a class="" href="{{featured_img.url}}">
+                        <div class="u_featured_position">
+                          <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                          <div class="u_featured_img_text_block">
+                            <h4 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h4>
+                          </div>
+                        </div>
+                      </a>
+
+
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+<!-- mobile view -->
+<div class="u_mb_view">
+  <div class="u_mb_bg">
+    <div class="u_mb_nav">
+      <div class="u_mb_left_nav">
+        <div class="u_hamberger">
+          <div class="u_berger_line bar_1"></div>
+          <div class="u_berger_line bar_2"></div>
+          <div class="u_berger_line bar_3"></div>
+        </div>
+      </div>
+      <div class="u_mb_left_second_nav">
+        <a class="u_number_link_mb" href="tel:{{section.settings.u_number}}">{{section.settings.u_number}}</a>
+      </div>
+      <div class="u_mb_center_nav">
+        <a href="#">
+          <img src="{{section.settings.u_logo_mb | img_url :'master' }}" alt="no logo" class="u_logo_width_mb" >
+        </a>
+      </div>
+      <div class="u_mb_right_nav">
+        <ul class="u_nav_ul_mb">
+          <li class="u_nav_li_mb">
+            <a class="" href="#">
+              <i class="fas fa-search fa-1x fa_lighter_mb"></i>
+            </a>
+          </li>
+          <li class="u_nav_li_mb">
+            <a class="u_show_cart_mb" href="#"></a>
+          </li>
+          <li class="u_nav_li_mb">
+            <a class="u_cart_counter_mb" href="#"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="u_mb_search">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search" >
+              <div class="u_input_search"> 
+                <input id="#search"type="search"
+                       name="q"  value="{{ search.terms | escape }}" class="u_input_text" placeholder="search" autofocus>
+             
+              </div>
+            
+            </form>
+    </div>
+  </div>
+  <div class="u_mobile_menu">
+    <div class="u_container ">
+      <div class="u_tab">
+        <a class="u_tablinks" href="#" data-id="#menu" >Menu</a>
+        <a class="u_tablinks" href="#" data-id="#account">Account</a>
+      </div>
+
+
+      <!-- Tab content -->
+      <div class="u_tabcontent">
+        <div id="menu" class="u_content">
+          <div class="u_navbar_list">
+            <ul class="u_dropdown_mb">
+              {% for  first_level in linklists[section.settings.u_navbarlist].links %}
+              <li class="u_dropdown_list_mb">
+                <div class="u_arrow_mb">
+                  <a href="{{first_level.url}}" class="u_navbar_item_link_mb">{{ first_level.title }}
+                    {% if first_level.links!=blank %}
+                    <span class="u_icon_mb">     
+                      <i class="fal fa-angle-down fa-lg"></i>
+                    </span>
+                    {% endif %}
+                  </a>
+                </div>          
+                {% if first_level.links!=blank %}
+                <ul class="u_sec_dropdown_mb">
+                  {% for second_level in first_level.links %}
+                  <li class="u_dropdown_list_mb">
+                    <div class="u_arrow_mb">
+                      <a href="{{second_level.url}}" class="u_navbar_item_link_mb_level">{{second_level.title}}
+                        {% if second_level.links!=blank %}
+                        <div class="u_icon_mb">
+                          <i class="fal fa-angle-right fa-lg"></i>   
+                        </div>
+                        {% endif %}
+                      </a>
+                    </div>
+                    {% if second_level.links!=blank %}
+                    <ul class="u_third_dropdown_mb">
+                      {% for third_level in second_level.links %}
+                      <li class="u_dropdown_list_mb" >
+                        <a href="{{third_level.url}}" class="u_navbar_item_link_mb_level">{{third_level.title}}</a>
+                      </li>
+                      {% endfor%}
+                    </ul>
+                    {% endif%}
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div id="account" class="u_content">
+          <div class="u_account_content">
+            <ul class="u_account_ul">
+              {% for account_list in linklists[section.settings.u_navbar_account].links%}
+              <li class="u_account_li"><a class="u_account_link" href="#">{{account_list.title}}</a>
+              </li>
+              {% endfor %}
+
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+// hamburger
+    $('.u_hamberger, .u_cross').click(function(){
+      $(this).toggleClass('change');
+      $('.u_mobile_menu').toggleClass('active');
+      $('.u_nav_ul_mb').toggle();
+      $('.u_hamberger .u_berger_line:first-child').toggleClass('u_burger_width');
+      $('body').toggleClass('overflow');     
+    });
+
+   // sticky
+  $(document).scroll(function(){
+    var scroll =  $(this).scrollTop();
+    // console.log(($(document).scrollTop() +'px'));
+    if(scroll>0){
+      $('.u_sticky').addClass('header_sticky');
+    }
+    else{
+      $('.u_sticky').removeClass('header_sticky');
+    }
+  })
+ // mb_navigation
+  $('.u_navbar_item_link_mb').click(function(){
+    $(this).toggleClass('u_list_back_hover');
+    $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
+    $(this).parent().parent().find('.u_sec_dropdown_mb').slideToggle();
+  })
+  // reverse
+  $('.u_navbar_item_link_mb_level').click(function(){
+    $(this).toggleClass('u_list_back_hover');
+    $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
+    $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();

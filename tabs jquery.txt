@@ -1,0 +1,15 @@
+// tabs
+
+    $('.u_tab .u_tablinks').removeClass('active');
+   $('.u_tab .u_tablinks:first-child').addClass('active');
+  $('.u_tabcontent .u_content').hide();
+  $('.u_tabcontent .u_content:first').show();
+ 
+$('.u_tab .u_tablinks').click(function(){
+   $('.u_tab .u_tablinks').removeClass('active');
+  $('.u_tabcontent .u_content').hide();
+  $(this).addClass('active');
+  var activetab =$(this).attr('data-id');
+  console.log(activetab);
+  $(activetab).show();
+  retu
