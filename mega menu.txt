@@ -181,7 +181,14 @@
       $('.u_hamberger .u_berger_line:first-child').toggleClass('u_burger_width');
       $('body').toggleClass('overflow');     
     });
+ //hover
+  $('.u_navbar_list_link').hover(function(){ 
+    $('.u_navbar_list_link').css('color','rgb(187,188,188)');
+    $(this).css('color','black');
 
+  },function(){
+//     $('.u_navbar_list_link').css('color','black');
+  })
    // sticky
   $(document).scroll(function(){
     var scroll =  $(this).scrollTop();
