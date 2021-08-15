@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>accordian</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .u_accordian_container {
+    max-width: 800px;
+    margin: auto;
+}
+.u_accordian_block {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.u_accordian_padding {
+    padding: 10px 30px;
+}
+.u_accordian_head_text {
+    text-transform: uppercase;
+    font-weight: 900;
+}
+.u_accordian_body_text {
+    line-height: 26px;
+    color: black;
+    font-weight: 300;
+}
+.u_accordian_head{
+    cursor: pointer;
+    position: relative;
+}
+.u_icon{
+position: absolute;
+    top: 30%;
+    right: 4%;
+}
+.u_accordian .u_accordian_block .u_accordian_body{
+    display: none;
+}
+/* .u_accordian .u_accordian_block:first-child .u_accordian_body{
+    display: block;
+} */
+    </style>
+</head>
+<body>
+    <div class="u_accordian_container">
+    <div class="u_accordian">
+        <div class="u_accordian_block">
+            <div class="u_accordian_head u_accordian_padding">
+                <h2 class="u_accordian_head_text">Q1: do you ship overseas?</h2>
+                <span class="u_icon"><i class="fa fa-plus"></i></span>
+            </div>
+            <div class="u_accordian_body u_accordian_padding">
+                <p class="u_accordian_body_text">Yes, we ship all over the world. Shipping costs will apply to some countries, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>
+            </div>
+        </div>
+        <div class="u_accordian_block">
+            <div class="u_accordian_head u_accordian_padding">
+                <h2 class="u_accordian_head_text">Q2: do you ship overseas?</h2>
+                <span class="u_icon"><i class="fa fa-plus"></i></span>
+            </div>
+            <div class="u_accordian_body u_accordian_padding">
+                <p class="u_accordian_body_text">Yes, we ship all over the world. Shipping costs will apply to some countries, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $('.u_accordian_head').click(function(){
+                // self clicking
+                if($(this).next().hasClass('active'))
+                {
+                    $(this).next().removeClass('active').slideUp();
+                    $(this).find('.u_icon i').removeClass('fa-minus').addClass('fa-plus');
+                }
+                else{
+            $('.u_accordian_body').removeClass('active').slideUp();
+            $('.u_icon i').removeClass('fa-minus').addClass('fa-plus');     
+            $(this).next('.u_accordian_body').addClass('active').slideDown();
+            $(this).find('.u_icon i').removeClass('fa-plus').addClass('fa-minus');
+                }
+            })
+
+        })
+        </script>
+
+</body>
+</html>
