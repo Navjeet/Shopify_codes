@@ -44,6 +44,45 @@ position: absolute;
 .u_accordian .u_accordian_block .u_accordian_body{
     display: none;
 }
+/* animation */
+.f_arrow{
+width:2px;
+height:15px;
+background:black;
+transition:all .8s ease;
+}
+.arrow{
+cursor:pointer;
+}
+.l_arrow {
+    width: 2px;
+    height: 15px;
+    background: black;
+    transition: all .8s ease;
+    transform: rotate(
+90deg
+) translate(-2px,2px);
+}
+.minus .f_arrow{
+transform:rotate(90deg);
+}
+.minus .l_arrow{
+opacity:0;
+}
+.plus .f_arrow{
+transform:rotate(0deg);
+}
+.plus .l_arrow{
+opacity:1;
+}
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 5%;
+}
 /* .u_accordian .u_accordian_block:first-child .u_accordian_body{
     display: block;
 } */
@@ -55,7 +94,11 @@ position: absolute;
         <div class="u_accordian_block">
             <div class="u_accordian_head u_accordian_padding">
                 <h2 class="u_accordian_head_text">Q1: do you ship overseas?</h2>
-                <span class="u_icon"><i class="fa fa-plus"></i></span>
+                <!-- <span class="u_icon"><i class="fa fa-plus"></i></span> -->
+                <div class="icon">
+                    <div class="f_arrow arrow"></div>
+                    <div class="l_arrow arrow"></div>
+                    </div>
             </div>
             <div class="u_accordian_body u_accordian_padding">
                 <p class="u_accordian_body_text">Yes, we ship all over the world. Shipping costs will apply to some countries, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>
@@ -64,7 +107,10 @@ position: absolute;
         <div class="u_accordian_block">
             <div class="u_accordian_head u_accordian_padding">
                 <h2 class="u_accordian_head_text">Q2: do you ship overseas?</h2>
-                <span class="u_icon"><i class="fa fa-plus"></i></span>
+                <div class="icon">
+                    <div class="f_arrow arrow"></div>
+                    <div class="l_arrow arrow"></div>
+                    </div>
             </div>
             <div class="u_accordian_body u_accordian_padding">
                 <p class="u_accordian_body_text">Yes, we ship all over the world. Shipping costs will apply to some countries, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>
@@ -77,21 +123,28 @@ position: absolute;
         $(document).ready(function(){
             $('.u_accordian_head').click(function(){
                 // self clicking
+                // animation
                 if($(this).next().hasClass('active'))
                 {
                     $(this).next().removeClass('active').slideUp();
-                    $(this).find('.u_icon i').removeClass('fa-minus').addClass('fa-plus');
-                }
+                    $(this).find('.icon').addClass('plus').removeClass('minus');
+                //     $(this).find('.u_icon i').removeClass('fa-minus').addClass('fa-plus');
+                 }
                 else{
-            $('.u_accordian_body').removeClass('active').slideUp();
-            $('.u_icon i').removeClass('fa-minus').addClass('fa-plus');     
+                    $('.u_accordian_body').removeClass('active').slideUp();
+                $('.icon').addClass('plus').removeClass('minus');
             $(this).next('.u_accordian_body').addClass('active').slideDown();
-            $(this).find('.u_icon i').removeClass('fa-plus').addClass('fa-minus');
+            $(this).find('.icon').addClass('minus').removeClass('plus');
+            // simple
+
+            // $('.u_accordian_body').removeClass('active').slideUp();
+            // $('.u_icon i').removeClass('fa-minus').addClass('fa-plus');     
+            // $(this).next('.u_accordian_body').addClass('active').slideDown();
+            // $(this).find('.u_icon i').removeClass('fa-plus').addClass('fa-minus');
                 }
             })
 
         })
         </script>
-
 </body>
 </html>
