@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .u_bg {
+    background: black;
+}
+    .u_newsletter_flex {
+    display: flex;
+    align-items: center;
+}
+.u_newsletter_container {
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+}
+.u_nws_email {
+    width: 75%;
+}
+
+.u_input_nws_email {
+    width: 100%;
+    padding: 20px 15px;
+border: 2px solid white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: transparent;
+    text-transform: uppercase;
+    color: white;
+        /* font-family: 'Magda text', 'Palatino Linotype', sans-serif; 
+        color: #fff;
+    font-size: 13px;*/
+}
+.u_input_nws_email::-webkit-input-placeholder{
+    color: white;
+}
+.u_input_nws_email:focus{
+
+    background-color: #1b1b1b;
+    outline: none;
+}
+.u_nws_submit_btn {
+    width: 25%;
+    padding: 20px 15px;
+    background: white;
+    text-transform: uppercase;
+    border: 2px solid white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: all 400ms cubic-bezier(.215, .61, .355, 1);
+    cursor: pointer;
+    /* font-family: Bellgothicstd, Arial, sans-serif; 
+    color: #000;
+    font-size: 16px;
+    font-weight: 900;*/
+}
+.u_nws_submit_btn:hover{
+    width: 30%;
+    background-color: #ecedef;
+}
+</style>
+<body>
+    <div class="u_bg">
+    <div class="u_newsletter_container">
+        <div class="u_newsletter_flex">
+            <div class="u_nws_email">
+                <input type="email" class="u_input_nws_email" maxlength="25" placeholder="email address">
+            </div>
+                <input type="submit" class="u_nws_submit_btn" value="join">
+        
+        </div>
+    </div>
+    </div>
+    
+</body>
+</html> 
