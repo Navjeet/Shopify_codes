@@ -1,213 +1,1172 @@
-<div class="u_navbar_block">
-          <ul class="u_nav_ul">
-            {% for first_level in linklists[section.settings.u_navbarlink_list].links  %}
-            <li class="u_nav_li">
-              <a class="u_navbar_list_link" href="#">{{ first_level.title}}</a>
-              <div class="u_mega_menu_content">
-                <div class="u_mega_row">
-                  <div class="u_mega_menu_container">
-                    {% if first_level.links!=blank %}
-                    <ul class="u_nav_ul_second_level">
-                      {% for second_level in first_level.links %}
-                      <li  class="u_nav_li_second_level">
-                        <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
-                        {% if second_level.links!=blank %}
-                        <ul class="u_nav_ul_third_level">
-                          {% for third_level in second_level.links %}
-                          <li class="u_third_level_li">
-                            <a class="u_third_level_links" href="#">{{third_level.title}}</a>
-                          </li>
-                          {% endfor %}
-                        </ul>
-                        {% endif %}
-                      </li>
-                      {% endfor %}
-                    </ul>
-                    {% endif %}
-                  </div>
-                  <!--           featured images -->
-                  <div class="u_featured_section">
-                    <h2 class="u_featured_title">{{section.settings.u_featured_img_title}}</h2>
-                    {% for featured_img in section.blocks %}
-                    {% if featured_img.type == 'pick'%}
-                       {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
-                       {% assign hover_title = first_level.title | downcase %}
-                    {% if  img_handle == hover_title %}
-                    <div class="u_featured_img_block">
-                      <a class="" href="{{featured_img.url}}">
-                        <div class="u_featured_position">
-                          <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
-                          <div class="u_featured_img_text_block">
-                            <h4 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h4>
-                          </div>
-                        </div>
-                      </a>
+  <div class="u_desktop_view">
+      <div class="u_mega_menu">
+        <div class="u_navbar">
 
+
+          <div class="u_navbar_item">
+            <div class="u_navbar_logo">
+              <a href="{{shop.url}}">
+
+              {% render 'k18_logo' %}
+              </a>
+            </div>
+          </div>
+          <div class="u_navbar_item">
+            <div class="u_navbar_list">
+              <ul class="u_navbar_item_ul">
+           
+                {% for  first_level in linklists[section.settings.u_navbarlist].links %}
+
+                <li class="u_navbar_item_li">
+
+                  <a href="{% if forloop.first %} https://www.youtube.com/watch?v=fZyuT3tbEGE{% else %} # {% endif %}" class="u_navbar_item_link {% if forloop.first %} u_red {% endif %}" {% if forloop.first %} data-fancybox {% endif %} >{{ first_level.title }}
+                    <span class="u_play_icon_center">
+                      {% if forloop.first %}
+                      {% render 'play_small' %}
+                      {% endif %}
+                    </span>
+                  </a>
+                  {% if first_level.links!=blank %}
+                  <div class="u_mega_menu_content">
+                    <div class="u_sp_line_full">
+                    </div>
+                    <div class="u_mega_menu_container">
+                      <div class="u_mega_row">
+                        <div class="u_mega_text_block">
+
+                          <ul class="u_nav_ul_second_level">
+
+                            {% for second_level in first_level.links %}
+                            <li  class="u_nav_li_second_level">
+                              <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
+                              {% if second_level.links!=blank %}
+                              <ul class="u_nav_ul_third_level">
+                                {% for third_level in second_level.links %}
+                                <li class="u_third_level_li">
+                                  <a class="u_third_level_links" href="#">{{third_level.title}}</a>
+                                </li>
+                                {% endfor %}
+                              </ul>
+                              {% endif %}
+                            </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+
+                        <!--           featured images -->
+                        {% assign hover_title = first_level.title | downcase %}
+                        {% if hover_title == 'professional'%}
+                        <div class="u_featured_section" style="left:60%">
+                          {% for featured_img in section.blocks %}
+                          {% if featured_img.type == 'pick'%}
+                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                          {% assign hover_title = first_level.title | downcase %}
+
+                          {% if  img_handle == hover_title %}
+                          <div class="u_featured_img_block">
+                            <a class="" href="{{featured_img.url}}">
+                              <div class="u_featured_position">
+                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
+                              </div>
+                            </a>
+
+
+                          </div>
+
+                          {% endif %}
+                          {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% else %}
+
+                        <div class="u_featured_section">
+                          {% for featured_img in section.blocks %}
+                          {% if featured_img.type == 'pick'%}
+                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                          {% assign hover_title = first_level.title | downcase %}
+
+                          {% if  img_handle == hover_title %}
+                          <div class="u_featured_img_block">
+                            <a class="" href="{{featured_img.url}}">
+                              <div class="u_featured_position">
+                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
+                              </div>
+                            </a>
+
+
+                          </div>
+
+                          {% endif %}
+                          {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% endif%}
+                      </div>
 
                     </div>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
+
+
                   </div>
-                </div>
+
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+  <div class="u_desktop_view">
+      <div class="u_mega_menu">
+        <div class="u_navbar">
+
+
+          <div class="u_navbar_item">
+            <div class="u_navbar_logo">
+              <a href="{{shop.url}}">
+
+              {% render 'k18_logo' %}
+              </a>
+            </div>
+          </div>
+          <div class="u_navbar_item">
+            <div class="u_navbar_list">
+              <ul class="u_navbar_item_ul">
+           
+                {% for  first_level in linklists[section.settings.u_navbarlist].links %}
+
+                <li class="u_navbar_item_li">
+
+                  <a href="{% if forloop.first %} https://www.youtube.com/watch?v=fZyuT3tbEGE{% else %} # {% endif %}" class="u_navbar_item_link {% if forloop.first %} u_red {% endif %}" {% if forloop.first %} data-fancybox {% endif %} >{{ first_level.title }}
+                    <span class="u_play_icon_center">
+                      {% if forloop.first %}
+                      {% render 'play_small' %}
+                      {% endif %}
+                    </span>
+                  </a>
+                  {% if first_level.links!=blank %}
+                  <div class="u_mega_menu_content">
+                    <div class="u_sp_line_full">
+                    </div>
+                    <div class="u_mega_menu_container">
+                      <div class="u_mega_row">
+                        <div class="u_mega_text_block">
+
+                          <ul class="u_nav_ul_second_level">
+
+                            {% for second_level in first_level.links %}
+                            <li  class="u_nav_li_second_level">
+                              <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
+                              {% if second_level.links!=blank %}
+                              <ul class="u_nav_ul_third_level">
+                                {% for third_level in second_level.links %}
+                                <li class="u_third_level_li">
+                                  <a class="u_third_level_links" href="#">{{third_level.title}}</a>
+                                </li>
+                                {% endfor %}
+                              </ul>
+                              {% endif %}
+                            </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+
+                        <!--           featured images -->
+                        {% assign hover_title = first_level.title | downcase %}
+                        {% if hover_title == 'professional'%}
+                        <div class="u_featured_section" style="left:60%">
+                          {% for featured_img in section.blocks %}
+                          {% if featured_img.type == 'pick'%}
+                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                          {% assign hover_title = first_level.title | downcase %}
+
+                          {% if  img_handle == hover_title %}
+                          <div class="u_featured_img_block">
+                            <a class="" href="{{featured_img.url}}">
+                              <div class="u_featured_position">
+                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
+                              </div>
+                            </a>
+
+
+                          </div>
+
+                          {% endif %}
+                          {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% else %}
+
+                        <div class="u_featured_section">
+                          {% for featured_img in section.blocks %}
+                          {% if featured_img.type == 'pick'%}
+                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                          {% assign hover_title = first_level.title | downcase %}
+
+                          {% if  img_handle == hover_title %}
+                          <div class="u_featured_img_block">
+                            <a class="" href="{{featured_img.url}}">
+                              <div class="u_featured_position">
+                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
+                              </div>
+                              <div class="u_featured_img_text_block">
+                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
+                              </div>
+                            </a>
+
+
+                          </div>
+
+                          {% endif %}
+                          {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% endif%}
+                      </div>
+
+                    </div>
+
+
+                  </div>
+
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+<!--   mobile view -->
+  <div class="u_mb_view">
+    <div class="u_mb_bg">
+      <div class="u_mb_nav">
+        <div class="u_mb_left_nav">
+          <div class="u_mb_inner_row">
+            <div class="u_hamberger">
+              <div class="u_berger_line bar_1"></div>
+              <div class="u_berger_line bar_2"></div>
+              <div class="u_berger_line bar_3"></div>
+            </div>
+
+            <div class="u_mb_navbar_logo">
+              <a href="">
+                {% render 'k18_mb_logo' %}
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="u_mb_right_nav">
+          <ul class="u_nav_ul_mb">
+            <li class="u_nav_li_mb">
+              <a class="u_nav_link_mb" href="#">
+                {% render 'u_search' %}
+              </a>
+            </li>
+            <li class="u_nav_li_mb">
+              <a class="u_nav_link_mb" href="#">
+                {% render 'u_user' %}
+              </a>
+            </li>
+            <li class="u_nav_li_mb">
+              <a class="u_nav_link_mb u_navlink_svg" href="#">
+                {% render 'u_cart' %}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="u_mobile_menu">
+      <div class="u_mb_container ">
+
+
+
+        <div class="u_navbar_list">
+          <ul class="u_dropdown_mb">
+            {% for  first_level in linklists[section.settings.u_navbarlist].links %}
+            <li class="u_dropdown_list_mb">
+              <div class="u_mb_flex">
+                {% if forloop.first %}
+                <a  href=" https://www.youtube.com/watch?v=fZyuT3tbEGE" class="u_navbar_item_link_mb_first_level " data-fancybox>
+                  {% render 'mb_how_it works'%}
+                </a>
+                {% endif %}
+                
+                <a href="{{first_level.url}}" class="u_navbar_item_link_mb_first_level  {% if forloop.first %} u_mb_hide {% endif %}">{{first_level.title}}</a>
+
+
+                {% if first_level.links!=blank %}
+                <i class="fa fa-chevron-right fa-3x u_right_arrow" aria-hidden="true"></i>
+                {% endif %}
               </div>
+              {% if first_level.links != blank %}
+              
+              
+                  <div class="u_mobile_menu_items">
+      <div class="u_mb_container ">
+        <div class="u_mb_menu_item">
+          <i class="fa fa-chevron-left fa-3x u_left_arrow" aria-hidden="true"></i>
+
+          <div class="u_mb_item_menu">
+            <ul  class="u_sec_dropdown_mb">
+            {% for  ssll in first_level.links %}
+              <li class="u_dropdown_list_mb">
+                <a href="{{ssll.url}}" class="u_navbar_item_link_mb_second_level">{{ssll.title}}</a>
+              </li>
+            {% assign ssll_t = ssll.title | downcase %}
+            <ul class="u_third_dropdown_mb">
+              {% for tl in ssll.links %}
+              <li class="u_dropdown_list_mb">
+                <a href="{{tl.url}}" class="u_navbar_item_link_mb_third_level">{{tl.title}}</a>
+              </li>
+              {% endfor %}
+            </ul>        
+
+            {% for featured_img in section.blocks %}
+            {% if featured_img.type == 'pick'%}
+            {% assign handle = featured_img.settings.u_featured_image_handle | downcase | strip %}
+            {% if ssll_t == handle %}
+            <div class="u_featured_img_block_mb">
+              <a class="" href="{{featured_img.url}}">
+                <div class="u_featured_position">
+                  <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag_mb">
+                </div>
+                <div class="u_featured_img_text_block">
+                  <h3 class="u_featured_img_text_mb">{{featured_img.settings.u_featured_image_text}}</h3>
+                </div>
+                <div class="u_featured_img_text_block">
+                  <a href="#" class="u_featured_img_text_link_mb">{{featured_img.settings.u_featured_image_link}}</a>
+                </div>
+              </a>
+
+
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+          
+            {% endfor %}
+            </ul>
+          </div>
+
+
+
+
+        </div>
+      </div>   
+    </div>
+         
+              
+              {% endif %}
+              
             </li>
             {% endfor %}
           </ul>
         </div>
-<!-- mobile view -->
-<div class="u_mb_view">
-  <div class="u_mb_bg">
-    <div class="u_mb_nav">
-      <div class="u_mb_left_nav">
-        <div class="u_hamberger">
-          <div class="u_berger_line bar_1"></div>
-          <div class="u_berger_line bar_2"></div>
-          <div class="u_berger_line bar_3"></div>
-        </div>
-      </div>
-      <div class="u_mb_left_second_nav">
-        <a class="u_number_link_mb" href="tel:{{section.settings.u_number}}">{{section.settings.u_number}}</a>
-      </div>
-      <div class="u_mb_center_nav">
-        <a href="#">
-          <img src="{{section.settings.u_logo_mb | img_url :'master' }}" alt="no logo" class="u_logo_width_mb" >
-        </a>
-      </div>
-      <div class="u_mb_right_nav">
-        <ul class="u_nav_ul_mb">
-          <li class="u_nav_li_mb">
-            <a class="" href="#">
-              <i class="fas fa-search fa-1x fa_lighter_mb"></i>
-            </a>
-          </li>
-          <li class="u_nav_li_mb">
-            <a class="u_show_cart_mb" href="#"></a>
-          </li>
-          <li class="u_nav_li_mb">
-            <a class="u_cart_counter_mb" href="#"></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="u_mb_search">
-    <form action="{{ routes.search_url }}" method="get" role="search" class="search" >
-              <div class="u_input_search"> 
-                <input id="#search"type="search"
-                       name="q"  value="{{ search.terms | escape }}" class="u_input_text" placeholder="search" autofocus>
-             
-              </div>
-            
-            </form>
-    </div>
-  </div>
-  <div class="u_mobile_menu">
-    <div class="u_container ">
-      <div class="u_tab">
-        <a class="u_tablinks" href="#" data-id="#menu" >Menu</a>
-        <a class="u_tablinks" href="#" data-id="#account">Account</a>
-      </div>
-
-
-      <!-- Tab content -->
-      <div class="u_tabcontent">
-        <div id="menu" class="u_content">
-          <div class="u_navbar_list">
-            <ul class="u_dropdown_mb">
-              {% for  first_level in linklists[section.settings.u_navbarlist].links %}
-              <li class="u_dropdown_list_mb">
-                <div class="u_arrow_mb">
-                  <a href="{{first_level.url}}" class="u_navbar_item_link_mb">{{ first_level.title }}
-                    {% if first_level.links!=blank %}
-                    <span class="u_icon_mb">     
-                      <i class="fal fa-angle-down fa-lg"></i>
-                    </span>
-                    {% endif %}
-                  </a>
-                </div>          
-                {% if first_level.links!=blank %}
-                <ul class="u_sec_dropdown_mb">
-                  {% for second_level in first_level.links %}
-                  <li class="u_dropdown_list_mb">
-                    <div class="u_arrow_mb">
-                      <a href="{{second_level.url}}" class="u_navbar_item_link_mb_level">{{second_level.title}}
-                        {% if second_level.links!=blank %}
-                        <div class="u_icon_mb">
-                          <i class="fal fa-angle-right fa-lg"></i>   
-                        </div>
-                        {% endif %}
-                      </a>
-                    </div>
-                    {% if second_level.links!=blank %}
-                    <ul class="u_third_dropdown_mb">
-                      {% for third_level in second_level.links %}
-                      <li class="u_dropdown_list_mb" >
-                        <a href="{{third_level.url}}" class="u_navbar_item_link_mb_level">{{third_level.title}}</a>
-                      </li>
-                      {% endfor%}
-                    </ul>
-                    {% endif%}
-                  </li>
-                  {% endfor %}
-                </ul>
-                {% endif %}
-                {% endfor %}
-            </ul>
+        <div class="u_nav_social">
+          <ul class="u_nav_social_list">
+            <li class="u_nav_social_li">
+              <a href=""  class="u_mb_social_flex">
+                {% render 'u_user' %}
+                <span class="u_nav_social_link"> my account</span>
+              </a>
+            </li>
+            <li class="u_nav_social_li">
+              <a href="" class="u_mb_social_flex">
+                {% render 'mb_country_icon' %}
+                <span class="u_nav_social_link"> usa</span>
+              </a>
+            </li>
+          </ul>
+          <div class="u_sp_line_full_mb">
           </div>
-        </div>
-
-        <div id="account" class="u_content">
-          <div class="u_account_content">
-            <ul class="u_account_ul">
-              {% for account_list in linklists[section.settings.u_navbar_account].links%}
-              <li class="u_account_li"><a class="u_account_link" href="#">{{account_list.title}}</a>
+          <div class="u_nav_social_icons">
+            <ul class="u_nav_social_list_icons">
+              <li class="u_nav_social_icons_li">
+                <a href=""  class="u_nav_social_link">
+                  <i class="fab fa-instagram fa-2x"></i>
+                </a>
               </li>
-              {% endfor %}
-
+              <li class="u_nav_social_icons_li">
+                <a href=""  class="u_nav_social_link">
+                  <i class="fab fa-facebook-f fa-2x"></i>
+                </a>
+              </li>
+              <li class="u_nav_social_icons_li">
+                <a href=""  class="u_nav_social_link">
+                  <i class="fab fa-youtube fa-2x"></i>
+                </a>
+              </li>
             </ul>
+
           </div>
         </div>
-
       </div>
     </div>
+
+
+    
   </div>
-</div>
+<style>
+  .fancybox-inner {
+    background: white;
+}
+  .u_announcement_bar_bg{
+    background:{{section.settings.u_anouncement_color}};
+    position: relative;
+    z-index: 9999;
+  }
+  .u_announcement_bar_flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 20px 4px 30px;
 
-// hamburger
-    $('.u_hamberger, .u_cross').click(function(){
-      $(this).toggleClass('change');
-      $('.u_mobile_menu').toggleClass('active');
-      $('.u_nav_ul_mb').toggle();
-      $('.u_hamberger .u_berger_line:first-child').toggleClass('u_burger_width');
-      $('body').toggleClass('overflow');     
-    });
- //hover
-  $('.u_navbar_list_link').hover(function(){ 
-    $('.u_navbar_list_link').css('color','rgb(187,188,188)');
-    $(this).css('color','black');
 
-  },function(){
-//     $('.u_navbar_list_link').css('color','black');
-  })
-   // sticky
+  }
+  .u_announcement_bar_block_slider{
+  width:90%
+  }
+    .u_announcement_bar_block_cross{
+  width:10%;
+      text-align:right;
+  }
+  .u_anouncement_text{
+    color: #333;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight:400 !important;
+       
+
+  }
+  .u_announcement_bar_block {
+    width: 100%;
+}
+  .u_anouncement_svg svg {
+    width: 10px;
+    cursor: pointer;
+  }
+
+  .u_navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 30px;
+    border-bottom: 1px solid #f5f5f5;
+      
+  }
+  .u_navbar_item_ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  
+  }
+  .u_navbar_item_li {
+    padding: 10px 20px;
+    list-style: none;
+
+  }
+  .u_navbar_item_link {
+    color:black;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    position: relative;
+    letter-spacing: 0;
+    font-family: Helvetica Neue, sans-serif !important;
+     line-height: 3.5;
+        transition: all .2s ease-out;
+  }
+  
+  .u_navbar_item_link_level{
+    text-transform: capitalize;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: lighter;
+    color: black;
+    padding: 8px 22px;
+    display: block;
+    width: 100%;
+  }
+  .u_right_nav .u_nav_ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+  }
+  .u_right_nav .u_nav_link {
+
+    color: black;
+    padding: 4px;
+    border-radius: 4px;
+    text-decoration: none;
+    display:inline-block;
+    text-transform: capitalize;
+    font-size:15px;
+       
+    font-family: HelveticaNeu-Bold,sans-serif !important;
+}
+ 
+
+  .u_right_nav .u_nav_li {
+    list-style: none;
+    padding: 5px;
+  }
+  .u_navbar_logo a svg{
+    width: 90px;
+    height: 100%;
+    object-fit: cover;
+        transition: all 250ms ease-in-out;
+  }
+  .u_navlink_svg svg{
+    width: 20px;
+    stroke: #000;
+    color: #000;
+  }
+  .u_nav_link svg{
+    width: 20px;
+    height: auto;
+  }
+  .u_sp_line {
+    width: 1px;
+    height: 30px;
+    background: #ddd;
+  }
+  .u_nav_link.u_nav_link_sp {
+    cursor: default;
+  }
+  .u_nav_link  i{
+
+      padding-left: 10px;
+    font-size: 14px;
+  }
+  .u_red svg{
+    width: 12px;
+
+  }
+  .u_navbar_item_link.u_red {
+    color: #df5657;
+
+  }
+  .u_play_icon_center{
+
+    vertical-align: sub;
+  }
+  .u_navbar_item_link:after{
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 9px;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    background-color: #cfde3e;
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s,-webkit-transform .3s;
+    -webkit-transform-origin: left;
+    transform-origin: left;
+    z-index: -1;
+  }
+  .u_navbar_item_link:hover:after{
+    transform:scaleX(1);
+  }
+  .u_navbar_item_link:hover{
+    color:black;
+  } 
+  .u_mega_menu{
+    position:relative;
+  }
+  .u_mega_menu_content {
+    position: absolute;
+    width: 100%;
+    display: none;
+    background: white;
+    top: 80px;
+    left: 0;
+    z-index: 999;
+    /*     box-shadow: 0 5px 30px 0 rgb(0 0 0 / 34%);  */
+    box-shadow:0 30px 30px  -12px rgb(0 0 0 / 34%);
+  }
+  .u_navbar_item_li:hover .u_mega_menu_content{
+    display:block
+  }
+  .u_mega_menu_container {
+    max-width: 950px;
+    margin: auto;
+    padding: 30px 100px 50px;
+  }
+  .u_nav_ul_second_level {
+    padding: 0;
+  }
+  .u_nav_li_second_level {
+    list-style: none;
+    text-transform: uppercase;
+  }
+  .u_nav_ul_third_level {
+    padding: 10px 0;
+  }
+  .u_third_level_li {
+    list-style: none;
+    padding: 5px 0;
+  }
+  .u_third_level_links {
+    list-style: none;
+    text-decoration: none;
+  }
+  .u_second_level_heading {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: capitalize;
+    margin: 0;
+    font-family: Helvetica Neue, sans-serif !important;
+  }
+  .u_third_level_links {
+       text-decoration: none;
+    text-align: left;
+    color: #000;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-family: Helvetica Neue, sans-serif !important;
+  }
+  .u_third_level_links:hover{
+    color:#df5657;
+  }
+  .u_mega_row{
+    display:flex;
+    justify-content:space-between;
+    position: relative;
+  }
+  .u_featured_img_tag {
+    width: 300px;
+    height: 100px;
+    transition: transform .9s cubic-bezier(.16,1,.3,1);
+    object-fit: cover;
+    object-position: center;
+  }
+  .u_featured_section {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0%;
+    left: 30%;
+  }
+  .u_featured_img_text {
+    color: #df5657;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+  .u_featured_img_text_link {
+    font-weight: 700;
+    display: inline-block;
+    font-size: 12px;
+    margin: 0;
+    text-decoration: underline;
+    color:black;
+  }
+  .u_featured_img_text_block {
+    padding-top: 3px;
+  }
+  .u_featured_img_tag:hover{
+
+    transform:scale(1.1);
+  }
+  .u_featured_position {
+    overflow: hidden;
+  }
+  .u_featured_img_block {
+    padding-left: 10px;
+  }
+  .u_sp_line_full {
+    width: 100%;
+    height: 1px;
+    margin-top: 35px;
+    background: #f5f5f5;
+  }
+  .u_right_nav .u_nav_li:last-child{
+    padding-right:0;
+  }
+
+#shopify-section-k18-header, .u_sticky{
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    right: 0;
+    z-index: 99999;
+    background: white;
+  }
+  .u_line_height{
+  line-height:0.5
+  }
+  .slick-current  div:first-child{
+    line-height:24px !important;
+  }
+  /*   mobile view */
+  .u_mb_view{
+    display:none;
+  }
+  .u_mb_nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 999;
+    background:white;
+  }
+  .u_mb_container {
+    padding: 80px 25px;
+  }
+  .u_berger_line {
+    width: 27px;
+    height: 3px;
+    background: black;
+    margin: 3px;
+    display: block !important;
+ transition: .2s ease-in-out;
+    cursor: pointer;
+  }
+
+  .u_mb_inner_row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .u_mb_navbar_logo {
+    padding-left: 20px;
+  }
+  .u_mb_navbar_logo a svg{
+    width:120px;
+  }
+
+  .u_mb_logo {
+    width: 45px;
+  }
+  .u_menu_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+
+
+
+  .u_nav_ul_mb {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .u_nav_li_mb {
+    list-style: none;
+    padding: 5px;
+  }
+  .u_nav_link_mb {
+    color: black;
+    padding: 7px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 15px;
+  }
+  .u_nav_link_mb svg{
+    width: 24px;
+    height: 100%;
+  }
+
+  .u_mobile_menu{
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0%;
+    transition:all 0.2s ease-out ;
+    background: white;
+    overflow: auto;
+    z-index: 99;
+    padding-top:100px;
+  }
+
+  .u_mobile_menu.active {
+    width:100%
+  }
+  .change .bar_1{
+    transform: rotate( 
+      50deg
+    ) translate(3px, 2px);
+  }
+
+
+
+  .change .bar_2{
+    opacity: 0;
+
+
+  }
+  .change .bar_3{
+    transform:
+      rotate( 
+        -50deg
+      ) translate(7px,-5px);
+
+
+  }
+  .overflow{
+    overflow: hidden;
+  }
+
+
+  /*   menu */
+
+  .u_dropdown_list_mb {
+
+    list-style: none;
+    padding:5px 0;
+  }
+  .u_dropdown_list_mb:first-child{
+   padding:8px 0;
+  }
+    .u_dropdown_list_mb:last-child{
+   padding:8px 0;
+  }
+  .u_dropdown_mb {
+    padding: 0;
+  }
+  .u_icon_mb {
+    padding: 5px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+  .u_navbar_item_link_mb{
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .u_navbar_item_link_mb:hover{
+    text-decoration:none
+  }
+  .u_navbar_item_link_mb_first_level {
+    color: black;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 2.0;
+     letter-spacing: 0;
+  }
+
+  .u_mb_hide{
+    display:none;
+  }
+
+
+  .u_navbar_item_link_mb_level:hover{
+    text-decoration:none
+  }
+
+  .u_mb_flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .u_nav_social {
+    padding-left: 10px;
+  }
+  .u_nav_social_list {
+    margin: 0;
+    padding:0;
+  }
+  .u_nav_social_li {
+    list-style: none;
+    margin: 0;
+    padding:5px 0;
+  }
+  .u_nav_social_link {
+    font-weight: 700;
+    font-size: 18px;
+    margin-left: 12px;
+    text-transform: uppercase;
+    color: black;
+
+
+  }
+  .u_mb_social_flex{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+  }
+  .u_sp_line_full_mb{
+    width: 100%;
+    height: 2px;
+    margin-top: 30px;
+    background: #f5f5f5;
+  }
+  .u_nav_social_icons_li {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+  }
+  .u_nav_social_icons_li:first-child{
+    padding-left:0
+  }
+  .u_nav_social_list_icons {
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  .u_nav_social_icons_li .u_nav_social_link:first-child{
+    margin-left:0;
+
+  }
+  .u_mobile_menu_items{
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0%;
+    transition:all 0.3s ease ;
+    background: white;
+    overflow: auto;
+    z-index: 99;
+    padding-top:100px;
+  }
+
+  .u_mobile_menu_items.active {
+    width:100%
+  }
+  .u_sec_dropdown_mb {
+    padding: 0;
+  }
+  
+  .u_mb_item_menu {
+    padding: 10px 0;
+}
+  .u_navbar_item_link_mb_second_level {
+   text-transform: capitalize;
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: Helvetica Neue, sans-serif !important;
+
+  }
+  .u_third_dropdown_mb {
+    padding: 0;
+  }
+  .u_navbar_item_link_mb_third_level{
+  font-size: 18px;
+    text-decoration: none;
+    text-transform: capitalize;
+    font-weight: 500;
+    color: black;
+    font-family: Helvetica Neue, sans-serif !important;
+  }
+  .u_featured_section_mb{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .u_featured_img_block_mb {
+
+    width: 100%;
+    padding-top: 35px;
+  }
+  .u_featured_img_tag_mb{
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .u_featured_img_text_mb {
+    color: #df5657;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+  .u_featured_img_text_link_mb {
+    font-weight: 700;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0;
+    text-decoration: underline;
+    color: black;
+  }
+  .u_logo_width{
+      width: 60px !important;
+  }
+  @media screen and (max-width:1250px){
+    .u_desktop_view{
+      display:none
+    }
+    .u_mb_view{
+      display:block;
+    }
+    .u_list_back_hover{
+      color: white;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .u_anouncement_text {
+    font-size: 12px;
+    }
+
+  }
+    @media screen and (max-width:450px){
+   .u_mb_navbar_logo a svg {
+    width: 86px;
+}
+      .u_mb_nav {
+     justify-content: unset;
+    padding: 0 20px;
+  
+}
+      .u_nav_ul_mb {
+    padding: 0;
+    margin: 0;
+}
+      .u_featured_img_tag_mb {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+}
+    }
+</style>
+   
+   
+   
+
+<script>
+  // c_slider
+  $('.u_anouncement_text_slider').slick({
+    infinite:false,
+    autoplay: false,
+    slidesToShow: 1,
+    arrows:false,
+    dots:false,
+    speed: 300,
+    fade: true,
+    cssEase: 'linear',
+    responsive: [
+      {
+        breakpoint: 990,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: false,
+
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: false,
+        }
+      }
+    ]
+
+  });
+  $('.u_anouncement_svg svg ').click(function(){
+    $('.u_announcement_bar_bg').hide();
+
+  });
+  // hamburger
+  $('.u_hamberger, .u_cross').click(function(){
+    $(this).toggleClass('change');
+    $('.u_mobile_menu').toggleClass('active');
+
+    $('body').toggleClass('overflow');     
+  });
+  // tabs
+  $('.u_tab .u_tablinks').addClass('blur');
+  $('.u_tab .u_tablinks:first-child').addClass('active');
+
+
+  $('.u_tabcontent .u_content').hide();
+  $('.u_tabcontent .u_content:first').show();
+
+  $('.u_tab .u_tablinks').click(function(){
+    $('.u_tab .u_tablinks').removeClass('active');
+    $('.u_tabcontent .u_content').hide();
+    $(this).addClass('active');
+    var activetab =$(this).attr('data-id');
+    console.log(activetab);
+    $(activetab).show();
+    return false;
+  }) 
   $(document).scroll(function(){
-    var scroll =  $(this).scrollTop();
-    // console.log(($(document).scrollTop() +'px'));
-    if(scroll>0){
-      $('.u_sticky').addClass('header_sticky');
+    var scroll = $(this).scrollTop();
+    if(scroll > 0)
+    {
+      $('.u_header_sticky').addClass('u_sticky')
     }
     else{
-      $('.u_sticky').removeClass('header_sticky');
+      $('.u_header_sticky').removeClass('u_sticky')
     }
-  })
- // mb_navigation
-  $('.u_navbar_item_link_mb').click(function(){
-    $(this).toggleClass('u_list_back_hover');
-    $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
-    $(this).parent().parent().find('.u_sec_dropdown_mb').slideToggle();
-  })
-  // reverse
-  $('.u_navbar_item_link_mb_level').click(function(){
-    $(this).toggleClass('u_list_back_hover');
-    $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
-    $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();
+  });
+  $('.u_mb_flex').click(function(){
+    $(this).next('.u_mobile_menu_items').toggleClass('active');
+
+  });
+  
+  $('.u_left_arrow').click(function(){
+  $(this).parents(".u_mobile_menu_items").toggleClass('active');
+});
+       $(document).scroll(function(){
+  var scroll = $(this).scrollTop();
+    if(scroll > 0)
+    {
+      $('.u_sticky_header').addClass('u_sticky')
+      $('.u_navbar_item_link').addClass('u_line_height');
+      $('.u_navbar_logo a svg').addClass('u_logo_width');
+      
+    }
+    else{
+       $('.u_sticky_header').removeClass('u_sticky');
+          $('.u_navbar_item_link').removeClass('u_line_height');
+            $('.u_navbar_logo a svg').removeClass('u_logo_width');
+    }
+     });
+  
+</script>
