@@ -1,41 +1,58 @@
-  <div class="u_desktop_view">
+ <header>
+  <div class="u_sticky_header ">
+    <div class="u_announcement_bar_bg">
+      <div class="u_announcement_bar_flex">
+        <div class="u_announcement_bar_block_slider">
+          <div class="u_anouncement_text_slider">
+            {% for blocks in section.blocks %}
+            {% if blocks.type == 'anouncement_text' %}
+            <div class="u_anouncement_text_block">
+              <div class="u_anouncement_text">{{blocks.settings.u_anouncement_text}}</div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="u_announcement_bar_block_cross">
+          <div class="u_anouncement_svg">
+            {% render 'cross' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="u_desktop_view">
       <div class="u_mega_menu">
         <div class="u_navbar">
-
-
-          <div class="u_navbar_item">
+          <div class="u_navbar_item_left">
             <div class="u_navbar_logo">
               <a href="{{shop.url}}">
-
-              {% render 'k18_logo' %}
+                {% render 'k18_logo' %}
               </a>
             </div>
           </div>
-          <div class="u_navbar_item">
+          <div class="u_navbar_item_center">
             <div class="u_navbar_list">
               <ul class="u_navbar_item_ul">
-           
-                {% for  first_level in linklists[section.settings.u_navbarlist].links %}
-
                 <li class="u_navbar_item_li">
-
-                  <a href="{% if forloop.first %} https://www.youtube.com/watch?v=fZyuT3tbEGE{% else %} # {% endif %}" class="u_navbar_item_link {% if forloop.first %} u_red {% endif %}" {% if forloop.first %} data-fancybox {% endif %} >{{ first_level.title }}
+                  <a href="https://www.youtube.com/watch?v=fZyuT3tbEGE" class="u_navbar_item_link u_red"  data-fancybox>See How It Works
                     <span class="u_play_icon_center">
-                      {% if forloop.first %}
                       {% render 'play_small' %}
-                      {% endif %}
                     </span>
                   </a>
-                  {% if first_level.links!=blank %}
+                </li>
+                {% for  first_level in linklists[section.settings.u_navbarlist].links %}
+                <li class="u_navbar_item_li ">
+                  <a href="{{ first_level.url }}" class="u_navbar_item_link " >{{ first_level.title }}
+                  </a>
+                  
+                 {% if first_level.links != blank %}
                   <div class="u_mega_menu_content">
                     <div class="u_sp_line_full">
                     </div>
                     <div class="u_mega_menu_container">
                       <div class="u_mega_row">
                         <div class="u_mega_text_block">
-
                           <ul class="u_nav_ul_second_level">
-
                             {% for second_level in first_level.links %}
                             <li  class="u_nav_li_second_level">
                               <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
@@ -52,19 +69,17 @@
                             {% endfor %}
                           </ul>
                         </div>
-
                         <!--           featured images -->
                         {% assign hover_title = first_level.title | downcase %}
-                        {% if hover_title == 'professional'%}
-                        <div class="u_featured_section" style="left:60%">
+                        
+                        <div class="u_featured_section" >
                           {% for featured_img in section.blocks %}
                           {% if featured_img.type == 'pick'%}
                           {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
                           {% assign hover_title = first_level.title | downcase %}
-
                           {% if  img_handle == hover_title %}
                           <div class="u_featured_img_block">
-                            <a class="" href="{{featured_img.url}}">
+                            <a href="{{ featured_img.settings.c-url }}">
                               <div class="u_featured_position">
                                 <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
                               </div>
@@ -72,127 +87,54 @@
                                 <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
                               </div>
                               <div class="u_featured_img_text_block">
-                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
+                                <h2 href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</h2>
                               </div>
                             </a>
-
-
                           </div>
-
                           {% endif %}
                           {% endif %}
                           {% endfor %}
                         </div>
-                        {% else %}
-
-                        <div class="u_featured_section">
-                          {% for featured_img in section.blocks %}
-                          {% if featured_img.type == 'pick'%}
-                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
-                          {% assign hover_title = first_level.title | downcase %}
-
-                          {% if  img_handle == hover_title %}
-                          <div class="u_featured_img_block">
-                            <a class="" href="{{featured_img.url}}">
-                              <div class="u_featured_position">
-                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
-                              </div>
-                            </a>
-
-
-                          </div>
-
-                          {% endif %}
-                          {% endif %}
-                          {% endfor %}
-                        </div>
-                        {% endif%}
+                       
                       </div>
-
                     </div>
-
-
                   </div>
-
+                  
+                  {% else %}
+                 {% assign flag = 'false' %}
+                  
+                  
+                  {% assign hover_title = first_level.title | downcase %}
+                  
+                  {% for featured_img in section.blocks %}
+                  {% if featured_img.type == 'pick'%}
+                  {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
+                  {% assign hover_title = first_level.title | downcase %}
+                  {% if  img_handle == hover_title %}
+                  {% assign flag = 'true' %}
                   {% endif %}
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-  <div class="u_desktop_view">
-      <div class="u_mega_menu">
-        <div class="u_navbar">
+                  {% endif %}
+                  {% endfor %}
+                  
 
 
-          <div class="u_navbar_item">
-            <div class="u_navbar_logo">
-              <a href="{{shop.url}}">
-
-              {% render 'k18_logo' %}
-              </a>
-            </div>
-          </div>
-          <div class="u_navbar_item">
-            <div class="u_navbar_list">
-              <ul class="u_navbar_item_ul">
-           
-                {% for  first_level in linklists[section.settings.u_navbarlist].links %}
-
-                <li class="u_navbar_item_li">
-
-                  <a href="{% if forloop.first %} https://www.youtube.com/watch?v=fZyuT3tbEGE{% else %} # {% endif %}" class="u_navbar_item_link {% if forloop.first %} u_red {% endif %}" {% if forloop.first %} data-fancybox {% endif %} >{{ first_level.title }}
-                    <span class="u_play_icon_center">
-                      {% if forloop.first %}
-                      {% render 'play_small' %}
-                      {% endif %}
-                    </span>
-                  </a>
-                  {% if first_level.links!=blank %}
+                  {% if flag == 'true' %}
                   <div class="u_mega_menu_content">
                     <div class="u_sp_line_full">
                     </div>
                     <div class="u_mega_menu_container">
                       <div class="u_mega_row">
-                        <div class="u_mega_text_block">
-
-                          <ul class="u_nav_ul_second_level">
-
-                            {% for second_level in first_level.links %}
-                            <li  class="u_nav_li_second_level">
-                              <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
-                              {% if second_level.links!=blank %}
-                              <ul class="u_nav_ul_third_level">
-                                {% for third_level in second_level.links %}
-                                <li class="u_third_level_li">
-                                  <a class="u_third_level_links" href="#">{{third_level.title}}</a>
-                                </li>
-                                {% endfor %}
-                              </ul>
-                              {% endif %}
-                            </li>
-                            {% endfor %}
-                          </ul>
-                        </div>
-
+                       
                         <!--           featured images -->
-                        {% assign hover_title = first_level.title | downcase %}
-                        {% if hover_title == 'professional'%}
-                        <div class="u_featured_section" style="left:60%">
+ 						<div class="u_featured_section_img_only" >
+                     
                           {% for featured_img in section.blocks %}
                           {% if featured_img.type == 'pick'%}
                           {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
                           {% assign hover_title = first_level.title | downcase %}
-
                           {% if  img_handle == hover_title %}
                           <div class="u_featured_img_block">
-                            <a class="" href="{{featured_img.url}}">
+                            <a href="{{ featured_img.settings.c-url }}">
                               <div class="u_featured_position">
                                 <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
                               </div>
@@ -200,53 +142,23 @@
                                 <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
                               </div>
                               <div class="u_featured_img_text_block">
-                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
+                                <h2 href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</h2>
                               </div>
                             </a>
-
-
                           </div>
-
                           {% endif %}
                           {% endif %}
                           {% endfor %}
-                        </div>
-                        {% else %}
-
-                        <div class="u_featured_section">
-                          {% for featured_img in section.blocks %}
-                          {% if featured_img.type == 'pick'%}
-                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
-                          {% assign hover_title = first_level.title | downcase %}
-
-                          {% if  img_handle == hover_title %}
-                          <div class="u_featured_img_block">
-                            <a class="" href="{{featured_img.url}}">
-                              <div class="u_featured_position">
-                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <a href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</a>
-                              </div>
-                            </a>
-
-
-                          </div>
-
-                          {% endif %}
-                          {% endif %}
-                          {% endfor %}
-                        </div>
-                        {% endif%}
+                      
+    					</div>
                       </div>
-
                     </div>
-
-
                   </div>
+
+                  {% endif %}
+                  
+                  
+                  
 
                   {% endif %}
                 </li>
@@ -254,7 +166,32 @@
               </ul>
             </div>
           </div>
-<!--   mobile view -->
+          <div class="u_navbar_item_right">
+            <div class="u_right_nav">
+              <ul class="u_nav_ul">
+                <li class="u_nav_li">
+                  <a class="u_nav_link " href="#">
+                    {% render 'u_search' %}
+                  </a>
+                </li>
+                <li class="u_nav_li">
+                  <a class="u_nav_link " href="#">
+                    {% render 'u_user' %}
+                  </a>
+                </li>
+                <li class="u_nav_li">
+                  <a class="u_nav_link u_navlink_svg" href="#">
+                    {% render 'u_cart' %}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--   mobile view -->
   <div class="u_mb_view">
     <div class="u_mb_bg">
       <div class="u_mb_nav">
@@ -265,7 +202,6 @@
               <div class="u_berger_line bar_2"></div>
               <div class="u_berger_line bar_3"></div>
             </div>
-
             <div class="u_mb_navbar_logo">
               <a href="">
                 {% render 'k18_mb_logo' %}
@@ -294,90 +230,72 @@
         </div>
       </div>
     </div>
-    
     <div class="u_mobile_menu">
       <div class="u_mb_container ">
-
-
-
         <div class="u_navbar_list">
           <ul class="u_dropdown_mb">
-            {% for  first_level in linklists[section.settings.u_navbarlist].links %}
-            <li class="u_dropdown_list_mb">
+                      <li class="u_dropdown_list_mb">
               <div class="u_mb_flex">
-                {% if forloop.first %}
+                
                 <a  href=" https://www.youtube.com/watch?v=fZyuT3tbEGE" class="u_navbar_item_link_mb_first_level " data-fancybox>
                   {% render 'mb_how_it works'%}
                 </a>
-                {% endif %}
-                
-                <a href="{{first_level.url}}" class="u_navbar_item_link_mb_first_level  {% if forloop.first %} u_mb_hide {% endif %}">{{first_level.title}}</a>
-
-
-                {% if first_level.links!=blank %}
+                        </div>
+            </li>
+            {% for  first_level in linklists[section.settings.u_navbarlist].links %}
+            <li class="u_dropdown_list_mb">
+              <div class="u_mb_flex">              
+                <a href="{{first_level.url}}" class="u_navbar_item_link_mb_first_level  ">{{first_level.title}}</a>
+               {% if first_level.links!=blank %}
                 <i class="fa fa-chevron-right fa-3x u_right_arrow" aria-hidden="true"></i>
                 {% endif %}
               </div>
               {% if first_level.links != blank %}
-              
-              
-                  <div class="u_mobile_menu_items">
-      <div class="u_mb_container ">
-        <div class="u_mb_menu_item">
-          <i class="fa fa-chevron-left fa-3x u_left_arrow" aria-hidden="true"></i>
-
-          <div class="u_mb_item_menu">
-            <ul  class="u_sec_dropdown_mb">
-            {% for  ssll in first_level.links %}
-              <li class="u_dropdown_list_mb">
-                <a href="{{ssll.url}}" class="u_navbar_item_link_mb_second_level">{{ssll.title}}</a>
-              </li>
-            {% assign ssll_t = ssll.title | downcase %}
-            <ul class="u_third_dropdown_mb">
-              {% for tl in ssll.links %}
-              <li class="u_dropdown_list_mb">
-                <a href="{{tl.url}}" class="u_navbar_item_link_mb_third_level">{{tl.title}}</a>
-              </li>
-              {% endfor %}
-            </ul>        
-
-            {% for featured_img in section.blocks %}
-            {% if featured_img.type == 'pick'%}
-            {% assign handle = featured_img.settings.u_featured_image_handle | downcase | strip %}
-            {% if ssll_t == handle %}
-            <div class="u_featured_img_block_mb">
-              <a class="" href="{{featured_img.url}}">
-                <div class="u_featured_position">
-                  <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag_mb">
-                </div>
-                <div class="u_featured_img_text_block">
-                  <h3 class="u_featured_img_text_mb">{{featured_img.settings.u_featured_image_text}}</h3>
-                </div>
-                <div class="u_featured_img_text_block">
-                  <a href="#" class="u_featured_img_text_link_mb">{{featured_img.settings.u_featured_image_link}}</a>
-                </div>
-              </a>
-
-
-            </div>
+              <div class="u_mobile_menu_items">
+                <div class="u_mb_container ">
+                  <div class="u_mb_menu_item">
+                    <i class="fa fa-chevron-left fa-3x u_left_arrow" aria-hidden="true"></i>
+                    <div class="u_mb_item_menu">
+                      <ul  class="u_sec_dropdown_mb">
+                        {% for  ssll in first_level.links %}
+                        <li class="u_dropdown_list_mb">
+                          <a href="{{ssll.url}}" class="u_navbar_item_link_mb_second_level">{{ssll.title}}</a>
+                        </li>
+                        {% assign ssll_t = ssll.title | downcase %}
+                        <ul class="u_third_dropdown_mb">
+                          {% for tl in ssll.links %}
+                          <li class="u_dropdown_list_mb">
+                            <a href="{{tl.url}}" class="u_navbar_item_link_mb_third_level">{{tl.title}}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>        
+                        {% for featured_img in section.blocks %}
+                        {% if featured_img.type == 'pick'%}
+                        {% assign handle = featured_img.settings.u_featured_image_handle | downcase | strip %}
+                        {% if ssll_t == handle %}
+                        <div class="u_featured_img_block_mb">
+                          <a class="" href="{{featured_img.url}}">
+                            <div class="u_featured_position">
+                              <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag_mb">
+                            </div>
+                            <div class="u_featured_img_text_block">
+                              <h3 class="u_featured_img_text_mb">{{featured_img.settings.u_featured_image_text}}</h3>
+                            </div>
+                            <div class="u_featured_img_text_block">
+                              <a href="#" class="u_featured_img_text_link_mb">{{featured_img.settings.u_featured_image_link}}</a>
+                            </div>
+                          </a>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>   
+              </div>
             {% endif %}
-            {% endif %}
-            {% endfor %}
-          
-            {% endfor %}
-            </ul>
-          </div>
-
-
-
-
-        </div>
-      </div>   
-    </div>
-         
-              
-              {% endif %}
-              
             </li>
             {% endfor %}
           </ul>
@@ -422,10 +340,9 @@
         </div>
       </div>
     </div>
-
-
-    
   </div>
+</header>
+
 <style>
   .fancybox-inner {
     background: white;
