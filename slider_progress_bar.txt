@@ -1,0 +1,54 @@
+// c_slider
+$('.u_custom_slider').slick({
+    dots: false,
+    arrows:true,
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: '.u_right_arrow',
+    prevArrow: '.u_left_arrow'
+  });
+ 
+// progress bar
+  var slide_length =$('.slick-slide').length;
+  console.log('length',slide_length);
+  var progress_bar_width = 100/slide_length;
+  console.log('bar_width',progress_bar_width);
+  $('.u_inner_bar_step').attr('style','width:'+progress_bar_width+'% !important' );
+//   each loop
+$('.slick-slide').each(function(){
+    data_index = $(this).attr('data-slick-index');
+console.log('data index',data_index);
+ var increment_value= parseInt(data_index) + parseInt(1);
+ //   increment value
+console.log('increment data index',increment_value);
+// SET VALUE 
+$(this).attr('data-slick-index',increment_value);
+var active_slick_index =$('.slick-active').attr('data-slick-index');
+$('.u_slider_n').text(+0+active_slick_index);
+})
+// slide change
+$(".u_custom_slider").on("afterChange", function (){
+    console.log('slide after  change');
+    //  total slides
+    var slide_length =$('.u_custom_slider .slick-slide').length;
+    var active_slick_index =$('.u_custom_slider .slick-active').attr('data-slick-index');
+    console.log('active slick index',active_slick_index);
+// progress bar width perentage
+var progress_bar_width = 100/slide_length*active_slick_index;
+console.log('progress bar width',progress_bar_width);
+  $('.u_inner_bar_step').attr('style','width:'+progress_bar_width+'% ;background:yellow !important');
+  $('.u_slider_n').text(+0+active_slick_index);
+ });
+//  c_custom_dots
+ $(function(){
+    var slide_length =$('.u_custom_slider .slick-slide').length +1;
+    var gap =100/$('.u_custom_slider .slick-slide').length ;
+    for(var i=0;i<slide_length;i++)
+    {
+    var u =gap * i;
+ var first ='';
+    (u==0) ? first='class="first_custom_icon"':'';
+    $('.u_progress_bar').append('<span style="left:'+u+'%" '+first+';></span>');
+    };
+ })
