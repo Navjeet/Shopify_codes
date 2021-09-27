@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .u_counter_row{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .u_counter_item{
+      width: 300px;
+    height: 100px;
+    border: 1px solid;
+    margin: 0 5px;
+    text-align: center;
+    padding: 10% 0;
+    }
+.u_counter_item .u_counter_text{
+display: block;
+padding: 30px 0;
+font-size: 30px;
+
+
+}
+  </style>
+</head>
+
+<body>
+  <div class="u_counter_row">
+    <div class="u_counter_item">
+      <span class="u_counter_text">0</span>
+    <button type="button" class="u_counter_btn">click me</button></div>
+    <div class="u_counter_item">
+      <span class="u_counter_text">0</span>
+    <button type="button" class="u_counter_btn">click me</button></div>
+    <div class="u_counter_item">
+      <span class="u_counter_text">0</span>
+    <button type="button" class="u_counter_btn">click me</button></div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+    let num=[];
+    for(let i=200;i>0;i--)
+        {      
+        num.push(i); 
+         }
+      $('.u_counter_btn').click(function(){
+          $(this).prev().text(num.pop());
+        });
+    });
+    </script>
+</body>
+
+</html>
