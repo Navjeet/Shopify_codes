@@ -1,0 +1,97 @@
+<div class="u_f_slider">
+  {%  for blocks in section.blocks %}
+  {% if blocks.type =='f_w_slider' %}
+  <div class="u_f_slider_block">
+    <img src="{{blocks.settings.u_slider_img | img_url: 'master' }}" class="u_f_img_size">
+  </div>
+  {% endif %}
+  {%  endfor %}
+</div>
+<style>
+  .u_f_img_size {
+    width: 100%;
+}
+</style>
+<script>
+  const slider = $(".u_f_slider");
+  // c_slider
+//Implementing navigation of slides using mouse scroll
+slider.on('wheel', (function(e) {
+  e.preventDefault();
+  if (e.originalEvent.deltaY < 0) {
+     $(this).slick('slickPrev');
+  } else {
+  
+     $(this).slick('slickNext');
+  }
+}));
+  
+  $('.u_f_slider').slick({
+    infinite:true,
+    autoplay: false,
+    slidesToShow: 2,
+      slidesToScroll: 1,
+    arrows:false,
+    dots:false,
+     centerMode: true,
+    responsive: [
+        {
+        breakpoint: 1250,
+        settings: {
+          slidesToShow: 3,
+  slidesToScroll: 1,
+         
+        }
+      },
+      {
+        breakpoint: 990,
+        settings: {
+          slidesToShow: 2,
+  slidesToScroll: 1,
+         
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          
+        }
+      }
+    ]
+
+  });
+</script>
+{% schema %}
+  {
+    "name": "f_w_slider",
+    "settings": [],
+"blocks":[
+{
+"name":"full width slider",
+"type":"f_w_slider",
+"settings":[
+{
+"type":"image_picker",
+"id":"u_slider_img",
+"label":"full width Slider img"
+}
+]
+}
+],
+"presets":[
+{
+"name":"full width slider",
+"category":"select"
+
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

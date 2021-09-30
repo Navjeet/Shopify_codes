@@ -1,0 +1,27 @@
+.u_best_seller_arrow svg {
+    transform: rotate(
+      270deg
+    ) !important;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    top: 0;
+    line-height: 0px;
+    width: 30px !important;
+    height: 30px !important;
+    
+    transition: all .3s ease;
+/*     transition-delay: .5s; */
+  }
+  
+  .u_best_seller_arrow g.g11, .u_best_seller_arrow g.g22 {
+    transition: all .3s !important;
+    transition-delay: .8s !important;
+}
+  .u_best_seller_product_block_content:hover .u_best_seller_arrow .g11{
+    transform: matrix(1.41011,0,0,1,52.10070037841797,514.4330444335938);
+    
+  }
+  .u_best_seller_product_block_content:hover .u_best_seller_arrow .g22{
+    transform: matrix(1,0,0,1,706.9420166015625,297.9420166015625);
+  }
