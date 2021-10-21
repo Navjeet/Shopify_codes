@@ -1,0 +1,87 @@
+
+{% comment %}
+{%- section 'article-template' -%}
+{% endcomment %}
+{%- section 'custom-article' -%}
+  <script>
+    $(function(){
+      $.ajax({
+        type: "GET",
+        url: "https://www.healthbyprinciple.com/blogs/news?view=json",
+        dataType: "html",
+        success: function(result){
+          let art = JSON.parse($(result).find(".custom-json").text());
+          let arr = randArr(art.blogs.length);
+          console.log(arr, art);
+          for(let i=0; i<arr.length; i++){
+           let data = `
+<div class="u_related_post_item">   
+<a href="${art.blogs[arr[i]].url}" class="u_blog_item">
+              <div class="u_related_post_item_content">
+
+                <div class="u_related_post_img_block">
+<img src="${art.blogs[arr[i]].img}" class="u_related_post_item_img_size">
+                </div>
+                <div class="u_related_post_title_block">
+<h2 class="u_related_post_item_title">${art.blogs[arr[i]].title}</h2>
+                </div>
+
+                <div class="u_related_post_desp_block">
+<div class="u_related_post_item_desp"><p><span>${art.blogs[arr[i]].excerpt}</span></p>
+                    
+                  </div>
+                </div>
+                <div class="u_related_post_btn_block">
+                  <button type="button" class="u_related_post_item_link">read more</button>
+                </div>
+              </div> 
+            </a>
+          </div>
+`;
+            $(".u_related_post_content_row").append(data);
+          }
+        }
+      });
+    });
+    
+blog.json
+    function randArr(len){
+      let unq = [];
+      for(let i=0; i<3; i++){
+        let r = random(len);
+        if(unq.indexOf(r) == -1){
+          unq.push(r);
+        }
+        else{
+          i--;
+        }
+      }
+      return unq;
+    }
+
+
+function random(max){
+let r = Math.floor(Math.random() * max) + 0;
+return r;
+}
+  </script>
+
+
+
+
+
+{% layout 'none' %}
+<div class="custom-json">
+  {
+  "blogs":[
+  {%- for article in blog.articles -%}
+  {
+  "title": "{{- article.title | replace: '"', '' -}}",
+  "url": "{{- article.url -}}",
+  "excerpt": "{{- article.excerpt | strip_html -}}",
+  "img": "{{- article | img_url: 'master' -}}"
+  }{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+  ]
+  }
+</div>
