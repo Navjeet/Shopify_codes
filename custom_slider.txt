@@ -1,0 +1,44 @@
+<a href="{{f_product.url}}"class="u_f_product_title_link_img" >
+              {% for image in f_product.images %}
+              <img src="{{ image.src | product_img_url: 'master' }}"  class="u_f_product_img_size {% if forloop.first %}custom-img-active{% endif %}" 
+                   data-transform="{% if forloop.first %}0{% else %}-{{forloop.index0 | times: 100}}{% endif %}">
+              {% endfor %}
+            </a>
+{% if f_product.images.size>1 %}
+            <div class="u_product_left_arrow">
+              <i class="fas fa-caret-left"></i>
+            </div>
+            <div class="u_product_right_arrow">
+              <i class="fas fa-caret-right"></i>
+            </div>
+            {% endif %}
+<script>
+$(document).on('click','.u_product_right_arrow',function(){
+   console.log('click');
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+      if($(this).hasClass("custom-img-active") && $(this).next().hasClass("u_f_product_img_size")){
+        $(this).removeClass("custom-img-active");
+        $(this).next().addClass("custom-img-active");
+        return false;
+      }
+      else{
+        $(this).removeClass("custom-img-active");
+        $(this).prev().addClass("custom-img-active");
+        // return false;
+      }  
+    });
+    let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
+    $(this).parent().find(".u_f_product_img_size").attr("style", `transform: translateX(${x}%)`);
+  })
+     $(document).on('click','.u_product_left_arrow',function(){
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+      if($(this).hasClass("custom-img-active") && $(this).prev().hasClass("u_f_product_img_size")){
+        $(this).removeClass("custom-img-active");
+        $(this).prev().addClass("custom-img-active");
+        return false;
+      }
+    });
+    let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
+    $(this).parent().find(".u_f_product_img_size").attr("style", `transform: translateX(${x}%)`);
+  });
+</script>
