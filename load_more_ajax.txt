@@ -7,6 +7,14 @@
   <div class="u_load_btn">
     <button class="u_load_btn_size">{{section.settings.u_load_btn}}</button>
   </div>
+custom paginate for different senario
+        {% assign page_no = paginate.pages %}
+        {{paginate.pages}}
+        <ul class="u_paginate_ul">
+          {% for page in (1..page_no) %}
+          <li class="u_paginate_li">{{page}}</li>
+          {% endfor %}
+        </ul> 
 //above {% endpaginate %} //
 <div class="u_loader u_loader_hide">
 </div>
