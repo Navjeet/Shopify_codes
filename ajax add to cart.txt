@@ -41,7 +41,13 @@
               </a>
             </div>
  <script>
-    let total=10;
+  $(function() {
+    $('.u_f_product_print_bg').on('click', function() {
+    $.print(".u_product_desp_content_row");
+  });
+});
+
+    let total=0;
     $('.u_pro_all_price').find('.u_pro_price').each(function(){
       let price =$(this).text();
       let price_r_com =price.replace(',','');
@@ -54,11 +60,14 @@
    
 
     $('.u_product_shopping_list_btn').on('click',function(){
+      let product_name =$('.u_product_title_size').text().toUpperCase();
       let ids=[];
       $('.u_variants').find('.u_variant_id').each(function(){
         let id =$(this).attr('data-id');
         let qty =$(this).attr('data-qty');
-        let item={"id":id,"quantity":qty};
+        let item={"id":id,"quantity":qty,properties: {
+        'Product name ': product_name
+      } };
         ids.push(item);
       })
       console.log('array',ids);
@@ -74,12 +83,12 @@
       },
         success: function(result){
         console.log('add to cart');
-          $('.u_success_modal').slideDown();
+          $('.u_success_modal').addClass('u_active_modal');
 			$('.u_product_shopping_cart_btn').removeClass('u_disabled');
       },
              error: function(textStatus) {
        $('.u_error_modal').addClass('u_active_modal');
-               $('.u_product_shopping_cart_btn').prop('disabled',true);
+               $('.u_product_shopping_cart_btn').removeClass('u_disabled');
       },
          complete: function() {
                       console.log('complete');
