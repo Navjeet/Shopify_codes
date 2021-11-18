@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+let numarr=[];
+let rst=['(',')',' ','a','b','c','d','e','f','g','h','i','j','k','l','l','m','n','o','p','q','r','s','t','u','v','x','w','y','z'];
+let txt =$('input[type="text"]').val();
+for(let i=0;i<txt.length;i++)
+{
+if(rst.indexOf(txt[i]) == -1){
+numarr.push(txt[i]);
+}
+}
+$('p').text(numarr.join(''));
+});
+</script>
+</head>
+<body>
+<input type="text" value="(23456) 083df 9jj22">
+<p ></p>
+</body>
+</html>
