@@ -1,0 +1,299 @@
+{% if section.settings.u_recommend_products == true %} 
+{% assign flag = 'false' %}
+ {% for collection in product.collections %} 
+{% if collection.all_products_count >1 %}
+{% assign flag = 'true' %}
+{% endif %}
+{% endfor %}
+{% if flag == 'true' %}
+<div class="u_recomend_products_cont">
+    <div class="u_product_arrows">
+   <div class="u_recomend_product_header">
+     <h2 class="u_recomend_product_title">{{section.settings.u_recommend_pro_title}}</h2>
+  </div>
+ 
+  <div class="u_recommend_left_arrow">
+              <i class="fas fa-caret-left"></i>
+            </div>
+            <div class="u_recommend_right_arrow">
+              <i class="fas fa-caret-right"></i>
+            </div>
+   {% assign product_handle = product.handle| downcase %}
+     <div class="u_recommend_product_row">
+       {% for collection in product.collections %}     
+    {% for r_product in collection.products %}
+       {% assign r_handle = r_product.handle |downcase %}
+       {% unless product_handle == r_handle %}
+    <div class="u_recommend_product_block">
+      <div class="u_recommend_product_item">
+      <div class="u_recommend_content">
+
+        <div class="u_recommend_pro_item_img">
+          <div class="u_recommend_product_img">
+            <a href="{{r_product.url}}"class="u_recommend_title_link_img" >       
+              <img src="{{ r_product.featured_image | img_url: 'master' }}"  class="u_recommend_product_img_size">
+            </a>
+            <div class="u_recommend_whishist">
+              <span class="u_recommend_icon_whishlist"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="u_recommend_body">
+        <div class="u_recommend_title">
+          <a href="{{r_product.url}}" class="u_recommend_title_link">
+            <h4 class="u_recommend_title_size">{{r_product.title }}
+            </h4>
+          </a>
+        </div>
+        <p class="u_recommend_product_sh_desp">
+          {{r_product.metafields.my_fields.short_description}}
+        </p>
+        <p class="u_recommend_product_price">
+          {{r_product.price | money_without_trailing_zeros }}
+        </p>
+      </div>
+    </div>
+    </div>
+{% endunless %}
+    {% endfor %}
+       {% endfor %}
+  </div>
+  </div>
+  {% endif %}
+  {% endif %}
+<style>
+  .u_recomend_product_header {
+    padding-bottom: 35px;
+}
+   .u_recomend_product_title {
+    margin: 0;
+    font-weight: 400;
+     color: {{section.settings.u_recommend_pro_title_color}};
+    letter-spacing: .5px;
+    font-family: 'OptimaNovaLTPro';
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 15px;
+    text-transform: uppercase;
+  }
+  .u_recomend_products_cont {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+  }
+/*   .u_recommend_product_row {
+    display: flex;
+    flex-wrap:wrap
+  }
+  */
+  .u_recommend_product_block {
+/*    width:25%; */
+    padding:20px;
+  } 
+  .u_recommend_product_img_size {
+    width: 100%;
+    display:block;
+    transition: all 0.3s ease;
+  }
+  .u_f_product_title_link {
+    text-decoration: none;
+    color: white;
+  }
+  .u_recommend_title_link_img {
+    text-decoration: none;
+    color: white;
+    display:flex
+  }
+  .u_recommend_body {
+    padding: 20px 10px;
+  }
+  .u_recommend_title_size {
+    font-weight: 200;
+    color: white;
+    padding-bottom: 16px;
+    font-family: ChronicleDisplay,sans-serif;
+    margin: 0;
+    font-size: 15px;
+    text-align: center;
+    text-transform: capitalize;
+  }
+  .u_recommend_product_sh_desp {
+    margin: 0;
+    font-size: 12px;
+    font-family: 'ChronicleDisplay';
+    padding-bottom: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    color: {{section.settings.u_recommend_pro_metafield_color}};
+  }
+  .u_recommend_product_price{
+    margin: 0;
+    font-size: 12px;
+    font-family: 'ChronicleDisplay';
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    font-style: italic;
+        color: {{section.settings.u_recommend_pro_price_color}};
+  }
+  .u_recommend_product_img {
+    position: relative;
+}
+ 
+  .u_recommend_whishist {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+        z-index: 1;
+        cursor: pointer;
+  }
+  .u_recommend_icon_whishlist:before {
+    content: "\EA11";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 20px;
+    color:{{section.settings.u_recommend_whishlist_color}};
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .u_recommend_product_img i{
+    font-size: 12px;
+  }
+  .u_recommend_left_arrow {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    transition: all .3s ease;
+    cursor:pointer;
+    width:50px;
+    color: white;
+    z-index: 9;
+  }
+  .u_recommend_right_arrow {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    transition: all .3s ease;
+    cursor:pointer;
+    width: 50px;
+    text-align:right;
+    color: white;
+    z-index: 9;
+  }
+  .u_recommend_title_link {
+    text-decoration: none;
+    display: block;
+  }
+  .u_product_arrows {
+    position: relative;
+}
+  .slick-disabled{
+  visibility: hidden;
+  }
+/*       @media screen and (max-width:990px){
+        .u_recommend_product_block{
+        width:50%
+        }
+      }
+  @media screen and (max-width:768px){
+        .u_recommend_product_block{
+        width:100%
+        }
+      } */
+  </style>
+  <script>
+  // c_slider
+  $('.u_recommend_product_row').slick({
+  slidesToShow: 4,
+            slidesToScroll: 1,
+            arrows: true,
+    dots:false,
+    infinite:false,
+    nextArrow:'.u_recommend_right_arrow',
+    prevArrow:'.u_recommend_left_arrow',
+    swipe:false,
+     responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        infinite: false,
+        dots: false,
+               swipe:true,
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+         infinite: false,
+        dots: false,
+        swipe:true,
+        
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+   
+  });
+</script>
+{% schema %}
+  {
+    "name": "custom-recommendations",
+    "settings": [
+   {
+   "type":"text",
+   "id":"u_recommend_pro_title",
+   "label":"Recommended products title",
+   "default":"YOU MAY ALSO BE INTERESTED IN"
+   },
+   {
+   "type":"color",
+   "id":"u_recommend_pro_title_color",
+   "label":"Recommended products title color",
+   "default":"#fff"
+   },
+   {
+   "type":"color",
+   "id":"u_recommend_pro_metafield_color",
+   "label":"Recommended products metafield color",
+   "default":"#fff"
+   },
+   {
+   "type":"color",
+   "id":"u_recommend_pro_price_color",
+   "label":"Recommended products price color",
+   "default":"#fff"
+   },
+  {
+   "type":"color",
+   "id":"u_recommend_whishlist_color",
+   "label":"Recommended whishlist color",
+   "default":"#000"
+   },
+   {
+   "type":"checkbox",
+   "id":"u_recommend_products",
+   "label":"Recommended products",
+   "default":false
+   }
+   ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,482 @@
+<div class="u_featured_collection">
+<div class="u_featured_col_nav">
+  <div class="u_featured_col_nav_title">
+    <a href="#" class="u_col_nav_title_size">{{section.settings.u_featured_col_nav_title}}</a>
+    <i class="fa fa-plus" aria-hidden="true"></i>
+  </div>
+   <div class="u_featured_col_nav_close">
+     <span class="u_featured_col_nav_line"></span>
+     <a href="#" class="u_col_nav_close_size">{{section.settings.u_featured_col_close_title}}</a>
+     <i class="fa fa-times" aria-hidden="true"></i>
+  </div>
+</div>
+  <div class="u_featured_col_filters">
+    <p class="u_collection_filter_desp">{{section.settings.u_featured_col_filter_desp}}</p>
+    <div class="u_collection_filter_content">
+      <div class="u_collection_filter_cont">
+        <ul class="u_collection_filter_row">
+                 <li class="u_collection_filter_li">
+            <div class="u_collection_filter_single">
+            <a href="#"  class="u_collection_name_all">all collections </a>
+            </div>
+              </li>
+         {% for collection in collections limit : 4%}
+          <li class="u_collection_filter_li">
+            <div class="u_collection_filter_single">
+            <a href="#"  class="u_collection_name" data-title="{{collection.title | downcase | strip}}">{{collection.title}} </a>
+            </div>
+              </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  <div class="u_f_collection_products">
+
+      <div class="u_f_product_cont" > 
+               <div class="u_total_products">    
+         <h3 class="u_total_p_count">{{collections['all'].all_products_count}}</h3>
+                 <h3 class="u_total_p_text">products</h3>
+    </div>
+<div class="u_f_product_slider_arrow">
+      <div class="u_f_product_slider_left_arrow">
+        <div class="u_f_product_arrow_width">
+       <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+  </div>
+      <div class="u_f_product_slider_right_arrow">
+       <div class="u_f_product_arrow_width">
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </div>
+  </div>
+    <div class="u_featured_product_row">
+         {% for collection in collections %}
+  
+      {% for f_product in collection.products %}
+      <div class="u_fetured_product_block"  data-title="{{collection.title | downcase | strip}}">
+     
+
+        <div class="u_product_content">
+           <a href="{{f_product.url}}" class="u_f_product_title_link">
+          <div class="u_featured_pro_item_img">
+            {% if f_product.featured_image != blank %}
+            <div class="u_featured_img">
+              <img src="{{f_product.featured_image | img_url : 'master' }}" class="u_f_product_img_size">
+            </div>
+            {% endif %}
+          </div>
+          </a>
+          <div class="u_featured_pro_item_desp">
+             <a href="{{f_product.url}}" class="u_f_product_title_link">
+              <p class="u_f_product_title_size">{{f_product.title }}
+              </p>
+            </a>
+          </div>
+            <div class="u_text_align">
+			     <span class="u_f_product_compare_price">
+                from {{f_product.compare_at_price_min | money_without_trailing_zeros }} 
+            </span>
+                 <span class="u_f_product_price">
+            {{f_product.price | money_without_trailing_zeros }}
+              </span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% endfor %}
+  </div>
+
+    </div>
+  </div>
+  </div>
+<style>
+  .u_featured_collection{
+  padding:30px 0
+  }
+  .u_featured_col_nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 33px;
+    position: relative;
+}
+  .u_featured_col_nav_close {
+    position: absolute;
+    right: 33px;
+    top: 0px; 
+    display:none
+}
+  .u_col_nav_title_size {
+    color: black;
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-size: 20px;
+    display: inline-block;
+    font-weight: 700;
+        letter-spacing: 0;
+}
+  .u_featured_col_nav_line {
+    width: 2px;
+    height: 15px;
+    background: black;
+    display: inline-block;
+    margin: 0 5px;
+}
+  .u_col_nav_close_size{
+    color: black;
+    text-transform: uppercase;
+    text-decoration:none;
+    font-size: 20px;
+    display: inline-block;
+      letter-spacing: 0;
+  }
+  .u_featured_col_filters {
+    padding: 15px 33px;
+    display:none
+}
+  .u_collection_filter_desp {
+    text-align: center;
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+  }
+  .u_featured_col_nav i{
+    font-weight: 400 !important;
+    font-size: 16px !important;
+        cursor: pointer;
+  }
+  .u_f_product_cont {
+    max-width: 1200px;
+    padding: 0 15px;
+    margin: auto;
+}
+  .u_f_product_img_size {
+   width: 200px;
+    display: block;
+    height: 150px;
+    object-fit: cover;
+        margin: auto;
+  }
+  .u_featured_product_row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+  .u_fetured_product_block{
+    padding: 0 20px;
+    width: 25%;
+  }
+  .u_f_product_title_link {
+    text-decoration: none;
+    color: black;
+    display: block;
+  }
+ .u_f_product_title_size {
+    margin: 0;
+    text-align: center;
+    text-transform: capitalize;
+    color: black;
+    font-size: 16px;
+    padding: 5px 0;
+  }
+  .u_text_align{
+   text-align: center;
+  }
+.u_f_product_compare_price {
+    text-align: center;
+    display: inline-block;
+}
+  .u_f_product_price {
+    margin: 0;
+    text-align: center;
+    text-decoration: line-through;
+}
+  .u_f_product_slider_arrow {
+    position: relative;
+}
+    #shopify-section-{{section.id}} .u_stories_slider_arrow {
+    position: relative;
+    
+  } 
+   
+   #shopify-section-{{section.id}} .u_f_product_slider_left_arrow {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+       transform: translateY(-50%);
+      z-index: 9999;
+    cursor: pointer;
+  transition: all .5s;
+   
+}
+    #shopify-section-{{section.id}} .u_f_product_slider_right_arrow {
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translateY(-50%);
+        z-index: 9999;
+    cursor: pointer;
+    transition: all .5s;
+ 
+}
+
+ 
+ #shopify-section-{{section.id}} .u_f_product_arrow_width{
+  display:flex;
+   align-items: center;
+   justify-content:center;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border: 0;
+    border-radius: 100%;
+   background: black;
+  }
+  .u_f_product_slider_arrow i{
+      color: white;
+  }
+  .u_collection_filter_cont {
+    max-width: 700px;
+    margin: auto;
+    padding: 0 15px;
+}
+ .u_collection_filter_row {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+       flex-wrap: wrap;
+  }
+  .u_collection_filter_single {
+    list-style: none;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+        margin: auto;
+    background: {{section.settings.u_collection_bg}};
+        border: 10px solid transparent;
+    transition: transform .2s cubic-bezier(.5, 0, .5, 1);
+    transform: rotate(-5deg);
+  }
+  .u_collection_filter_single:hover,.u_collection_active{
+  border-color:#D18C3F;
+        transform: rotate(10deg);
+  }
+  .u_collection_name, .u_collection_name_all {
+    text-decoration: none;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color:  {{section.settings.u_collection_name_color}};
+        padding: 0 10px;
+    text-align: center;
+}
+  .u_f_collection_products {
+    padding-top: 50px;
+    padding-bottom: 10px;
+  }
+  .u_collection_filter_content {
+    padding: 20px 0;
+}
+ .u_collection_filter_li {
+    list-style: none;
+    width: 25%;
+}
+  .u_featured_pro_item_img {
+    min-height: 170px;
+}
+  .u_featured_pro_item_desp {
+    min-height: 65px;
+}
+  .u_total_products {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+  .u_total_p_count {
+    margin: 0;
+    font-size: 16px;
+    padding: 10px 0;
+  }
+  .u_total_p_text{s
+    margin: 0;
+    font-size: 16px;
+    padding: 10px 0 10px 10px;
+
+  }
+  @media screen and (max-width:786px){
+  .u_featured_col_filters {
+    padding: 15px;
+  }
+    .u_collection_filter_li {
+    width: 50%;
+          padding: 10px 0;
+}
+    .u_featured_col_nav {
+    padding: 0 15px;
+   
+  }
+    .u_col_nav_title_size {
+    color: black;
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-size: 16px;
+  }
+    .u_featured_col_nav_close {
+    display:none ! important
+}
+    .u_fetured_product_block {
+    padding: 0;
+}
+    .u_collection_filter_single {
+    width: 100px;
+    height: 100px;
+  }
+      .u_featured_pro_item_desp {
+    min-height: 40px;
+}
+
+  }
+</style>
+  <script>
+    $('.u_featured_col_nav_title, .u_featured_col_nav_close :not(.u_featured_col_nav_line)').click(function(){
+      $(this).parent().find('i').toggleClass('fa-plus fa-minus');
+      $('.u_featured_col_filters').slideToggle('fast');
+    $('.u_featured_col_nav_close').toggle()
+    })
+     // c_slider
+  $('.u_featured_product_ow').slick({
+  slidesToShow: 4,
+            slidesToScroll: 1,
+            arrows: true,
+    dots:false,
+    infinite:false,
+     prevArrow:'.u_f_product_slider_left_arrow',
+    nextArrow:'.u_f_product_slider_right_arrow',
+//     centerMode:true, 
+//     cssEase:'linear',
+     responsive: [
+        {
+      breakpoint: 1250,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+     
+        dots: false,
+        arrows:false
+      }
+    },
+    {
+      breakpoint: 990,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+     
+        dots: false,
+        arrows:true
+      }
+    },
+    {
+      breakpoint: 786,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        
+        dots: false,
+        arrows:true
+        
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+   
+  });
+    $('.u_collection_name').click(function(e){
+      e.preventDefault();
+      let pro_arr=[];
+     let collection_title = $(this).attr('data-title');
+      $('.u_collection_filter_single').removeClass('u_collection_active');
+      $(this).parent().addClass('u_collection_active');
+       $('.u_fetured_product_block').hide();
+//       $('.u_fetured_product_block').attr('tabindex',-1);
+      $('.u_fetured_product_block').each(function(){
+      let title = $(this).attr('data-title');
+        if(collection_title == title){
+           console.log('enter');
+          pro_arr.push($(this).length);
+
+//         $(this).addClass('slick-active').show();
+           $(this).show();
+//           $(this).attr('tabindex',0);
+        }
+      })
+      console.log('length of products',pro_arr.length);
+      $('.u_total_p_count').text(pro_arr.length);
+    })
+    $('.u_collection_name_all').click(function(e){
+      e.preventDefault();
+       $('.u_collection_filter_single').removeClass('u_collection_active');
+      $(this).parent().addClass('u_collection_active');
+      $('.u_fetured_product_block').show();
+      let len =  $('.u_fetured_product_block').length;
+      $('.u_total_p_count').text(len);
+    });
+  </script>
+{% schema %}
+  {
+    "name": "Custom featured col",
+    "settings": [
+  {
+  "type":"text",
+  "id":"u_featured_col_nav_title",
+  "label":"Featured collection title",
+  "default":"CHOOSE YOUR fragnance style"
+  },
+  {
+  "type":"text",
+  "id":"u_featured_col_close_title",
+  "label":"Featured collection close  title",
+  "default":"close"
+  },
+   {
+  "type":"textarea",
+  "id":"u_featured_col_filter_desp",
+  "label":"Featured collection filter description",
+  "default":"shop all candles"
+  },
+  {
+  "type":"color",
+  "id":"u_collection_bg",
+  "label":"Collection name background",
+  "default":"#926a3e"
+  },
+   {
+  "type":"color",
+  "id":"u_collection_name_color",
+  "label":"Collection name color",
+  "default":"#fff"
+  }
+  
+  ],
+"presets":[
+{
+"name":"custom featured col",
+"category":"select"
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

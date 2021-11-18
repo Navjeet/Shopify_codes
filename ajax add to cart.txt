@@ -1,0 +1,104 @@
+ {% for block in section.blocks %}
+            {% if block.type == 'u_prouduct_ingredients' %}
+            {% assign pro = all_products[block.settings.u_single_product] %}
+
+            {% if pro.variants.size >1%}<div class="u_variants">
+            <span class="u_variant_id" data-id ="{{pro.selected_or_first_available_variant.id}}" data-qty="{{pro.first_available_variant.inventory_quantity}}"></span>
+            <span class="u_variant_qty"></span>
+            </div>
+            {% endif%}
+            {% if  pro.variants.size > 1 %}
+            <div class="u_pro_all_price">A
+              {% for variant in pro.variants%}
+              <span class="u_pro_price">{{variant.price | money_without_trailing_zeros}}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if  pro.variants.size > 1 %}
+            <div class="u_product_ingredients_desp_row">
+              <div class="u_product_ingredients_desp_icon">
+                <div class="u_ingrdeint_mark" style="background:{{block.settings.u_check_mark_bg}};border-color:{{block.settings.u_check_mark_border}}">
+                  <i class="fal fa-check" style="color:{{block.settings.u_check_mark_color}}"></i>
+                </div>
+              </div>
+              <div class="u_product_ingredients_desp">
+                <h4 class="u_product_ingredients_desp_size">{{block.settings.u_product_ingredients_desp}}</h4>
+              </div>     
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            <div class="u_product_btns">
+              <button class="u_product_shopping_list_btn">{{section.settings.u_shopping_list_btn}}
+                <div class="u_btn_icon">
+                  <i class="far fa-plus"></i>
+                </div>
+              </button>
+              <a href="{{routes.cart_url}}" class="u_product_shopping_cart_btn u_disabled" >{{section.settings.u_shopping_list_view__btn}}
+                <div class="u_btn_cart_icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+              </a>
+            </div>
+ <script>
+  $(function() {
+    $('.u_f_product_print_bg').on('click', function() {
+    $.print(".u_product_desp_content_row");
+  });
+});
+
+    let total=0;
+    $('.u_pro_all_price').find('.u_pro_price').each(function(){
+      let price =$(this).text();
+      let price_r_com =price.replace(',','');
+      let new_price = parseInt(price_r_com.slice(3));
+      total += new_price;
+      console.log('price',new_price)
+    })
+    $('.u_product_total_price').text(`$${total.toLocaleString()}`);
+    console.log('total',total.toLocaleString());
+   
+
+    $('.u_product_shopping_list_btn').on('click',function(){
+      let product_name =$('.u_product_title_size').text().toUpperCase();
+      let ids=[];
+      $('.u_variants').find('.u_variant_id').each(function(){
+        let id =$(this).attr('data-id');
+        let qty =$(this).attr('data-qty');
+        let item={"id":id,"quantity":qty,properties: {
+        'Product name ': product_name
+      } };
+        ids.push(item);
+      })
+      console.log('array',ids);
+      $.ajax({
+        type:'POST',
+        url:'/cart/add.js',
+        data:{items:ids},
+         beforeSend: function() {
+        // setting a timeout
+           console.log('before enter');
+        $('.lds-facebook').show();
+        $('.u_loader_overlay').removeClass('u_loader_hide')
+      },
+        success: function(result){
+        console.log('add to cart');
+          $('.u_success_modal').addClass('u_active_modal');
+			$('.u_product_shopping_cart_btn').removeClass('u_disabled');
+      },
+             error: function(textStatus) {
+       $('.u_error_modal').addClass('u_active_modal');
+               $('.u_product_shopping_cart_btn').removeClass('u_disabled');
+      },
+         complete: function() {
+                      console.log('complete');
+         $('.lds-facebook').hide();
+                $('.u_loader_overlay').addClass('u_loader_hide')
+      }
+    })
+    })
+    $('.u_dete_icon').click(function(){
+    $('.u_success_modal').removeClass('u_active_modal');
+         $('.u_error_modal').removeClass('u_active_modal');
+    })
+  </script>
