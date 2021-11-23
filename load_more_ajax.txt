@@ -23,19 +23,19 @@ custom paginate for different senario
 <script>
      let arr = [];
   let arr2 = [];
-  let t = $(".pagination__list li").length - 1;
-  $(".pagination__list li").each(function(i){
-    if(i > 0 && i < t){
-      let n = parseInt($(this).text());
+  $(".u_paginate_li").each(function(){
+      let n = $(this).text();
       arr.push(n);
-    }
+    
   });
-  arr2 = arr.reverse();
-  console.log(arr2);
+  
+  console.log(arr.sort());
+ 
+//   arr2 = arr.reverse();
     
   $(document).on('click','.u_load_btn_size',function(){
-    let page = arr2.pop();
-    let _url = "{{shop.url}}/collections/{{collection.handle}}?page=" + page;
+    let page = arr.pop();
+    let _url = "{{shop.url}}/blogs/{{blog.handle}}?page=" + page;
     console.log(_url);
     $.ajax({
       url:_url,
@@ -44,22 +44,23 @@ custom paginate for different senario
       beforeSend: function() {
         // setting a timeout
         $('.u_loader').removeClass('u_loader_hide');
-        $('.u_loader_overlay').removeClass('u_loader_hide')
+        $('.u_loader_overlay').removeClass('u_loader_hide');
+        $('body').addClass('u_overflow')
       },
       success: function(result){
-        //           console.log('success',result)
+                  console.log('success',$(result).find(".u_blogs_content_row").html())
         if(arr2.length <= 0){
           $(".u_load_btn_size").hide();
           $('.u_paginate_stats').hide();
         }
-        let data = $(result).find(".u_featured_product_row").html();
+        let data = $(result).find(".u_blogs_content_row").html();
         //           console.log(data,data);
         let stats =parseInt($('.u_paginate_items_show').text());
-        let len =$(result).find(".u_fetured_product_block").length; 
+        let len =$(result).find(".u_blog_item").length; 
         console.log(len);
         let paginate_items = stats + len;
         console.log('length',paginate_items);
-        $(".u_featured_product_row").append(data);
+        $(".u_blogs_content_row").append(data);
         $(".u_paginate_items_show").text(paginate_items);
 
       },
@@ -68,7 +69,8 @@ custom paginate for different senario
       },
       complete: function() {
         $('.u_loader').addClass('u_loader_hide');
-                $('.u_loader_overlay').addClass('u_loader_hide')
+                $('.u_loader_overlay').addClass('u_loader_hide');
+        $('body').removeClass('u_overflow')
       }
     });
   });
