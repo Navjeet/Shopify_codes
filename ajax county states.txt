@@ -1,0 +1,65 @@
+<script>
+  $('.u_phone').keypress(function(e){
+    //     console.log($(this).val())
+    if(e.which == 101 || e.which == 45 || e.which == 65 ||  $('.u_phone').val().length >= 11){
+      return false; 
+    }
+  });
+  $('.c_password').on('keyup',function(){
+    let password =$('.password').val();
+    console.log('password',password);
+    let c_password =$(this).val();
+    console.log('c_password',c_password);
+    if(password.length>5){
+      if(password == c_password)
+      {
+        $('.u_confirm').text('');
+        $('.u_confirm_success').text('password match');
+        $(this).removeClass('u_border_color');
+        $(this).parents('#u_password').find('.password').removeClass('u_border_color');
+        $('.u_register_btn').prop('disabled',false);
+      }
+      else
+      {
+        $('.u_confirm').text('password does not match');
+        $(this).addClass('u_border_color');
+        $(this).parents('#u_password').find('.password').removeClass('u_border_color');
+        $('.u_register_btn').prop('disabled',true);
+      }
+    }
+    else{
+      $('.u_confirm').text('password should be greater than 5');
+      $(this).parents('#u_password').find('.password').addClass('u_border_color');
+      $('.u_register_btn').prop('disabled',true);
+    }
+  })
+  $.getJSON('https://gist.githubusercontent.com/ebaranov/41bf38fdb1a2cb19a781/raw/fb097a60427717b262d5058633590749f366bd80/gistfile1.json',function(result){
+    console.log('length',result.countries.length)
+    console.log('json',result);
+    let i;
+    for(i=0; i<result.countries.length;i++)
+    {
+      console.log('countrues',result.countries[i].country);
+      let country_name=`<option value="${result.countries[i].country}" data-states="${result.countries[i].states}" > ${result.countries[i].country} </option>`;     
+      $('#country').append(country_name);
+    }
+
+    $('#country').change(function(){
+      let states =$(this).children('option:selected').attr('data-states');
+      let state=states.split(',');
+      let state_length=state.length;
+            let j;
+      $('#state').empty();
+      for(j=0; j<state_length;j++)
+      {
+        let states_name=`<option value="${state}"> ${state[j]} </option>`;     
+        $('#state').append(states_name);
+      }
+    })
+
+  })
+
+
+
+
+</script>

@@ -1,0 +1,385 @@
+<div class="u_article_img">
+  {% if article.image %}
+  <img src="{{ article.image.src | img_url: 'master' }}" class="u_artcle_img_size">
+  {% endif %}
+  <div class="u_article_wrapper_cont"> 
+    <div class="u_article_wrapper_row">
+    <div class="u_article_wrapper">
+      <div class="u_article_content">
+        <h2 class="u_article_title">{{article.title}}</h2>
+        <p class="u_article_about">posted by       
+          <span class="u_article_auther">{{article.author }}</span>
+          <span class="u_article_date"> {{ article.published_at | time_tag: format: 'date' }}</span>
+        </p>
+        <span class="u_article_desp">{{article.content}}</span>
+        {% if section.settings.u_check_social == true %}
+        <div class="u_article_share_icons">
+          <a href="https://www.facebook.com/sharer.php?u={{canonical_url}}"  class="u_article_share_link">
+            <i class="fab fa-facebook-square"></i>
+            <span class="u_article_share_text">share</span>
+          </a>
+          <a href="https://www.twitter.com/share?url={{canonical_url}}" class="u_article_share_link">
+            <i class="fab fa-twitter"></i>
+            <span class="u_article_share_text">tweet</span>
+          </a>
+          <a href="https://www.pinterest.com/pin/create/button/?url={{canonical_url}}"  class="u_article_share_link">
+            <i class="fab fa-pinterest"></i>
+            <span class="u_article_share_text">pin</span>
+          </a>
+        </div>  
+        {% endif %}
+      </div>
+      <div class="u_article_paginate">
+         {% if blog.previous_article !=blank%}
+        <a href="{{blog.previous_article}}" class="u_article_paginate_link">
+         ← {{section.settings.u_prev_blog}}
+        </a>
+        {% endif %}
+        {% if blog.next_article !=blank%}
+              <a href="{{blog.next_article}}" class="u_article_paginate_link">
+          {{section.settings.u_next_blog}}→
+        </a>
+        {%endif %}
+      </div>
+    </div>
+      <div class="u_article_wrapper_right">
+        <div class="u_article_wrapper_right_content">
+         
+          <div class="u_article_blog_row">
+          <h2 class="u_blog_name">{{blog.title}}</h2>
+            <a href="{{section.settings.u_pipeline_url}}" class="u_article_blog_link">
+              <i class="fas fa-wifi"></i>
+            </a>
+        </div>
+          <hr class="u_article_hr">
+          <div class="u_article_tags">
+            <p class="u_article_tag_title">tag</p>
+            <div class="u_article_tags_row">
+               {% for tag in blog.all_tags %}
+              <a href="{{ blog.url }}/tagged/{{ tag | remove: ' ' | strip}}"class="u_article_tag_link">
+              {{tag}}
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+          {% assign current_handle = article.handle %}
+          <div class="u_blogs_content_row">
+            {% assign article_list = blog.articles | sort: "least-recent" %}
+            {% for article in article_list limit:3 %}
+             
+                         {% assign article_handle = article.handle %}
+            
+            {% if current_handle!=article_handle%}
+            <div class="u_rcm_blog_item">
+              <div class="u_rcm_blog_item_content">
+                <a href="{{article.url}}" class="u_rcm_blog_item_link">
+                  <div class="u_rcm_blog_img_block">
+                    <img src="{{article.image.src | img_url: 'master' }}" class="u_rcm_blog_item_img_size">
+                  </div>
+                </a>
+                <div class="u_rcm_blog_title_block">
+                    <h3 class="u_rcm_blog_item_title">{{article.title}}</h3>
+                </div>  
+              </div>  
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          
+      </div>
+  </div>
+  <style>
+    .u_article_img {
+      position: relative;
+    }
+    .u_artcle_img_size {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .u_article_wrapper_cont {
+      max-width: 900px;
+      margin: auto;
+      padding: 0 15px;
+    }
+    .u_article_wrapper_row {
+    display: flex;
+    flex-wrap: wrap;
+}
+    .u_article_wrapper_right {
+    width: 34%;
+         padding: 0 0 0 30px;
+}
+    .u_article_wrapper {    
+     margin-top:-8%;
+      width: 66%;
+    
+    }
+    .u_article_content {
+      padding: 32px;
+       box-shadow: 1px 1px 7px rgb(0 0 0 / 10%);
+      background: white;
+      border-radius: 5px;
+    }
+    .u_article_title {
+      color: #503e30;
+      letter-spacing: .5px;
+      text-transform: initial;
+      font-size: 26px;
+      margin: 0 0 15px 0;
+      font-weight: 300;
+    }
+    .u_article_about {
+      opacity: .6;
+      margin: 0;
+      padding: 10px 0;
+      font-size: 14px;
+      text-transform: initial;
+      letter-spacing: .5px;
+      color: #503e30;
+    }
+    .u_article_desp {
+      margin: 0;
+      padding: 16px 0;
+      display: block;;
+    }
+    .u_article_desp p{
+      margin: 0;
+      padding: 15px 0;
+      color: #503e30;
+      letter-spacing: .5px;
+      font-size: 14px;
+    }
+    .u_article_share_icons {
+      padding: 16px 0;
+         display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    }
+    .u_article_share_link {
+      text-decoration: none;
+      padding: 10px;
+      margin: 0 5px;
+      letter-spacing: 1px;
+      color: {{section.settings.u_share_text_color}};
+      font-size: 12px;
+      text-transform: uppercase;
+      transition: all .5s ease;
+    }
+    .u_article_share_text {
+      text-transform: uppercase;
+      font-size: 10px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 2px;
+      color: {{section.settings.u_share_text_color}};
+    }
+    .u_article_share_link:hover{
+      color:{{section.settings.u_share_text_hover_color}}!important
+    }
+    .u_article_wrapper_right_content {
+    margin-top: 40px;
+}
+    .u_article_blog_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    }
+    .u_blog_name {
+    font-size: 14px;
+    margin: 0;
+       color: #503e30;
+      text-transform: uppercase;
+    letter-spacing: .5px;
+    }
+    .u_article_blog_link i{
+  transform: rotate(45deg);
+    color: #32251b;
+    font-size: 14px;
+    }
+    .u_article_hr{
+    margin:16px 0;
+      background:rgba(118, 100, 86, 0.2);
+          width: 100%;
+    height: 1px;
+    }
+    .u_article_tag_title{
+     font-size: 14px;
+    margin: 0;
+       color: #503e30;
+      text-transform: capitalize;
+    letter-spacing: .5px;
+      padding: 5px 0;
+    }
+    .u_article_tag_link {
+       padding: 9px;
+    border-radius: 3px;
+    font-size: 10px;
+    text-decoration: none;
+      color: {{section.settings.u_tag_text_color}};
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-weight: 100;
+      transition:all .5s ease;
+    }
+    .u_article_tag_link:hover{
+      background:{{section.settings.u_tag_text_hover_bg}} !important;
+          color: {{section.settings.u_tag_text_hover_color}} !important;
+    }
+      .u_rcm_blogs_content_row {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap
+  }
+  .u_rcm_blog_item {
+    width:100%;
+    padding:15px 0;
+}
+  .u_rcm_blog_item_img_size {
+    width: 100%;
+    height: 245px;
+    object-fit: cover;
+    display: block;
+    transition:all 1s ease 
+  }
+  .u_rcm_blog_item_content {
+    position: relative;
+}
+  .u_rcm_blog_title_block {
+    position: absolute;
+    bottom: 6%;
+    z-index:99
+  }
+  .u_rcm_blog_item_title {
+    font-size: 15px;
+    text-transform: capitalize;
+    color: white;
+    letter-spacing: .5px;
+    padding: 0 20px;
+    font-weight: 400;
+    margin: 0;
+  }
+  .u_rcm_blog_img_block {
+    overflow: hidden;
+}
+  .u_rcm_blog_item_content:hover .u_rcm_blog_item_img_size{
+  transform:scale(1.1)
+  }
+    .u_blogs_content_row {
+    padding-top: 20px;
+}
+    .u_article_paginate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+          padding: 20px 0;
+}
+    .u_article_paginate_link {
+    color: black;
+    text-decoration: none;
+    text-transform: capitalize;
+    font-size: 15px;
+    letter-spacing: .5px;
+      position: relative;
+         
+    
+    }
+    .u_article_paginate_link:after {
+    content: '';
+    height: 2px;
+    background: #ddd;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+      width:0;
+      transition: all .2s ease;
+   
+}
+    .u_article_paginate_link:hover:after{
+width:100%; 
+    }
+    .u_article_paginate_link:hover{
+     color: black !important;   
+    }
+     @media screen and (max-width:786px){
+   .u_article_wrapper {
+    width: 100%;
+}
+       .u_article_wrapper_right {
+    width: 100%;
+    padding: 0 0 15px 0;
+}
+       .u_article_content {
+    padding: 20px;
+}
+     }
+  </style>
+  {% schema %}
+  {
+  "name": "Custom article",
+  "settings": [
+  {
+  "type":"checkbox",
+  "id":"u_check_social",
+  "label":"View social icons",
+  "default":true
+  },
+  {
+  "type":"color",
+  "id":"u_share_text_color",
+  "label":"Share text color",
+  "default":"#503e30"
+  },
+  {
+  "type":"color",
+  "id":"u_share_text_hover_color",
+  "label":"Share text hover color",
+  "default":"#000"
+  },
+  {
+      "type":"url",
+      "id":"u_pipeline_url",
+      "label":"Pipeline url"
+      },
+        {
+  "type":"color",
+  "id":"u_tag_text_color",
+  "label":"Tag text color",
+  "default":"#d2815f"
+  },
+  {
+  "type":"color",
+  "id":"u_tag_text_hover_color",
+  "label":"Tag text hover color",
+  "default":"#d2815f"
+  },
+      {
+  "type":"color_background",
+  "id":"u_tag_text_hover_bg",
+  "label":"Tag text hover background",
+  "default":"rgb(210 129 95 / 10%)"
+  },
+      {
+      "type":"text",
+      "id":"u_prev_blog",
+      "label":"Previous blog text",
+      "default":"older post"
+      },
+       {
+      "type":"text",
+      "id":"u_next_blog",
+      "label":"Next blog text",
+      "default":"newer post"
+      }
+  ]
+  }
+  {% endschema %}
+
+  {% stylesheet %}
+  {% endstylesheet %}
+
+  {% javascript %}
+  {% endjavascript %}

@@ -1,0 +1,293 @@
+<div class="u_blogs_section">
+         {% paginate blog.articles by {{section.settings.u_paginate_items}} %}
+  
+  <div class="u_blogs_cont">
+      <div class="u_blog_wrapper">
+<!--         <div class="u_total_blogs">
+          <span class="u_total_blogs_title">total blogs</span>
+            <span class="u_total_blogs_count">{ {blog.articles_count}}</span>
+        </div> -->
+          <div class="u_blogs_content_row">
+            {% assign article_list = blog.articles | sort: "least-recent" %}
+            {% for article in article_list %}
+            {% assign blog_width = 100 | divided_by: section.settings.u_blogs_width %}
+            
+            <div class="u_blog_item" style="width:{{blog_width}}%">
+              <div class="u_blog_item_content">
+                <a href="{{article.url}}" class="u_blog_item_link">
+                  <div class="u_blog_img_block">
+                    <img src="{{article.image.src | img_url: 'master' }}" class="u_blog_item_img_size">
+                  </div>
+                </a>
+                <div class="u_blog_title_block">
+                    <h3 class="u_blog_item_title">{{article.title}}</h3>
+                </div>  
+              </div>  
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    <div class="u_load_btn">
+    <button class="u_load_btn_size">{{section.settings.u_load_btn}}</button>
+  </div>
+  </div>
+   {% assign page_no = paginate.pages %}
+        <ul class="u_paginate_ul">
+          {% for page in (2..page_no) %}
+          <li class="u_paginate_li">{{page}}</li>
+          {% endfor %}
+        </ul> 
+  {% endpaginate%}
+  <div class="u_loader_overlay u_loader_hide">
+</div>
+</div>
+
+<style>
+  .u_blogs_cont {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+}
+  .u_blog_wrapper {
+    padding: 40px 0;
+}
+  .u_blogs_content_row {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap
+  }
+  .u_blog_item {
+    padding:15px;
+}
+  .u_blog_item_img_size {
+    width: 100%;
+    height: 245px;
+    object-fit: cover;
+    display: block;
+    transition:all 1s ease 
+  }
+  .u_blog_item_content {
+    position: relative;
+}
+  .u_blog_title_block {
+    position: absolute;
+    bottom: 6%;
+    z-index:99
+  }
+  .u_blog_item_title {
+    font-size: 16px;
+    text-transform: capitalize;
+    color: white;
+    letter-spacing: .5px;
+    padding: 0 20px;
+    font-weight: 400;
+    margin: 0;
+  }
+  .u_blog_img_block {
+    overflow: hidden;
+}
+  .u_blog_item_content:hover .u_blog_item_img_size{
+  transform:scale(1.1)
+  }
+  .u_load_btn {
+    text-align: center;
+    margin: 0;
+    padding-bottom: 30px;
+  }
+  .u_load_btn_size{
+    padding: 10px 25px;
+    height:48px;
+    text-transform: uppercase;
+    font-size: 14px;
+    border: 1px solid #707070;
+    letter-spacing: 1.5px;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-weight:400;
+    background:{{section.settings.u_load_btn_bg}};
+    color:{{section.settings.u_load_btn_color}}
+  }
+  .u_load_btn_size:hover{
+    background:{{section.settings.u_load_btn_hover_bg}};
+    color:{{section.settings.u_load_btn_hover_color}}
+  }
+  .u_paginate_ul {
+    display: none;
+}
+  .u_total_blogs {
+    text-align: right;
+    padding: 0 15px;
+}
+  .u_total_blogs_count{
+    color: black;
+    text-transform: capitalize;
+    letter-spacing: .5px;
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    padding-right: 15px;
+  }
+  
+  .u_total_blogs_title {
+    color: black;
+    text-transform: capitalize;
+    letter-spacing: .5px;
+    font-size: 16px;
+    margin: 0 0 10px 0;
+        
+  }
+  .u_loader_circle{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid brown;
+  }
+    .u_loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    animation: u_loader 2s linear infinite;
+z-index:9999999
+  }
+ 
+  @keyframes u_loader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .u_loader_hide{
+    display:none
+  }
+  .u_overflow{
+  overflow:hidden
+  }
+   .u_loader_overlay{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    background:rgba(0,0,0,.3);
+         width: 100%;
+    height: 100%;
+  }
+  @media screen and (max-width:786px){
+   .u_blog_item {
+    width: 100%;
+    padding:15px 0;
+}
+  }
+</style>
+<script>
+     let arr = [];
+  let arr2 = [];
+  $(".u_paginate_li").each(function(){
+      let n = $(this).text();
+      arr.push(n);
+    
+  });
+  arr2 = arr.reverse();
+      console.log(arr2);
+  $(document).on('click','.u_load_btn_size',function(){
+    let page = arr.pop();
+      console.log('array length',arr.length);
+
+    let _url = "{{shop.url}}/blogs/{{blog.handle}}?page=" + page;
+    console.log(_url);
+    $.ajax({
+      url:_url,
+      type: 'GET',
+      dataType: 'html',
+      beforeSend: function() {
+        // setting a timeout
+        $('.u_loader').removeClass('u_loader_hide');
+        $('.u_loader_overlay').removeClass('u_loader_hide');
+        $('body').addClass('u_overflow')
+      },
+      success: function(result){
+//                   console.log('success',$(result).find(".u_blogs_content_row").html())
+        if(arr.length ==0){
+          $(".u_load_btn_size").hide();
+          $('.u_paginate_stats').hide();
+        }
+        let data = $(result).find(".u_blogs_content_row").html();
+        //           console.log(data,data);
+        let stats =parseInt($('.u_paginate_items_show').text());
+        let len =$(result).find(".u_blog_item").length; 
+        console.log(len);
+        let paginate_items = stats + len;
+        console.log('length',paginate_items);
+        $(".u_blogs_content_row").append(data);
+        $(".u_paginate_items_show").text(paginate_items);
+
+      },
+      error : function(error) {
+        console.log('error...',error)
+      },
+      complete: function() {
+        $('.u_loader').addClass('u_loader_hide');
+                $('.u_loader_overlay').addClass('u_loader_hide');
+        $('body').removeClass('u_overflow')
+      }
+    });
+  });
+</script>
+{% schema %}
+  {
+    "name": "Custom blogs",
+    "settings": [
+{
+"type":"text",
+"id":"u_load_btn",
+"label":"paginate button",
+"default":"more blogs"
+},
+{
+"type":"range",
+"id":"u_paginate_items",
+"label":"Paginate blogs",
+"step":3,
+"min":6,
+"max":15,
+"default":9
+},
+{
+"type":"range",
+"id":"u_blogs_width",
+"label":"No of blogs per row",
+"step":1,
+"min":2,
+"max":4,
+"default":3
+},
+{
+"type":"color",
+"id":"u_load_btn_bg",
+"label":"Load more button text background",
+"default":"transparent"
+},
+{
+"type":"color",
+"id":"u_load_btn_color",
+"label":"Load more button text color",
+"default":"#000"
+},
+{
+"type":"color",
+"id":"u_load_btn_hover_bg",
+"label":"Load more button text hover background",
+"default":"#495547"
+},
+{
+"type":"color",
+"id":"u_load_btn_hover_color",
+"label":"Load more button text hover color",
+"default":"#fff"
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
