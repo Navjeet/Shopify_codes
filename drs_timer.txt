@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.u_drs_timer_cont {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    padding: 10px;
+    border:1px solid;
+    border-radius: 2px;
+}
+.u_drs_title {
+    text-transform: capitalize;
+    font-size: 30px;
+    letter-spacing: .5px;
+    margin: 0;
+    }
+    .drs_timer {
+    font-size: 30px;
+    margin: 0;
+    letter-spacing: .5px;
+    padding: 10px 0;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  let numarr=[];
+  let i='';
+  for(i =0;i<16;i++ ){
+  numarr.push(i);
+  };
+  let number =setInterval(function(){
+  $('.drs_timer').text(numarr.pop());
+  console.log('length',numarr.length);
+  if(numarr.length == 0 )
+  {
+   clearInterval(number);
+  $('.u_drs_timer_cont').fadeOut('slow')
+  }
+  },1000)
+});
+</script>
+</head>
+<body>
+<div class="u_drs_timer_cont">
+<h2 class="u_drs_title">drs timer</h2>
+<h3 class="drs_timer"></h3>
+</div>
+</body>
+</html>
