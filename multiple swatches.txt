@@ -1,3 +1,29 @@
+ <label>QTY</label>
+        <div class="quantity">
+          <span class="minus">-</span>
+          <input type="text"  name="quantity"  value="1"
+                 class="number" data-quantity-input>
+          <span class="plus">+</span>
+        </div>
+<script>
+  $('.minus').click(function(){
+    var $input =$(this).parent().find('input');
+    console.log($input);
+    var $count =parseInt($input.val()) -1;
+    console.log($count);
+    $counter = $count <1 ?1:$count;
+    $input.val($counter);
+    $input.change();
+  })
+  $('.plus').click(function(){
+    var $input =$(this).parent().find('input');
+    console.log($input);
+    var $count =parseInt($input.val()) +1;
+    console.log($count);
+
+    $input.val($count);
+    $input.change();
+  })
  $(document).ready(function(){
     swatches();
   })
