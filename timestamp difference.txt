@@ -1,0 +1,15 @@
+           {% assign a = product_card_product.published_at | date: "%s"  %}
+{%- assign n = "now" | date: "%s" -%}
+        
+{% assign diff = n | minus: a %}
+{% assign oneDayStamp = diff | divided_by: 86400 | split: '.' | first | plus: 0 %}
+        <input type="hidden" value="{{ oneDayStamp }}">
+        {% assign num = 60 %} 
+        {% assign day = 30 %}
+        {% if oneDayStamp <= 25  %}
+                  <div class="u_label">
+            <div class="u_label_tag">
+            new
+            </div>
+          </div>
+        {% endif %}
