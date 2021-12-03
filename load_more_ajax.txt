@@ -11,7 +11,7 @@ custom paginate for different senario
         {% assign page_no = paginate.pages %}
         {{paginate.pages}}
         <ul class="u_paginate_ul">
-          {% for page in (1..page_no) %}
+          {% for page in (2..page_no) %}
           <li class="u_paginate_li">{{page}}</li>
           {% endfor %}
         </ul> 
@@ -29,12 +29,11 @@ custom paginate for different senario
     
   });
   
-  console.log(arr.sort());
- 
-//   arr2 = arr.reverse();
-    
+ // console.log(arr.sort());
+   arr2 = arr.reverse();    
   $(document).on('click','.u_load_btn_size',function(){
-    let page = arr.pop();
+    let page = arr2.pop();
+//let _url = "{{shop.url}}/collections/{{collection.handle}}?page=" + page;
     let _url = "{{shop.url}}/blogs/{{blog.handle}}?page=" + page;
     console.log(_url);
     $.ajax({
