@@ -740,6 +740,35 @@ $('.u_tab .u_tablinks').click(function(){
                 $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
           $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();
             })
+ //$(document).scroll(delay(function (e) {
+   // var scroll = $(this).scrollTop();
+//     console.log(scroll);
+    //if(scroll > 0)
+    //{
+      //$('.u_navbar_left').addClass('u_opacity_left');
+      //$('.u_navbar_center').addClass('u_navbar_margin');
+      //$('.u_navbar_logo_width').addClass('u_hide');
+       //$('.u_navbar_sticky_logo_width').addClass('u_block');
+      //$('.u_hide_part').addClass('u_hide');
+    //}
+    //else{
+      //$('.u_navbar_left').removeClass('u_opacity_left');
+      //$('.u_navbar_center').removeClass('u_navbar_margin');
+      //$('.u_navbar_logo_width').removeClass('u_hide');
+       //$('.u_navbar_sticky_logo_width').removeClass('u_block');
+      //$('.u_hide_part').removeClass('u_hide')
+    //}
+  //}, 100));
+//   function delay(callback, ms) {
+//     var timer = 0;
+//     return function() {
+//       var context = this, args = arguments;
+//       clearTimeout(timer);
+//       timer = setTimeout(function () {
+//         callback.apply(context, args);
+//       }, ms || 0);
+//     };
+//   }
 </script>
 
 {% schema %}
