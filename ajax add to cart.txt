@@ -71,10 +71,16 @@
         ids.push(item);
       })
       console.log('array',ids);
+for single variant
+ data = {
+        "id": variant_id,
+        "quantity": 1,        
+      }
       $.ajax({
         type:'POST',
         url:'/cart/add.js',
         data:{items:ids},
+ dataType: 'json',
          beforeSend: function() {
         // setting a timeout
            console.log('before enter');
