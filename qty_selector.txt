@@ -1,0 +1,45 @@
+ $(document).ready(function(){
+
+    input_checked();
+    swatches();
+        custom_qty();
+      
+  })  
+  
+    function custom_qty(){
+   let cv =  parseInt($('.u_custom_qty').val());
+    let iq = parseInt($('.u_custom_variant_qty_show').attr('org_qty'));
+    $('.u_custom_qty').attr('value',cv);  
+    let pro_qty =$('.u_custom_variant_qty').val();
+    let ac_pro_qty = parseInt(pro_qty);
+    if(cv <= ac_pro_qty ){
+      if(cv <= iq && cv > 0){
+        let total = iq - cv;
+        console.log('tatal',total);
+        $('.u_custom_variant_qty_show').text(total);
+        $('.u_qty_error').text(' ');
+        let qty_var_price =$('.u_custom_variant_price').val();
+                let qty_price =cv * qty_var_price;
+        console.log('final price',qty_price);
+         $('.custom-total').find('.u_pro_price').html(Shopify.formatMoney(qty_price));
+//         let cr_symbol ='{{shop.money_with_currency_format}}';
+//         console.log('dd',cr_symbol);
+//         $('.custom-total').find('.u_pro_price').text(qty_price.toFixed(2));
+        
+      }
+      else{
+        console.log('else');
+        let counter = 1;
+        $('.u_custom_qty').attr('value',counter);
+        $('.u_custom_qty').val(counter);
+        $('.u_qty_error').text(' ');
+        // return false;
+      }
+    }
+    else{
+      $('.u_custom_qty').attr('value',pro_qty);
+      $('.u_custom_qty').val(pro_qty);
+      $('.u_qty_error').text('zero quantity has left');
+    }
+    }
+  

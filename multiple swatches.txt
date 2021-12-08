@@ -39,23 +39,22 @@
   $('.u_radio_btn').change(function(){
     swatches()
   })
-  function swatches(){
-    var comb = '';
-    $('.u_radio_btn:checked').each(function(){
-      checked_value = $(this).val();
-      console.log('------checked value',checked_value);
-      comb +=checked_value +' / ';
+   function swatches(){
+    let final ='';
+    let comb= '';
+    $('.u_custom_variant:checked').each(function(){
+      let checked_val= $(this).val(); 
+      comb += checked_val + ' / '
     })
-    var finall =comb.substring(0 ,comb.length-3);
+    console.log(comb)
+    var finall =comb.slice(0 ,comb.length-2).trim();
     console.log('--final combination',finall);
 
-
     let flag=false;
-    $(".product-form__variants option").each(function(){
+    $(".u_master_select option").each(function(){
       var word =$(this).text().trim();
-      console.log('---',word);
-
-      if($(this).text().trim() == finall){
+      if(word == finall){
+        console.log('---',word);
         flag =true; 
       } 
 
@@ -63,43 +62,45 @@
     if(flag==true)
     {
       //master select
-      $(".product-form__variants option").each(function(){
-
+      $(".u_master_select option").each(function(){
         if($(this).text().trim() == finall){
+          $('.u_master_select').val($(this).val()).trigger('change');
+          // variant change price
+          var variant_price = $(this).attr('price-data');
+          console.log('variant price',variant_price);
+          $('.custom-total').find('.u_pro_price').text(variant_price);
+          $('.u_custom_variant_price').attr('value',variant_price);
+          let compare_variant_price = $(this).attr('compare-price-data');
+          console.log('variant compare price',compare_variant_price);
+          $('.custom-total').find('.u_campare_price').text(compare_variant_price);
+          let variant_id =  $(this).attr('value');
+          $('.u_variant_id').attr('value',variant_id);
+          $('.u_custom_qty').attr('value',1);
+          $('.u_custom_qty').val(1);
 
+          $('.u_qty_error').text(' ');
+          if(compare_variant_price != 0){
+            console.log('enter');
+            $('.custom-total').find('.u_campare_price').addClass('u_line_through');
+          }
+          else{
+            $('.custom-total').find('.u_campare_price').removeClass('u_line_through')
+          }
+          let var_qty = parseInt($(this).attr('data-iq'));
+          $('.u_custom_variant_qty').val(var_qty);
+          $('.u_custom_variant_qty_show').text(var_qty);
+          $('.u_sold_out_error').text(' ');
+          $('.u_custom_variant_qty_show').attr('org_qty',var_qty);
           if(parseInt($(this).attr('data-iq')) > 0){
             console.log('variant quantity',parseInt($(this).attr('data-iq')));
-            $('.product-form__variants').val($(this).val()).trigger('change');
-
-
-            //image change of varients        
-            let image_url =$(this).attr('data-image');
-            console.log('clicked image src',image_url);
-            $(".product-single__thumbnail-image").each(function(){
-              var image_src = $(this).attr("data-src");
-              if($(this).attr("data-src") == image_url){
-                console.log("image_src",image_src);
-                $(this).trigger("click");
-              }
-            });
-
-
-            // variant change price
-            var variant_price = $(this).attr('price-data');
-            console.log('variant price',variant_price);
-            $('.product-single__title_price').empty();
-            $('.product-single__title_price').append(variant_price);
-            var compare_variant_price = $(this).attr('compare-price-data');
-            console.log('variant price',compare_variant_price);
-            $('.product-single__title_compare').empty();
-            $('.product-single__title_compare').append(compare_variant_price);
-
-            $('.u_combination ').text('Add to cart').prop("disabled", false);
+            $('.custom-atc-btn').text('Add to cart').prop("disabled", false);
+            $('.u_sold_out_error').text(' ');
           }
           else{
             console.log('sold out');
-            alertify.error('This combination is sold out');
-            $('.u_combination ').text('Sold Out').prop('disabled',true);
+            $('.u_sold_out_error').text('This variant is sold out');
+            $('.custom-atc-btn').text('Sold Out').prop('disabled',true);
+
           }
         }
       });
@@ -108,9 +109,7 @@
     else{
 
       console.log(' combination does not exists');
-      //       $('.u_error_combination').append('<p>this combination does not exists</p>');
-      $('.u_combination ').text('unavialable').prop('disabled',true);
-      alertify.error('This combination does not exists');
+      $('.custom-atc-btn').text('unavialable').prop('disabled',true);
+      $('.u_sold_out_error').text(' ');
     }
-
   }
