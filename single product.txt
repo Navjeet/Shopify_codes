@@ -1,0 +1,39 @@
+<div class="cps-main">
+  <div class="cps-inner">
+
+    <div class="cps-parent sliderr owl-carousel">     
+      <div class="swiper mySwiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+          {% assign c_product = all_products[block.settings.custom-pro] %}      
+          <div class="cstm-product-container swiper-slide">
+            <div class="kk">
+              <a href="{%if block.settings.cp-link%}{{block.settings.cp-link}}{%else%} {{c_product.url}}{%endif%}" {% if block.settings.new_tab %} target="_blank" {% endif %} class="product-anchor">
+                <div class="pp-img">
+                  <img src="{{c_product.featured_image | img_url : 'master' }}" class="img--img">
+                </div>
+                <p class="pto-titl"> {{c_product.title | truncate: 50}}  </p>
+                <p class="pto-titl-two"> {{block.settings.txt1}}  </p>  
+                <div class="prices-con">
+                  {%if c_product.compare_at_price %}
+                  <span class="com-price">{{c_product.compare_at_price | money}}  </span> 
+                  {%endif%}
+                  <span class="pro-price"> {{c_product.price | money}} </span> 
+                </div>
+
+              </a>
+            </div>
+          </div>
+          {%endfor%}  
+        </div>
+          <div class="swiper-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{
+"id": "custom-pro",
+"type": "product",
+"label": "Select Product"
+}
