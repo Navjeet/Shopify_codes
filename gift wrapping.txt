@@ -1,0 +1,223 @@
+<div id="is-a-gift" class="u_gift_wrap_box">
+  {% assign gift_pro = all_products[settings.u_gift_product]%}
+  <p>
+  <p class="u_check_error"></p>
+    <input id="gift-wrapping" type="checkbox" name="attributes[gift-wrapping]" value="yes"
+           {% if  cart.attributes.gift-wrap == 'Yes'%}
+           checked="checked"
+           {% endif %}   />
+    <input type="hidden" value="{{gift_pro.selected_or_first_available_variant.id}}" class="u_gift_wrap_id">
+    <label
+           for="gift-wrapping"
+           >
+      For {{ gift_pro.price| money }}
+      please wrap the products in this order.
+    </label>
+  </p>
+  <p>
+    <label style="display:block" for="gift-note"
+           >Gift message (free and optional):</label
+      >
+      <textarea iid="gift-note"name="attributes[Gift message]">{{ cart.attributes["Gift message"] }}</textarea>
+<!--     <textarea name="attributes[gift-note]" id="gift-note" rows="3">
+      { { cart.attributes.gift-note } }</textarea
+      > -->
+  </p>
+</div>
+<div class="u-elds-ellipsis"><div></div><div></div><div></div><div></div></div>
+<style>
+  .u_gift_wrap_box{
+    background: white;
+    box-shadow: 0px 0px 6px black;
+    width: 370px;
+    margin: 20px;
+    padding: 20px;
+  }
+  textarea#gift-note {
+    width: 100%;
+    border: 1px solid lightgray;
+  }
+  textarea#gift-note:focus{
+    box-shadow:none;
+    outline:none
+  } 
+  .u-elds-ellipsis {
+    display: inline-block;
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 99;
+    display: none;
+  }
+  .u-elds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: black;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .u-elds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: u-elds-ellipsis1 0.6s infinite;
+  }
+  .u-elds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: u-elds-ellipsis2 0.6s infinite;
+  }
+  .u-elds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: u-elds-ellipsis2 0.6s infinite;
+  }
+  .u-elds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: u-elds-ellipsis3 0.6s infinite;
+  }
+  @keyframes u-elds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes u-eds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes u-elds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(24px, 0);
+    }
+  }
+  .u_check_error {
+    color: red;
+    padding: 5px 0;
+    text-align: center;
+    border: 1px solid red;
+    margin: 5px 0;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+  gift_matchid();
+  cart_item();
+   $('.u_check_error').hide()
+  function gift_matchid(){
+    let gift_id =$('.u_gift_wrap_id').val();
+    $('.u_gift_match_id').val(gift_id)
+
+    $('.u_item_id').each(function(){
+      let item_id =$(this).val();
+      if(item_id == gift_id){       
+        $(this).next().next().find('.cart__qty-label-wrap').hide()
+      }
+    })   
+  }
+  $("#gift-wrapping").change(function() {
+    if($(this).prop('checked')) {
+      console.log('checked')
+      let gift_id =$(this).parent().find('.u_gift_wrap_id').val();
+      console.log('id', gift_id)
+
+      $.ajax({
+        type:'POST',
+        url:'/cart/add.js',
+        data :{
+          "id": gift_id,
+          "quantity": 1,        
+        },
+        dataType: 'json',
+        beforeSend: function() {
+          // setting a timeout
+          console.log('before enter');
+          $('.u-elds-ellipsis').show();      
+        },
+        success: function(result){
+          console.log('add to cart');	
+          cart_attributes();
+          gift_matchid();
+          $('.u-elds-ellipsis').hide();
+          setTimeout(function(){
+            location.reload()
+          }, 1000);
+           $('.u_check_error').hide()
+        },
+        error: function(textStatus) {
+          console.log('error' ,textStatus);
+        },
+        complete: function() {
+          console.log('complete');
+        }
+      })    
+    } 
+    else {
+      console.log('else checked');
+       $('.u_check_error').show()
+      $('.u_check_error').text('you already select gift wrapper')
+     $(this).prop('checked',true) 
+    }
+  });
+  function cart_item(){
+    $.getJSON("/cart.js", function(result){
+      console.log('----',result);
+      let gift_id =$('.u_gift_wrap_id').val();
+      for( let i=0 ;i<result.items.length;i++){
+        if(result.items[i].id == gift_id){
+          console.log('----',result.items[i].id)
+
+        }
+      }
+    }, 1000);
+  }
+  function cart_attributes(){
+    let gift_id =$('.u_gift_wrap_id').val();
+    jQuery.post('/cart/update.js', "attributes[gift-wrap]=Yes")
+  }
+  $(document).on("click",".cart__btn-remove",function(e) {
+    e.preventDefault();
+    let item_id = $(this).parents('.cart-item__details').find('.u_item_id').val();
+    console.log('iitem id ----',item_id)
+    let gift_id = $(this).parents('.cart-item__details').find('.u_gift_match_id').val();
+    console.log('gidt id ---------',gift_id)
+    if(item_id == gift_id){
+      console.log("same");  
+      jQuery.post('/cart/update.js', {updates: {[item_id]: 0},
+                                      attributes: {
+                                        'gift-wrap': 'no'
+                                      }
+                                     });
+
+      $(this).closest(".cart-item").fadeOut();
+      cart_item()
+            setTimeout(function(){
+              location.reload()
+            }, 1000);
+       $('.u_check_error').hide()
+    }
+    else{
+      console.log("not same");
+      jQuery.post('/cart/change.js', { 
+        quantity: 0, 
+        id: item_id
+      });
+      $(this).closest(".cart-item").fadeOut();
+      cart_item()
+            setTimeout(function(){
+              location.reload()
+            }, 1000);
+       $('.u_check_error').hide()
+    }
+  });
+</script>
