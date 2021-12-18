@@ -1,0 +1,216 @@
+<div class="u_cart_section">
+  <div class="u_cart_cont">
+    <div class="u_cart_title">
+      <h2 class="u_cart_title_size">{{section.settings.u_cart_title}}</h2>
+    </div>
+    {% if cart != empty %}
+    <div class="u_cart_content">
+      {% for item in cart.items %}
+      <div class="u_cart_item">
+      <div class="u_cart_item_image u_cart_detail">
+        {% if item.image %}
+        <img src="{{item.image | img_url : 'meduim' }}" class="u_cart_item_img_size">
+        {% endif %}
+        </div>
+              <div class="u_cart_item_details u_cart_detail">
+                <h3>{{item.product.title}}</h3>
+                {% if item.product.has_only_default_variant == false %}
+                {% for option in item.options_with_values %}
+                {{option.name}}
+                {{option.value}}
+                {% endfor %}
+                {% endif %}
+                 <div class="u_cart_original_item_price"> 
+                  {{item.original_price | money_without_trailing_zeros}}
+                </div>
+                <div class="u_item_qty_picker">
+                   <label>QTY</label>
+        <div class="u_quantity">
+          <span class="u_minus">-</span>
+          <input type="text"  name="quantity"  value="{{item.quantity}}" class="u_number" readonly>
+          <span class="u_plus">+</span>
+               <input type="hidden" class="u_pro_qty" value="{{ item.variant.inventory_quantity }}">
+          <input type="hidden" class="u_pro_price" value="{{ item.original_price}}">
+          <input type="hidden" class="u_item_variant_id" value="{{ item.variant_id}}">
+        </div>
+
+             
+                </div>
+        </div>
+              <div class="u_cart_item_price u_cart_detail">
+                <div class="u_item_price"> 
+                  {{item.original_line_price | money_without_trailing_zeros}}
+                </div>
+        </div>
+              <div class="u_cart_item_remove u_cart_detail">
+                <div class="u_cart_remove">
+                <i class="fa fa-times"></i>
+                   <input type="hidden" class="u_item_variant_id" value="{{ item.variant_id}}">
+                </div>
+ 
+        </div>
+    </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+<style>
+  .u_cart_cont {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+}
+  .u_cart_title {
+    text-align: center;
+}
+  .u_cart_title_size {
+    padding: 10px 0;
+    font-size: 26px;
+    letter-spacing: .5px;
+    text-transform: capitalize;
+    color: black;
+}
+  .u_cart_item {
+    display: flex;
+    flex-wrap: wrap;
+    padding:40px 0;
+        border-bottom: 1px solid;
+}
+  .u_cart_detail {
+    width: 25%;
+    padding: 0 15px;
+    text-align: left;
+}
+ .u_cart_item_img_size {
+    width: 100%;
+    display: block;
+  }
+  .u_cart_remove i{
+      font-size: 20px;
+    color: black;
+    font-weight: 100;
+        cursor: pointer;
+    width: 30px;
+    text-align: center;
+  }
+  .u_quantity {
+width: 130px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+  .u_minus,.u_plus {
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+    cursor:pointer;
+    height:30px;
+    background:#ddd
+  }
+  .u_number {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    padding: 6px 0;
+}
+  .u_number:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+</style>
+   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  <script>
+    $(document).ready(function(){
+         Shopify.money_format = "{{ shop.money_with_currency_format }}";
+       
+    });
+  $('.u_minus').click(function(){
+    let input =$(this).parent().find('.u_number');
+    let count =parseInt(input.val()) -1;
+    let counter = count <1 ?1:count;
+    input.val(counter);
+    input.attr('value',counter);
+     let pro_price =$(this).parents('.u_quantity').find('.u_pro_price').val();
+      let mult = pro_price* counter;
+      console.log('mult',mult);
+//       let current_currency ='{{cart.currency.symbol}}';
+//     console.log('symbol',current_currency)
+      $(this).parents('.u_cart_item_details ').next().find('.u_item_price').text(Shopify.formatMoney(mult));
+      let var_id =$(this).parents('.u_cart_item_details').find('.u_item_variant_id').val();
+  jQuery.post('/cart/change.js', {
+            quantity: counter, 
+          id: var_id
+});     
+          UpdatePrice();
+
+  })
+  $('.u_plus').click(function(){
+    let input =$(this).parent().find('.u_number');
+    let input_val =input.val();
+    let pro_qty =$(this).parents('.u_quantity').find('.u_pro_qty').val();
+    console.log('product qty',pro_qty);
+    if(input_val >= pro_qty  )
+    {
+      console.log('zero--');
+            alertify.error('Zero quantity has left');
+    }
+    else{
+                let count =parseInt(input.val()) +1;
+    input.val(count);
+     input.attr('value',count);
+      let pro_price =$(this).parents('.u_quantity').find('.u_pro_price').val();
+      let mult = pro_price* count;
+      console.log('mult',mult);
+      $(this).parents('.u_cart_item_details ').next().find('.u_item_price').text(Shopify.formatMoney(mult));
+      let var_id =$(this).parents('.u_cart_item_details').find('.u_item_variant_id').val();
+    jQuery.post('/cart/change.js', {
+            quantity: count, 
+          id: var_id
+})
+      UpdatePrice()
+
+    }
+  })
+      function UpdatePrice(){
+      setTimeout(function(){
+        $.getJSON("/cart.js", function(result){
+          console.log(result);
+          $(".totals__subtotal-value").text(Shopify.formatMoney(result.total_price));
+        });
+      }, 1000);
+             
+    }
+      $(document).on("click",".u_cart_remove",function() {
+        let data_idd = $('.u_item_variant_id').val();
+        jQuery.post('/cart/change.js', { 
+          quantity: 0, 
+          id: data_idd
+        });
+         UpdatePrice();
+        $(this).closest(".u_cart_item").fadeOut();
+      });
+
+ </script>
+{% schema %}
+  {
+    "name": "Section name",
+    "settings": [
+{
+"type":"text",
+"id":"u_cart_title",
+"label":"Cart title",
+"default":"Custom cart"
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
