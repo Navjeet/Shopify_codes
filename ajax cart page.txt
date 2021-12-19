@@ -1,4 +1,5 @@
 <div class="u_cart_section">
+    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
   <div class="u_cart_cont">
     <div class="u_cart_title">
       <h2 class="u_cart_title_size">{{section.settings.u_cart_title}}</h2>
@@ -52,7 +53,11 @@
     </div>
       {% endfor %}
     {% endif %}
+     
   </div>
+   
+</div>
+  </form>
 </div>
 <style>
   .u_cart_cont {
