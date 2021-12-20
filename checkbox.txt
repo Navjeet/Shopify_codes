@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .u_checkbox_cont {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    padding-left: 25px;
+    margin: 10px 0;
+}
+.u_check_input {
+    display: none;
+}
+.u_checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border: 1px solid;
+}
+.u_checkmark:after {
+    position: absolute;
+    top: 0px;
+    left: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    content: '';
+    transform: rotate(45deg);
+    display: none;
+}
+.u_checkbox_cont .u_check_input:checked + .u_checkmark {
+  background-color: black;
+}
+.u_checkbox_cont .u_check_input:checked + .u_checkmark:after {
+  display: block;
+}
+    </style>
+</head>
+<body>
+    <label class="u_checkbox_cont">available
+        <input type="checkbox" class="u_check_input" >
+        <span class="u_checkmark"></span>
+    </label>
+    <label class="u_checkbox_cont">out of stock
+        <input type="checkbox" class="u_check_input" >
+        <span class="u_checkmark"></span>
+    </label>
+</body>
+</html>
