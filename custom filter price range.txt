@@ -1,0 +1,799 @@
+<div class="u_filter_content">
+<div class="u_filter_row">
+  <h3 class="u_filter_title">
+    filters
+  </h3>
+  <p class="u_clear_filters">Clear All</p>
+</div>
+    <div class="u_mb_filter_cont">
+      <div class="u_mb_filter_header">
+        <h3 class="u_filter_menu_title">filters</h3>
+        <div class="u_filter_count_row">
+          <div class="u_filter_count_pro"></div>
+          <div class="custom-clear-filters">CLEAR ALL</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="u_mb_filters"> 
+      <div class="u_mb_fil">
+      </div>
+  </div>
+  <div class="u_mb_filter_wrapper">
+<div class="u_selected_filter_labels">  
+</div>
+  <div class="u_selected_filter_price_labels">  
+</div>
+<div class="u_filter_labels" data-url="{{shop.url}}{{collection.url}}" >
+  {%- for filter in collection.filters -%}
+  <p class="u_filter_label">
+    {{filter.label}}
+  </p>
+  {% if filter.type == 'list' %}
+  <div class="u_filter_values">
+    {%- for filter_value in filter.values -%}
+    <label class="u_checkbox_cont" 
+                    >
+     
+      <input type="checkbox" class="u_check_input" name="{{ filter_value.param_name }}"  value="{{ filter_value.value }}"
+             {% if filter_value.active -%}checked{%- endif %}
+                    {% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
+                    >
+   <span class="u_filter_span"> {% if filter_value.value == '1' %}{{settings.u_avaliable_text}}
+      {% elsif filter_value.value == '0' %}{{settings.u_unavaliable_text}}
+      {% else %}{{ filter_value.value }}
+      {% endif %}
+      </span>
+    </label>
+    {% endfor %}
+  </div>
+    {% elsif filter.type == 'price_range' %}
+
+<div class="u_custom_filter_price"
+        symbol="{{ cart.currency.symbol }}"
+        min="{{ filter.min_value.param_name }}"
+        max="{{ filter.max_value.param_name }}"
+        min-price="0"
+        max-price="{{ filter.range_max | divided_by: 100.0 }}">    
+    <div id="slider"></div>
+    </div>
+
+  {% endif %}
+  {% endfor %}
+
+</div>
+   <div class="u_mb_filter_btn_block">
+      <div class="u_mb_filter_btn_wrapper">
+        <button class="u_mb_filter_btn">
+          apply filter
+        </button>
+      </div>
+    </div>
+</div>
+</div>
+<div class="custom-filter-loader"><i class="fa fa-spinner custom-filter-spin"></i></div>
+<div class="u_custom_msg">
+</div>
+<div class="u_mb_cross_filter">
+      <i class="fas fa-times"></i>
+    </div>
+<style>
+  .u_collection_row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .u_collection_filters {
+    width: 25%;
+    padding: 0 15px;
+  }
+  .collection--body--grid {
+    width: 75%;
+  }
+  .u_filter_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .u_filter_title {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: black;
+    font-size: 30px;
+    font-weight: 400;
+  }
+  .u_selected_filter_labels {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    /*     border-bottom: 1px solid rgba(23,33,28,0.25); */
+    display:none
+  }
+  .u_filter_values {
+    border-bottom: 1px solid rgba(23,33,28,0.25);
+  }
+  .u_filter_label {
+    font-size: 20px;
+    letter-spacing: .5px;
+    color: black;
+    padding: 15px 0px;
+    margin: 10px 0;
+  }
+  .u_checkbox_cont {
+
+    display: block;
+    cursor: pointer;
+    margin: 10px 0;
+    width: 210px;
+  }
+  .u_check_input {
+    display: none;
+  }
+
+  .u_filter_span {
+    font-weight: 400;
+    color: black;
+    font-size: 16px;
+    letter-spacing: .5px;
+    border: 2px solid #000;
+    padding-right: 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 5px;
+  }
+  .u_checkbox_cont .u_check_input:checked + .u_filter_span {
+    background: black;
+    color: white;
+  }
+  .u_checkbox_cont .u_check_input[disabled] + .u_filter_span {
+    opacity: 0.5; 
+    cursor:default
+  }
+  div#slider {
+    width: 100%;
+    height: 3px;
+    border: none;
+    background: black;
+  }
+  #slider span{
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+  }
+  .ui-slider-range{
+    background:#ddd !important;
+  }
+  .ui-state-active:hover{
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545 !important;
+  }
+  .u_right_ui_price {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    text-align: center;
+  }
+  .u_left_ui_price {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    text-align: center;
+  }
+  .u_clear_filters {
+    cursor: pointer;
+    color: black;
+    letter-spacing: .5px;
+  }
+
+  .custom-selected-filter-span-li{
+    padding: 5px;
+  }
+
+  .custom-selected-filter-span,.custom_selected_filter_span_price{
+    background: rgb(231, 231, 231);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .custom-selected-filter-span i{
+    font-style: normal;
+    font-size: 12px;
+    font-weight: bold;
+    padding-right: 8px;
+    vertical-align: middle;
+  }
+  .custom-selected-filter-span em{
+    font-style: normal;
+  }
+  .custom-filter-loader-text {
+    font-size: 28px;
+    font-weight: 500;
+    text-align: center
+  }
+  .custom-filter-loader{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 999999;
+    display: none;
+  }
+  .custom-filter-spin{
+    animation: animate 1s linear infinite;
+    font-size: 50px;
+  }
+  @keyframes animate{
+    0%{transform: rotate(0deg)}
+    100%{transform: rotate(360deg)}
+  }
+  .u_custom_mb_filter {
+    cursor: pointer;
+    padding: 30px 0;
+    display: none;
+  }
+  .u_mobile_menu_filter{
+    width: 85%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: all 0.5s;
+    background: white;
+    overflow: auto;
+    z-index: 999999;
+  }
+
+  .u_mobile_menu_filter.active {
+    left:0%
+  }
+
+  .u_filter_active{
+    overflow: hidden;
+  }
+
+  .u_custom_filter_price {
+    padding: 10px 0px 30px 0;
+  }
+
+  .u_filter_count_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  } 
+  .u_custom_product_grid {
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+  }
+  .u_product_error {
+    color: black;
+    text-align:center;
+    font-size:22px;
+    z-index: 9999;
+  }
+
+  .u_filter_menu_title {
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: black;
+  }
+  .u_mb_filter_title {
+    font-size: 24px;
+    color: black;
+    text-transform: capitalize;
+    letter-spacing: .5px;
+  }
+
+  .u_mb_filter_cont_menu{
+    padding: 15px;
+  }
+  .u_mb_filter_header {
+    padding: 15px;
+  }
+  .u_mb_filter_hamburger {
+   width: 100%;
+    padding: 15px 0;
+    display: none;
+    margin: 0 0 32px 0;
+    width: 100%;
+    text-align: center;
+    border: 1px solid black;
+  }
+  .u_mb_filter_btn_wrapper,.u_mb_filter_btn_block{
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    width: 100%;
+	display: none;
+  }
+  .u_mb_filter_btn{
+    background: black;
+    color: white;
+    border-radius: 20px;
+    width: 100%;
+    text-transform: capitalize;
+    font-size: 18px;
+    letter-spacing: .5px;
+  }
+  }
+  .u_mb_filter_btn_block {
+    padding: 10px;
+    display: none;
+  }
+  .u_mb_custom_filter_content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .u_mb_filter_header{
+    display: none;
+    border-bottom: 1px solid black;
+    padding: 10px;
+  }
+  .u_mb_filter_cont,.u_mb_filter_header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 999999999999999;
+    width:100%;
+  
+  }
+
+  .u_mb_cross_filter {
+    position: fixed;
+    top: 5%;
+    right: 5%;
+    z-index: 999;
+    display: none;
+  }
+  .u_mb_cross_filter i {
+    font-size: 30px;
+    font-weight: 100;
+    color: black;
+  }
+  .u_filter_overlay {
+    background: rgba(0,0,0,0.3);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+        z-index: 999999
+}
+  .u_mb_filter_parent{
+      overflow-x: scroll;
+    display: none;
+  }
+  .u_mb_filter_parent::-webkit-scrollbar {
+ display:none
+}
+  .u_mb_custom_selected_filters {
+    display: none;
+    align-items: center;
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+  .u-custom-selected-filters-heading{
+      flex: 0 0 auto;
+  }
+  .u_mb_custom_selected_filters_ul{
+  display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
+  }
+  .u-custom-clear-filters{
+  flex: 0 0 auto;
+  }
+  @media screen and (max-width: 990px){
+    .u_filter_row {
+      display: none;
+    }
+    .u_mb_filter_btn_block {
+      padding: 10px;
+      display: block;
+    }
+
+    .u_mb_filter_hamburger{
+      display:block
+    }
+    .collection--body--grid {
+      width: 100%;
+    }
+    .u_collection_filters {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: -100%;
+      background: white;
+      z-index: 99999999999;
+      width: 85%;
+      height: 100%;
+      overflow-y: auto;
+      transition: all .5s;
+    }
+    .u_collection_filters.active {
+      left: 0%;
+    }
+    .u_mb_filter_wrapper{
+      padding:0 15px
+    }
+    .u_mb_fil {
+      border-bottom: 1px solid black;
+    }
+    .u_collection_filters {
+      padding: 0;
+    }
+    .u_mb_filter_btn_wrapper,.u_mb_filter_btn_block{
+	display: block;
+  }
+     .u_mb_filter_parent{
+    display: block;
+  }
+    .u_mb_filter_header{
+    display:block
+    }
+    .u_selected_filter_labels{
+    display:none !important
+    }
+
+  }
+</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+<script>
+
+  $(function(){
+    can_price();
+    $(document).on('click','.u_mb_filter_hamburger, .u_mb_cross_filter,.u_mb_filter_btn_wrapper,.u_filter_overlay',function(){
+      console.log('click');
+      $('.u_collection_filters').toggleClass('active');
+      $('.u_mb_cross_filter').toggle();
+      $('.u_filter_overlay').toggle();
+      $('.u_selected_filter_labels').toggle();
+      $('body').toggleClass('u_filter_active');   
+    });        
+    console.log('length',$('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length);
+    if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li').length > 0 || $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length > 0){
+      $(".u_selected_filter_labels").attr("style", "display: flex;");
+      $('.u_mb_custom_selected_filters').attr("style", "display: flex;");
+    }
+    $(".u_check_input:checked").each(function(){
+      let ccc_title = "";
+      if($(this).val().toLowerCase().trim() == '1'){
+        ccc_title = "{{settings.u_avaliable_text}}"; 
+      }
+      else if($(this).val().toLowerCase().trim() == '0'){
+        ccc_title = "{{settings.u_unavaliable_text}}";
+      }
+      else{
+        ccc_title = $(this).val();
+      }
+      $(".u_selected_filter_labels").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
+ $(".u_mb_custom_selected_filters_ul").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
+    });
+  });
+
+  $(document).on("change", ".u_check_input", function(){
+    ajax_req()
+  });
+  function ajax_req(){
+    $(".u_selected_filter_labels").empty();
+    $('.u_mb_custom_selected_filters_ul').empty();
+    let _price = $(".u_custom_filter_price");
+    let l = location.href.toString();
+    let min = parseInt(_price.attr("min-price"));
+    let max = parseInt(_price.attr("max-price"));
+    if(l.indexOf("filter.v.price.gte=") != -1){
+      min = parseInt((l.split("filter.v.price.gte=")[1]).split("&")[0]);
+      max = parseInt((l.split("filter.v.price.lte=")[1]).split("&")[0]);
+    }
+    let _priceFilter = _price.attr("min") + "=" + min + "&" + _price.attr("max") + "=" + max;
+    let filterUrl = "";
+    if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0 ||  $('.u_mb_custom_selected_filters_ul').length > 0){
+      $(".u_selected_filter_labels").attr("style", "display: flex;");
+       $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
+    }
+    else{
+      $(".u_selected_filter_labels").hide();
+    }
+    $(".u_check_input:checked").each(function(){
+      filterUrl += $(this).attr("name") + "=" + $(this).val() + "&";
+      let ccc_title = "";
+      if($(this).val().toLowerCase().trim() == '1'){
+        ccc_title = "{{settings.u_avaliable_text}}"; 
+      }
+      else if($(this).val().toLowerCase().trim() == '0'){
+        ccc_title = "{{settings.u_unavaliable_text}}";
+      }
+      else{
+        ccc_title = $(this).val();
+      }
+      console.log(ccc_title);
+      $(".u_selected_filter_labels").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
+          $(".u_mb_custom_selected_filters_ul").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
+
+    });
+    let final_url = $(".u_filter_labels").attr("data-url") + "?" + filterUrl + _priceFilter;
+    console.log(final_url);
+    $.ajax({
+      type: "GET",
+      url: final_url,
+      dataType: "html",
+      beforeSend: function(){
+        $(".custom-filter-loader").show();
+      },
+      success: function(result){
+        if($(result).find(".product--root").length <= 0){
+          //               $(".u_custom_msg").html(`<p class="custom-filter-loader-text">No Product Found!</p>`);
+        }
+
+        console.log($(result).find('.product--root').length);
+        $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
+        $(".u_filter_labels").html($(result).find(".u_filter_labels").html());
+        history.pushState({}, '', final_url);
+      },
+      complete: function(){
+        window.dispatchEvent(new Event('resize'));
+        $(".custom-filter-loader").hide();
+        uiSlider(min, max);
+      }
+    });
+
+  }
+  $(function() {
+    let l = location.href.toString();
+    if(l.indexOf("filter.v.price.gte=") != -1){
+      let min = parseInt((l.split("filter.v.price.gte=")[1]).split("&")[0]);
+      let max = parseInt((l.split("filter.v.price.lte=")[1]).split("&")[0]);
+      uiSlider(min, max);
+    }
+    else{
+      uiSlider();
+    }
+  });
+
+  function uiSlider(mn, mx){
+    console.log(mx);
+    let _max = 0;
+    let _min = 0;
+    let max = parseInt($(".u_custom_filter_price").attr("max-price"));
+    let min = 0;
+    if(mn == undefined && mx == undefined){
+      _max = max;
+      _min = min;
+    }
+    else{
+      _max = mx;
+      _min = mn;
+    }
+    let symbol = $(".u_custom_filter_price").attr("symbol");
+
+    $(".u_custom_filter_price #slider").slider({
+      range:true,
+      min: min,
+      max: max,
+      values: [_min, _max],
+      slide: function(event, ui) {
+        $("#slider .u_left_ui_price").text(symbol + "" + ui.values[0]);
+        $("#slider .u_right_ui_price").text(symbol + "" + ui.values[1]);
+
+      }, 
+      stop: function(event, ui){
+        let _price = $(".u_custom_filter_price");
+        let _priceFilter = _price.attr("min") + "=" + ui.values[0] + "&" + _price.attr("max") + "=" + ui.values[1];
+        let filterUrl = "";
+        $(".u_check_input:checked").each(function(){
+          filterUrl += $(this).attr("name") + "=" + $(this).val() + "&";
+        });
+        let final_url = $(".u_filter_labels").attr("data-url") + "?" + filterUrl + _priceFilter;
+        console.log('url',final_url);
+        $.ajax({
+          type: "GET",
+          url: final_url,
+          dataType: "html",
+          beforeSend: function(){
+            $(".custom-filter-loader").show();
+          },
+          success: function(result){
+            $(".u_selected_filter_price_labels").html('<li class="custom-selected-filter-span-li-price"><span class="custom_selected_filter_span_price"><i>&#10005;</i><em>' + symbol + " " + ui.values[0]+ " - " + symbol + "" + ui.values[1]+'</em></span></li>');
+            if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0){
+              $(".u_selected_filter_labels").attr("style", "display: flex;");
+                $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
+            }
+            console.log($(result).find('.product--root').length);
+            $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
+            $(".u_filter_labels").html($(result).find(".u_filter_labels").html());
+            if($(result).find(".product--root").length <= 0){
+              console.log($(result).find('.product--root').length);
+              console.log('no product');
+              //               $(".u_custom_msg").append(`<p class="custom-filter-loader-text">No Product Found!</p>`);
+            }
+
+            history.pushState({}, '', final_url);
+          },
+          complete: function(){
+            window.dispatchEvent(new Event('resize'));
+            if(final_url.indexOf("filter.v.price.gte=") != -1){
+              let newMin = parseInt((final_url.split("filter.v.price.gte=")[1]).split("&")[0]);
+              let newMax = parseInt((final_url.split("filter.v.price.lte=")[1]).split("&")[0]);
+              uiSlider(newMin, newMax);
+            }
+            $(".custom-filter-loader").hide();
+          }
+        });
+      }
+    });
+    $("#slider span:nth-child(2)").html('<p class="u_left_ui_price">'+symbol+ ""+$("#slider").slider("values", 0)+'</p>');
+    $("#slider span:last-child").html('<p class="u_right_ui_price">'+symbol+ ""+$("#slider").slider("values", 1) + '</p>');
+
+  }
+  $(document).on("click", ".custom-selected-filter-span", function(){
+    console.log('dd');
+    let title = $(this).find("em").text().toLowerCase().trim();
+    $(".u_filter_span").each(function(){
+      if($(this).text().toLowerCase().trim() == title){
+        $(this).parent().find('.u_check_input').prop('checked', false); // Unchecks it
+      }
+    });
+    $(this).parent().hide();
+    ajax_req();
+     console.log('length',$('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length);
+    if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0 ||  $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length > 0){
+      $(".u_selected_filter_labels").attr("style", "display: flex;");
+       $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
+    }
+    else{
+      $(".u_selected_filter_labels").hide();
+       $(".u_mb_custom_selected_filters").hide();
+    }
+  });
+  $(document).on("click", ".u_clear_filters,.custom-clear-filters", function(){
+
+    let f_url = $(".u_filter_labels").attr("data-url");
+    $(".custom-selected-filters-li").empty();
+    $(".custom-selected-filters-ul").hide();
+    $.ajax({
+      type: "GET",
+      url: f_url,
+      dataType: "html",
+      beforeSend: function(){
+        $(".custom-filter-loader").show();
+      },
+      success: function(result){
+        if($(result).find(".product--root").length <= 0){
+          //               $(".u_custom_msg").html(`<p class="custom-filter-loader-text">No Product Found!</p>`);
+        }     
+        console.log($(result).find('.product--root').length);
+        $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
+        $(".u_filter_content").html($(result).find(".u_filter_content").html());
+        history.pushState({}, '', f_url);
+      },
+      complete: function(){
+        window.dispatchEvent(new Event('resize'));
+        $(".custom-filter-loader").hide();
+        let gte = parseInt($(".u_custom_filter_price").attr("max-price"));
+        let lte = 0;
+        uiSlider(lte, gte);
+
+      }
+    });
+  });
+  $(document).on('click','.custom_selected_filter_span_price',function(){
+
+
+    //     $(this).parent().hide();
+    console.log('price selected');
+    let max = parseInt($(".u_custom_filter_price").attr("max-price"));
+    let min = 0;
+    uiSlider(min, max);
+    let _price = $(".u_custom_filter_price");
+    let _priceFilter = _price.attr("min") + "=" + min + "&" + _price.attr("max") + "=" + max;
+    let filterUrl = "";
+    $(".u_check_input:checked").each(function(){
+      filterUrl += $(this).attr("name") + "=" + $(this).val() + "&";
+    });
+    let final_url = $(".u_filter_labels").attr("data-url") + "?" + filterUrl + _priceFilter;
+    console.log('url',final_url);
+    $.ajax({
+      type: "GET",
+      url: final_url,
+      dataType: "html",
+      beforeSend: function(){
+        $(".custom-filter-loader").show();
+      },
+      success: function(result){
+        $(".u_selected_filter_price_labels").empty();
+        if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0){
+          $(".u_selected_filter_labels").attr("style", "display: flex;");
+        }
+        console.log($(result).find('.product--root').length);
+        $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
+        $(".u_filter_labels").html($(result).find(".u_filter_labels").html());
+        if($(result).find(".product--root").length <= 0){
+          console.log($(result).find('.product--root').length);
+          console.log('no product');
+          //               $(".u_custom_msg").append(`<p class="custom-filter-loader-text">No Product Found!</p>`);
+        }
+
+        history.pushState({}, '', final_url);
+      },
+      complete: function(){
+        window.dispatchEvent(new Event('resize'));
+        if(final_url.indexOf("filter.v.price.gte=") != -1){
+          let newMin = parseInt((final_url.split("filter.v.price.gte=")[1]).split("&")[0]);
+          let newMax = parseInt((final_url.split("filter.v.price.lte=")[1]).split("&")[0]);
+          uiSlider(newMin, newMax);
+        }
+        $(".custom-filter-loader").hide();
+      }
+    });
+  })
+
+  function can_price(){
+    let can_url =location.href;
+    console.log('url',can_url)
+    if(can_url.indexOf("filter.v.price.gte=") != -1 || can_url.indexOf("filter.v.price.lte=") != -1){
+      let split_url_gte =can_url.split("filter.v.price.gte=");
+      let split_again=split_url_gte[1].split('&');
+      let gte_pri = split_again[0];
+      let split_url_lte =can_url.split("filter.v.price.lte=");
+      let lte_pri = split_url_lte[1].slice(0);
+      console.log('gte price',gte_pri,'lte price',lte_pri)
+      let symbol = $(".u_custom_filter_price").attr("symbol");
+      if(gte_pri == 0){
+        $(".u_selected_filter_labels").empty();
+
+      }
+      else{
+        $(".u_selected_filter_price_labels").html(`<li class="custom-selected-filter-span-li-price"><span class="custom_selected_filter_span_price"><i>&#10005;</i><em>${symbol} ${gte_pri} - ${symbol} ${lte_pri}</em></span></li>`);
+      }
+    }
+  }
+   $(document).on("click", ".u-custom-clear-filters", function(){
+
+    let f_url = $(".u_filter_labels").attr("data-url");
+    $(".custom-selected-filters-li").empty();
+    $(".custom-selected-filters-ul").hide();
+    $.ajax({
+      type: "GET",
+      url: f_url,
+      dataType: "html",
+      beforeSend: function(){
+        $(".custom-filter-loader").show();
+      },
+      success: function(result){
+        if($(result).find(".product--root").length <= 0){
+          //               $(".u_custom_msg").html(`<p class="custom-filter-loader-text">No Product Found!</p>`);
+        }     
+        console.log($(result).find('.product--root').length);
+        $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
+        $(".u_filter_content").html($(result).find(".u_filter_content").html());
+//         $('.u_mb_filter_header').toggle();
+//         $('.u_mb_cross_filter').toggle();
+//          $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').empty();
+        $('.u_mb_filter_parent').html($(result).find(".u_mb_filter_parent").html())
+        history.pushState({}, '', f_url);
+      },
+      complete: function(){
+        window.dispatchEvent(new Event('resize'));
+        $(".custom-filter-loader").hide();
+        let gte = parseInt($(".u_custom_filter_price").attr("max-price"));
+        let lte = 0;
+        uiSlider(lte, gte);
+
+      }
+    });
+  });
+</script>
