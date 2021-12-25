@@ -5,6 +5,8 @@
   </h3>
   <p class="u_clear_filters">Clear All</p>
 </div>
+
+//mobile content
     <div class="u_mb_filter_cont">
       <div class="u_mb_filter_header">
         <h3 class="u_filter_menu_title">filters</h3>
@@ -22,6 +24,7 @@
   <div class="u_mb_filter_wrapper">
 <div class="u_selected_filter_labels">  
 </div>
+mobile content *//
   <div class="u_selected_filter_price_labels">  
 </div>
 <div class="u_filter_labels" data-url="{{shop.url}}{{collection.url}}" >
@@ -32,14 +35,13 @@
   {% if filter.type == 'list' %}
   <div class="u_filter_values">
     {%- for filter_value in filter.values -%}
-    <label class="u_checkbox_cont" 
-                    >
-     
+    <label class="u_checkbox_cont">
       <input type="checkbox" class="u_check_input" name="{{ filter_value.param_name }}"  value="{{ filter_value.value }}"
              {% if filter_value.active -%}checked{%- endif %}
                     {% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
                     >
-   <span class="u_filter_span"> {% if filter_value.value == '1' %}{{settings.u_avaliable_text}}
+   <span class="u_filter_span">
+ {% if filter_value.value == '1' %}{{settings.u_avaliable_text}}
       {% elsif filter_value.value == '0' %}{{settings.u_unavaliable_text}}
       {% else %}{{ filter_value.value }}
       {% endif %}
@@ -48,7 +50,6 @@
     {% endfor %}
   </div>
     {% elsif filter.type == 'price_range' %}
-
 <div class="u_custom_filter_price"
         symbol="{{ cart.currency.symbol }}"
         min="{{ filter.min_value.param_name }}"
@@ -62,6 +63,7 @@
   {% endfor %}
 
 </div>
+// mobile content
    <div class="u_mb_filter_btn_block">
       <div class="u_mb_filter_btn_wrapper">
         <button class="u_mb_filter_btn">
@@ -69,6 +71,7 @@
         </button>
       </div>
     </div>
+ mobile content*//
 </div>
 </div>
 <div class="custom-filter-loader"><i class="fa fa-spinner custom-filter-spin"></i></div>
@@ -163,6 +166,12 @@
     background:#ddd !important;
   }
   .ui-state-active:hover{
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545 !important;
+  }
+   .ui-state-active{
     border: 1px solid #c5c5c5;
     background: #f6f6f6;
     font-weight: normal;
@@ -389,7 +398,7 @@
   .u_mb_custom_selected_filters_ul{
   display: flex;
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex: 0 0 auto;
   }
   .u-custom-clear-filters{
@@ -435,37 +444,46 @@
       padding: 0;
     }
     .u_mb_filter_btn_wrapper,.u_mb_filter_btn_block{
-	display: block;
-  }
-     .u_mb_filter_parent{
-    display: block;
-  }
+      display: block;
+    }
+    .u_mb_filter_parent{
+      display: block;
+    }
     .u_mb_filter_header{
-    display:block
+      display:block
     }
     .u_selected_filter_labels{
-    display:none !important
+      display:none !important
     }
-
+    .u_selected_filter_price_labels{
+    display:none
+    }
   }
 </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
 <script>
 
   $(function(){
     can_price();
-    $(document).on('click','.u_mb_filter_hamburger, .u_mb_cross_filter,.u_mb_filter_btn_wrapper,.u_filter_overlay',function(){
+
+    $(document).on('click','.u_mb_filter_hamburger',function(){
       console.log('click');
-      $('.u_collection_filters').toggleClass('active');
-      $('.u_mb_cross_filter').toggle();
-      $('.u_filter_overlay').toggle();
-      $('.u_selected_filter_labels').toggle();
-      $('body').toggleClass('u_filter_active');   
+      $('.u_collection_filters').addClass('active');
+      $('.u_mb_cross_filter').show();
+      $('.u_filter_overlay').show();
+      $('body').addClass('u_filter_active');   
+    });        
+        $(document).on('click','.u_mb_cross_filter,.u_mb_filter_btn_wrapper,.u_filter_overlay',function(){
+            $('.u_collection_filters').removeClass('active');
+      $('.u_mb_cross_filter').hide();
+      $('.u_filter_overlay').hide();
+          $('body').removeClass('u_filter_active');   
     });        
     console.log('length',$('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length);
-    if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li').length > 0 || $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length > 0){
+    if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li').length > 0 || $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length > 0 || $('.custom-selected-filter-span-li-price').length> 0){
       $(".u_selected_filter_labels").attr("style", "display: flex;");
       $('.u_mb_custom_selected_filters').attr("style", "display: flex;");
     }
@@ -478,10 +496,10 @@
         ccc_title = "{{settings.u_unavaliable_text}}";
       }
       else{
-        ccc_title = $(this).val();
+    ccc_title = $(this).val();
       }
       $(".u_selected_filter_labels").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
- $(".u_mb_custom_selected_filters_ul").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
+      $(".u_mb_custom_selected_filters_ul").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
     });
   });
 
@@ -503,7 +521,7 @@
     let filterUrl = "";
     if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0 ||  $('.u_mb_custom_selected_filters_ul').length > 0){
       $(".u_selected_filter_labels").attr("style", "display: flex;");
-       $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
+      $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
     }
     else{
       $(".u_selected_filter_labels").hide();
@@ -522,7 +540,7 @@
       }
       console.log(ccc_title);
       $(".u_selected_filter_labels").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
-          $(".u_mb_custom_selected_filters_ul").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
+      $(".u_mb_custom_selected_filters_ul").append(`<li class="custom-selected-filter-span-li"><span class="custom-selected-filter-span"><i>&#10005;</i><em>${ccc_title}</em></span></li>`);
 
     });
     let final_url = $(".u_filter_labels").attr("data-url") + "?" + filterUrl + _priceFilter;
@@ -536,6 +554,7 @@
       },
       success: function(result){
         if($(result).find(".product--root").length <= 0){
+          console.log('0 products')
           //               $(".u_custom_msg").html(`<p class="custom-filter-loader-text">No Product Found!</p>`);
         }
 
@@ -604,13 +623,14 @@
           url: final_url,
           dataType: "html",
           beforeSend: function(){
-            $(".custom-filter-loader").show();
+        $(".custom-filter-loader").show();
           },
           success: function(result){
+                                    $(".u_mb_selected_filter_price_labels").html('<li class="custom-selected-filter-span-li-price"><span class="custom_selected_filter_span_price"><i>&#10005;</i><em>' + symbol + " " + ui.values[0]+ " - " + symbol + "" + ui.values[1]+'</em></span></li>');
             $(".u_selected_filter_price_labels").html('<li class="custom-selected-filter-span-li-price"><span class="custom_selected_filter_span_price"><i>&#10005;</i><em>' + symbol + " " + ui.values[0]+ " - " + symbol + "" + ui.values[1]+'</em></span></li>');
             if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0){
               $(".u_selected_filter_labels").attr("style", "display: flex;");
-                $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
+              $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
             }
             console.log($(result).find('.product--root').length);
             $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
@@ -630,14 +650,13 @@
               let newMax = parseInt((final_url.split("filter.v.price.lte=")[1]).split("&")[0]);
               uiSlider(newMin, newMax);
             }
-            $(".custom-filter-loader").hide();
+        $(".custom-filter-loader").hide();
           }
         });
       }
     });
     $("#slider span:nth-child(2)").html('<p class="u_left_ui_price">'+symbol+ ""+$("#slider").slider("values", 0)+'</p>');
     $("#slider span:last-child").html('<p class="u_right_ui_price">'+symbol+ ""+$("#slider").slider("values", 1) + '</p>');
-
   }
   $(document).on("click", ".custom-selected-filter-span", function(){
     console.log('dd');
@@ -649,14 +668,14 @@
     });
     $(this).parent().hide();
     ajax_req();
-     console.log('length',$('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length);
+    console.log('length',$('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length);
     if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0 ||  $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length > 0){
       $(".u_selected_filter_labels").attr("style", "display: flex;");
-       $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
+      $(".u_mb_custom_selected_filters").attr("style", "display: flex;");
     }
     else{
       $(".u_selected_filter_labels").hide();
-       $(".u_mb_custom_selected_filters").hide();
+      $(".u_mb_custom_selected_filters").hide();
     }
   });
   $(document).on("click", ".u_clear_filters,.custom-clear-filters", function(){
@@ -678,6 +697,7 @@
         console.log($(result).find('.product--root').length);
         $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
         $(".u_filter_content").html($(result).find(".u_filter_content").html());
+        $('.u_mb_filter_parent').html($(result).find(".u_mb_filter_parent").html())
         history.pushState({}, '', f_url);
       },
       complete: function(){
@@ -691,13 +711,9 @@
     });
   });
   $(document).on('click','.custom_selected_filter_span_price',function(){
-
-
-    //     $(this).parent().hide();
     console.log('price selected');
     let max = parseInt($(".u_custom_filter_price").attr("max-price"));
     let min = 0;
-    uiSlider(min, max);
     let _price = $(".u_custom_filter_price");
     let _priceFilter = _price.attr("min") + "=" + min + "&" + _price.attr("max") + "=" + max;
     let filterUrl = "";
@@ -715,12 +731,18 @@
       },
       success: function(result){
         $(".u_selected_filter_price_labels").empty();
-        if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li-price').length > 0){
-          $(".u_selected_filter_labels").attr("style", "display: flex;");
-        }
         console.log($(result).find('.product--root').length);
         $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
         $(".u_filter_labels").html($(result).find(".u_filter_labels").html());
+         $(".u_mb_selected_filter_price_labels").empty();
+      if($(".u_check_input:checked").length > 0 || $('.custom-selected-filter-span-li').length > 0 || $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').length > 0 || $('.u_mb_selected_filter_price_labels .custom-selected-filter-span-li-price').length> 0){
+      $(".u_selected_filter_labels").attr("style", "display: flex;");
+      $('.u_mb_custom_selected_filters').attr("style", "display: flex;");
+    }
+      else{
+      $(".u_selected_filter_labels").hide();
+      $(".u_mb_custom_selected_filters").hide();
+    }   
         if($(result).find(".product--root").length <= 0){
           console.log($(result).find('.product--root').length);
           console.log('no product');
@@ -754,14 +776,16 @@
       let symbol = $(".u_custom_filter_price").attr("symbol");
       if(gte_pri == 0){
         $(".u_selected_filter_labels").empty();
+        $(".u_mb_selected_filter_price_labels").empty();
 
       }
       else{
         $(".u_selected_filter_price_labels").html(`<li class="custom-selected-filter-span-li-price"><span class="custom_selected_filter_span_price"><i>&#10005;</i><em>${symbol} ${gte_pri} - ${symbol} ${lte_pri}</em></span></li>`);
+                $(".u_mb_selected_filter_price_labels").html(`<li class="custom-selected-filter-span-li-price"><span class="custom_selected_filter_span_price"><i>&#10005;</i><em>${symbol} ${gte_pri} - ${symbol} ${lte_pri}</em></span></li>`);
       }
     }
   }
-   $(document).on("click", ".u-custom-clear-filters", function(){
+  $(document).on("click", ".u-custom-clear-filters", function(){
 
     let f_url = $(".u_filter_labels").attr("data-url");
     $(".custom-selected-filters-li").empty();
@@ -780,9 +804,6 @@
         console.log($(result).find('.product--root').length);
         $(".collection--body--grid").html($(result).find(".collection--body--grid").html());
         $(".u_filter_content").html($(result).find(".u_filter_content").html());
-//         $('.u_mb_filter_header').toggle();
-//         $('.u_mb_cross_filter').toggle();
-//          $('.u_mb_custom_selected_filters_ul .custom-selected-filter-span-li').empty();
         $('.u_mb_filter_parent').html($(result).find(".u_mb_filter_parent").html())
         history.pushState({}, '', f_url);
       },
