@@ -442,6 +442,12 @@ moblie hamberger//
     justify-content: flex-start;
     padding: 10px 0;
 }
+.u_mb_selected_filter_price_labels {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 0 0 auto;
+}
   @media screen and (max-width: 990px){
     .u_filter_row {
       display: none;
