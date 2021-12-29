@@ -1,0 +1,26 @@
+   <span class="btn-inline btn-glitch cstm__atc_b" data-id="{{f_product.selected_or_first_available_variant.id}}">Buy Now</span>
+  
+        $(".cstm__atc_b").click(function(){
+      var vid = $(this).attr("data-id");
+          console.log("vid",vid);
+          addItemToCart(vid, 1 );
+        });
+      });
+      
+      function addItemToCart(variant_id, qty) {
+        data = {
+          "id": variant_id,
+          "quantity": qty
+        }
+        jQuery.ajax({
+          type: 'POST',
+          url: '/cart/add.js',
+          data: data,
+          dataType: 'json',
+          success: function() {
+            console.log("success");
+            window.location.href="/checkout"
+          }
+        });
+
+      }
