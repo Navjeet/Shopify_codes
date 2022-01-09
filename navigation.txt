@@ -1,162 +1,239 @@
-<header>
-<div class="u_desktop_view">
-  <div class="u_message_bg u_center u_message_width">
-    <a class="u_message_text " href="#">
-      {{ section.settings.u_message_text }}
-    </a>
-  </div>
- 
-   
-<div class="u_sticky">
-  <div class="u_nav_bg">
-  <div class="u_navbar">
-    <div class="u_left_nav">
-      <div class="u_logo u_left_inner_padding">
-        <img src="{{section.settings.u_logo | img_url :'master' }}" alt="no logo" class="u_logo_width" >
-      </div>
-      <div class="u_left_inner_padding">
-        <a class="u_number_link" href="tel:{{section.settings.u_number}}">{{section.settings.u_number}}</a>
-      </div>
-    </div>
-        <div class="u_center_nav">
-          
-          <div class="u_input_search"> 
-            <input id="#search" type="text" class="u_input_text" placeholder="search">
-            <div class="u_search_icon"> 
-              <label for="search" class="u_icon">
-                <i class="fas fa-search fa-1x fa_lighter"></i>
-              </label>
-         
-          </div>
-          </div>
-      
-    </div>
-   
-        <div class="u_right_nav">
-          <ul class="u_nav_ul">
-            <li class="u_nav_li">
-              <a class="u_nav_link " href="#">{{ section.settings.u_link_text_1 }}</a>
-            </li>
-             <li class="u_nav_li">
-              <a class="u_nav_link " href="#">{{ section.settings.u_link_text_2 }}</a>
-            </li>
-             <li class="u_nav_li">
-              <a class="u_show_cart" href="#"></a>
-            </li>
-             <li class="u_nav_li">
-              <a class="u_cart_counter" href="#"></a>
-            </li>
-          </ul>
-      
-    </div>
-  </div>
-  
-  <div class="u_navbar_bg">
-    <ul class="u_navbar_item_ul">
-      {% for  first_level in linklists[section.settings.u_navbarlist].links %}
 
-      <li class="u_navbar_item_li">
-        <a href="{{first_level.url}}" class="u_navbar_item_link">{{ first_level.title }}
-          {% if first_level.links!=blank %}
-          <span class="u_icon">     
-            <i class="fal fa-angle-down fa-lg"></i>
-          </span>
-          {% endif %}
-        </a>
-        {% if first_level.links!=blank %}
-        <ul class="u_sec_dropdown">
-          {% for second_level in first_level.links %}
-          <li  class="u_navbar_item_li_dropdown">
-            <div class="u_item_dropdown">
-            <a href="{{second_level.url}}" class="u_navbar_item_link_level">{{second_level.title}}
-               
-              {% if second_level.links!=blank %}
-              <div class="u_arrow">
-              <i class="fal fa-angle-right fa-lg"></i>   
-              </div>
-                {% endif %}
-               </a>
-            </div>
-            {% if second_level.links!=blank %}
-            <ul class="u_third_dropdown">
-              {% for third_level in second_level.links %}
+<div class="u_desktop_view"> 
+  <div class="u_nav_bg">
+    <div class="u_navbar">
+      <div class="u_navbar_empty">
+      </div>
+      <div class="u_left_nav">
+
+        <ul class="u_navbar_item_ul">
+          {% for  first_level in linklists[section.settings.u_navbarlist].links limit : 2 %}
+
+          <li class="u_navbar_item_li">
+            <a href="{{first_level.url}}" class="u_navbar_item_link">{{ first_level.title }}
+              {% if first_level.links!=blank %}
+              <span class="u_icon">     
+                <i class="fas fa-caret-down"></i>
+              </span>
+              {% endif %}
+            </a>
+            {% if first_level.links!=blank %}
+            <ul class="u_sec_dropdown">
+              {% for second_level in first_level.links %}
               <li  class="u_navbar_item_li_dropdown">
-                <a href="{{third_level.url}}" class="u_navbar_item_link_level">{{third_level.title}}</a>
+                <div class="u_item_dropdown">
+                  <a href="{{second_level.url}}" class="u_navbar_item_link_level">{{second_level.title}}
+
+                    {% if second_level.links!=blank %}
+                    <div class="u_arrow">
+                      <i class="fas fa-caret-right"></i>   
+                    </div>
+                    {% endif %}
+                  </a>
+                </div>
+                {% if second_level.links!=blank %}
+                <ul class="u_third_dropdown">
+                  {% for third_level in second_level.links %}
+                  <li  class="u_navbar_item_li_dropdown">
+                    <a href="{{third_level.url}}" class="u_navbar_item_link_level">{{third_level.title}}</a>
+                  </li>
+                  {% endfor%}
+                </ul>
+                {% endif%}
               </li>
               {% endfor%}
             </ul>
             {% endif%}
           </li>
-          {% endfor%}
+          {% endfor %}
         </ul>
-        {% endif%}
-      </li>
-      {% endfor %}
-    </ul>
+        <div class="u_logo u_left_inner_padding">
+          <a class="u_navbar_icon_link" href="{{routes.root_url  }}">       
+            <img src="{{section.settings.u_logo | img_url :'master' }}" alt="no logo" class="u_logo_width" >
+          </a>
+        </div>
+        <ul class="u_navbar_item_ul">
+          {% for  first_level in linklists[section.settings.u_navbarlist].links limit : 2 offset :continue %}
+
+          <li class="u_navbar_item_li">
+            <a href="{{first_level.url}}" class="u_navbar_item_link">{{ first_level.title }}
+              {% if first_level.links!=blank %}
+              <span class="u_icon">     
+                <i class="fal fa-angle-down fa-lg"></i>
+              </span>
+              {% endif %}
+            </a>
+            {% if first_level.links!=blank %}
+            <ul class="u_sec_dropdown">
+              {% for second_level in first_level.links %}
+              <li  class="u_navbar_item_li_dropdown">
+                <div class="u_item_dropdown">
+                  <a href="{{second_level.url}}" class="u_navbar_item_link_level">{{second_level.title}}
+
+                    {% if second_level.links!=blank %}
+                    <div class="u_arrow">
+                      <i class="fal fa-angle-right fa-lg"></i>   
+                    </div>
+                    {% endif %}
+                  </a>
+                </div>
+                {% if second_level.links!=blank %}
+                <ul class="u_third_dropdown">
+                  {% for third_level in second_level.links %}
+                  <li  class="u_navbar_item_li_dropdown">
+                    <a href="{{third_level.url}}" class="u_navbar_item_link_level">{{third_level.title}}</a>
+                  </li>
+                  {% endfor%}
+                </ul>
+                {% endif%}
+              </li>
+              {% endfor%}
+            </ul>
+            {% endif%}
+          </li>
+          {% endfor %}
+        </ul>
+      </div> 
+      <div class="u_right_nav">
+        <ul class="u_nav_ul">
+          <li class="u_nav_li">
+            <a class="u_navbar_icon_link" href="{% if customer %}{{routes.account_url}}{% else%}{{routes.account_login_url }} {% endif %}">        
+              {% if section.settings.u_dk_account_icon != blank and section.settings.u_account_svg!= blank %}          
+              {{section.settings.u_account_svg}}
+              {% elsif section.settings.u_dk_account_icon != blank and section.settings.u_account_svg == blank %}
+              <i class="fas {{section.settings.u_dk_account_icon}}"></i>
+              {% elsif section.settings.u_dk_account_icon == blank and section.settings.u_account_svg != blank %}
+              {{section.settings.u_account_svg}}
+              {% endif%}
+            </a>
+          </li>
+          <li class="u_nav_li u_search_icon_nav">
+            {% if section.settings.u_dk_search_icon != blank and section.settings.u_search_svg!= blank %}          
+            {{section.settings.u_search_svg}}
+            {% elsif section.settings.u_dk_search_icon != blank and section.settings.u_search_svg == blank %}
+            <i class="fas {{section.settings.u_dk_search_icon}}"></i> 
+            {% elsif section.settings.u_dk_search_icon == blank and section.settings.u_search_svg != blank %}
+            {{section.settings.u_search_svg}}
+            {% endif%}
+
+          </li>
+          <li class="u_nav_li">
+            <a class="u_navbar_icon_link" href="{{routes.cart_url}}">{{ section.settings.u_link_text_2 }}
+              {% if section.settings.u_dk_cart_icon != blank and section.settings.u_cart_svg!= blank %}          
+              {{section.settings.u_cart_svg}}
+              {% elsif section.settings.u_dk_cart_icon != blank and section.settings.u_cart_svg == blank %}
+              <i class="fas {{section.settings.u_dk_cart_icon}}"></i> 
+              {% elsif section.settings.u_cart_icon == blank and section.settings.u_cart_svg != blank %}
+              {{section.settings.u_cart_svg}}
+              {% endif%}
+
+              <span class="u_nav_cart_count"></span>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
   </div>
+</div>
+<div class="u_nav_search_section">
+  <div class="u_nav_search_sec_content">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+      <div class="u_nav_search_row">
+
+        <div class="u_search_input">
+          <input type="text" class="u_search_email" placeholder="what are you lookng for?" name="q" required autocomplete="off"> 
+        </div>
+        <div class="u_search_btn">
+          <button class="u_search_btn_size" type="submit">
+            <i class="fal fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-  </div>
-  </div>
-  
-</header>
+</div>
+<div class="u_overlay_search">
+</div>
 <!-- mobile view -->
 <div class="u_mb_view">
   <div class="u_mb_bg">
-  <div class="u_mb_nav">
-    <div class="u_mb_left_nav">
-      <div class="u_hamberger">
+    <div class="u_mb_nav">
+      <div class="u_mb_left_nav u_mb_nav_block">
+        <div class="u_hamberger">
           <div class="u_berger_line bar_1"></div>
           <div class="u_berger_line bar_2"></div>
           <div class="u_berger_line bar_3"></div>
         </div>
-    </div>
-        <div class="u_mb_left_second_nav">
-           <a class="u_number_link_mb" href="tel:{{section.settings.u_number}}">{{section.settings.u_number}}</a>
-    </div>
-        <div class="u_mb_center_nav">
-          <a href="#">
-    <img src="{{section.settings.u_logo_mb | img_url :'master' }}" alt="no logo" class="u_logo_width_mb" >
-    </a>
-    </div>
-    <div class="u_mb_right_nav">
-       <ul class="u_nav_ul_mb">
-           <li class="u_nav_li_mb">
-              <a class="" href="#">
-                <i class="fas fa-search fa-1x fa_lighter_mb"></i>
-             </a>
-            </li>
-             <li class="u_nav_li_mb">
-              <a class="u_show_cart_mb" href="#"></a>
-            </li>
-             <li class="u_nav_li_mb">
-              <a class="u_cart_counter_mb" href="#"></a>
-            </li>
-          </ul>
+      </div>
+      <div class="u_mb_center_nav u_mb_nav_block" >
+        <a href="/">
+          <img src="{{section.settings.u_logo_mb | img_url :'master' }}" alt="no logo" class="u_logo_width_mb" >
+        </a>
+      </div>
+      <div class="u_mb_right_nav u_mb_nav_block">
+        <ul class="u_mb_nav_ul">
+          <li class="u_mb_nav_li">
+            <a class="u_mb_navbar_icon_link" href="{% if customer %}{{routes.account_url}}{% else%}{{routes.account_login_url }} {% endif %}">   
+              {% if section.settings.u_dk_account_icon != blank and section.settings.u_account_svg!= blank %}          
+              {{section.settings.u_account_svg}}
+              {% elsif section.settings.u_dk_account_icon != blank and section.settings.u_account_svg == blank %}
+              <i class="fas {{section.settings.u_dk_account_icon}}"></i>
+              {% elsif section.settings.u_dk_account_icon == blank and section.settings.u_account_svg != blank %}
+              {{section.settings.u_account_svg}}
+              {% endif%}
+            </a>
+          </li>
+          <li class="u_mb_nav_li">
+            <a class="u_mb_navbar_icon_link" href="{{routes.cart_url}}">{{ section.settings.u_link_text_2 }}
+              {% if section.settings.u_dk_cart_icon != blank and section.settings.u_cart_svg!= blank %}          
+              {{section.settings.u_cart_svg}}
+              {% elsif section.settings.u_dk_cart_icon != blank and section.settings.u_cart_svg == blank %}
+              <i class="fas {{section.settings.u_dk_cart_icon}}"></i> 
+              {% elsif section.settings.u_cart_icon == blank and section.settings.u_cart_svg != blank %}
+              {{section.settings.u_cart_svg}}
+              {% endif%}
+
+              <span class="u_mb_nav_cart_count"></span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
     </div>
   </div>
+  <div class="u_mb_menu_overlay">
   </div>
   <div class="u_mobile_menu">
     <div class="u_container ">
-<div class="u_tab">
-  <a class="u_tablinks" href="#" data-id="#menu" >Menu</a>
-  <a class="u_tablinks" href="#" data-id="#account">Account</a>
- </div>
-
-
-<!-- Tab content -->
-  <div class="u_tabcontent">
-    <div id="menu" class="u_content">
-   <div class="u_navbar_list">
+      <div class="u_mb_nav_search_section">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+          <div class="u_mb_nav_search_row">
+            <div class="u_mb_search_input">
+              <input type="text" class="u_mb_search_email" placeholder="search" name="q" required autocomplete="off"> 
+            </div>
+            <div class="u_mb_search_btn">
+              <button class="u_mb_search_btn_size" type="submit">
+                <i class="fal fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div  class="u_content">
+      <div class="u_navbar_list">
         <ul class="u_dropdown_mb">
           {% for  first_level in linklists[section.settings.u_navbarlist].links %}
           <li class="u_dropdown_list_mb">
             <div class="u_arrow_mb">
               <a href="{{first_level.url}}" class="u_navbar_item_link_mb">{{ first_level.title }}
                 {% if first_level.links!=blank %}
-          <span class="u_icon_mb">     
-            <i class="fal fa-angle-down fa-lg"></i>
-          </span>
-          {% endif %}
+                <span class="u_icon_mb">     
+                  <i class="fal fa-angle-down fa-lg"></i>
+                </span>
+                {% endif %}
               </a>
             </div>          
             {% if first_level.links!=blank %}
@@ -172,131 +249,79 @@
                     {% endif %}
                   </a>
                 </div>
-            {% if second_level.links!=blank %}
-            <ul class="u_third_dropdown_mb">
-              {% for third_level in second_level.links %}
-              <li class="u_dropdown_list_mb" >
-                <a href="{{third_level.url}}" class="u_navbar_item_link_mb_level">{{third_level.title}}</a>
+                {% if second_level.links!=blank %}
+                <ul class="u_third_dropdown_mb">
+                  {% for third_level in second_level.links %}
+                  <li class="u_dropdown_list_mb" >
+                    <a href="{{third_level.url}}" class="u_navbar_item_link_mb_level">{{third_level.title}}</a>
+                  </li>
+                  {% endfor%}
+                </ul>
+                {% endif%}
               </li>
-              {% endfor%}
+              {% endfor %}
             </ul>
-            {% endif%}
-          </li>
-          {% endfor %}
+            {% endif %}
+            {% endfor %}
         </ul>
-        {% endif %}
-        {% endfor %}
-        </ul>
+      </div>
     </div>
-  
-</div>
-
-<div id="account" class="u_content">
-  <div class="u_account_content">
-    <ul class="u_account_ul">
-      {% for account_list in linklists[section.settings.u_navbar_account].links%}
-      <li class="u_account_li"><a class="u_account_link" href="#">{{account_list.title}}</a>
-             </li>
-      {% endfor %}
-            
-    </ul>
   </div>
-</div>
-
-  </div>
-  </div>
-</div>
 </div>
 <style>
-  .u_message_bg{
-    background:{{section.settings.u_bg_color}}
+  .template-index .site-header-wrapper {
+    position: unset;
   }
   .u_navbar_bg{
-     background:{{section.settings.u_navbar_bg_color}}
+    background:{{section.settings.u_navbar_bg_color}}
   }
-   .u_mb_bg{
-     background:{{section.settings.u_navbar_bg_color}}
+  .u_mb_bg{
+    background:{{section.settings.u_navbar_bg_color}}
   }
   .u_message_width {
     padding: 8px;
-}
+  }
   .u_center {
     text-align: center;
-}
+  }
   .u_nav_bg{
-  background:white;
+    background:white;
   }
-  .u_message_text {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 700;
-    
-}
-  .u_message_text:hover{
-    text-decoration:underline;
-  }
- .u_navbar {
+  .u_navbar {
     display: flex;
     align-items: center;
-    max-width: 1200px;
-    margin: auto;
-   padding: 0 10px;
-}
+    padding: 5px 20px;
+  }
+  .u_navbar_empty{
+    width:15%
+  }
   .u_left_nav {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    width: 33.3%;
-    text-align: left;
-}
-  .u_center_nav {
-    width: 33.3%;  
-}
+    width: 70%;
+    text-align: right;
+  }
   .u_right_nav {
-    width: 33.3%;
-}
+    width: 15%;
+  }
   .u_left_inner_padding {
     padding: 0 20px;
-}
- .u_left_inner_padding:first-child {
-        padding: 0 13px;
-} 
-  .u_logo_width{
-      display: block;
-    height: 65px;
-    width: 111px;
-    object-fit: contain;
-}
-  .u_number_link {
-    color: #2d4383;
-    text-decoration: none;
-    font-size: 22px;
-}
-  .u_number_link:hover{
-text-decoration:underline;  
   }
+  .u_left_inner_padding:first-child {
+    padding: 0 13px;
+  } 
+  .u_logo_width{
+    display: block;
+    height: 65px;
+    width: 80px;
+    object-fit: contain;
+  }
+
   .u_input_nav {
     display: flex;
-}
- .u_input_search {
- 
-    width: 100%;
-   position:relative;
-}
-  .u_input_text{
-    text-transform: capitalize;
-    border: 1px solid #2d4383;
-    border-radius: 4px;
-    width: 100%;
-    padding: 10px 5px;
   }
-  .u_input_text:focus{
-  box-shadow:0 0 3px 1px #68a8e0;
-    border:none;
-    outline:none;
-  }
- .u_search_icon {
+  .u_search_icon {
     width: 50px;
     background: #0d8940;
     display: flex;
@@ -306,169 +331,226 @@ text-decoration:underline;
     position: absolute;
     top: 0;
     right: 0%;
-}
+  }
   .fa_lighter {
     font-weight: 700;
     color:white;
-}
+  }
   a:empty{
-  display:block !important;
+    display:block !important;
   }
-  .u_show_cart:before{
-             font-size: 30px;
-    line-height: 30px;
-   color: #2d4383;
-    content: "\e902";
-    font-weight: 400;
-    overflow: hidden;
-    speak: none;
-    text-align: center;
-    font-family: 'eatcleanbro';
-    display: inline-block;
-  }
-  .u_cart_counter{
-     background: #2d4383;
-    color: #fff;
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    position: relative;
-  }
-  .u_cart_counter:before{
-    content:'0'; 
+  .u_nav_cart_count {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-        font-size: 8px;
+    top: -7px;
+    right: 4px;
+    background: black;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: white;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9;
   }
-  
- .u_nav_ul {
+  .u_navbar_icon_link:hover{
+    opacity:1
+  }
+  .u_nav_ul {
     display: flex;
     justify-content: flex-end;
-}
-
-
+    align-items:center
+  }
   .u_nav_li {
-    list-style: none;
-    padding: 5px;
-}
-  .u_nav_li:last-child {
-            padding: 5px 0;
-}
-  .u_nav_link {
-    background-color: #0d8940;
-    color: #fff !important;
-    padding: 7px;
-    border-radius: 4px;
-    text-decoration: none;
-    display:inline-block;
-        text-transform: capitalize;
-}
-  .u_nav_link:hover{
-text-decoration:underline;  
+    list-style: none; 
+    position: relative;
+    padding:0 8px
+  }
+  .u_search_icon_nav path{
+    fill: white;
   }
   .u_navbar_item_ul {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
   .u_navbar_item_li {
-    padding: 10px;
+    padding: 20px 30px;
     list-style: none;
-        position: relative;
-}
+    margin:0 5px;
+    position: relative;
+  }
   .u_navbar_item_link {
-    color: white;
-    text-transform: capitalize;
+    color: black;
+    text-transform: uppercase;
     text-decoration: none;
     font-size: 15px;
     font-weight: 700;
-}
+  }
+  .u_navbar_item_link:hover{
+    opacity:1
+  }
   .u_navbar_item_link_level{
-        text-transform: capitalize;
+    text-transform: capitalize;
     text-decoration: none;
     font-size: 15px;
     font-weight: lighter;
-    color: #2d4383;
+    color: black;
     padding: 8px 22px;
     display: block;
     width: 100%;
+    text-align:left
   }
   .u_navbar_item_link_level:hover{
-  background: #2d4383;
-    color: #fff;
+    color: black;
     text-decoration: none;
+    opacity:1
   }
   .u_icon {
     padding: 5px;
     display: inline-block;
-}
+  }
   .u_sec_dropdown {
     display: none;
     position: absolute;
-       top: 100%;
-    left: 0;
+    top: 100%;
+    right: 0;
     background: white;
-    width:210px;
-    border: 1px solid #2d4383;
-    box-shadow: 0 5.5px 5.5px rgb(0 0 0 / 19%);
-    z-index:99999;
-}
+    width: max-content;
+    box-shadow: 0 0px 5px rgb(0 0 0 / 19%);
+    z-index: 99999;
+    border-radius: 5px;
+  }
   .u_navbar_item_li:hover .u_sec_dropdown{
-  display:block
+    display:block
   }
-  .u_navbar_item_li:hover{
-    background: #20305d;
-  }
+
   .u_navbar_item_li_dropdown{
-         padding: 3px 0;
+    padding: 3px 0;
     list-style: none;
     position: relative;
-}
+  }
+  .u_navbar_item_li_dropdown:last-child{
+    border-bottom: none;
+  }
   .u_third_dropdown {
     position: absolute;
-    top: 2%;
+    top: -1%;
     left: 100%;
     width: 220px;
-    display:none;
-    border: 1px solid #2d4383;
+    display: none;
+    border: 1px solid black;
     box-shadow: 0 5.5px 5.5px rgb(0 0 0 / 19%);
-     z-index:99999;
-}
-  .u_sec_dropdown .u_navbar_item_li_dropdown:hover .u_third_dropdown{
-  display:block
+    z-index: 99999;
+    background: white;
   }
- .u_item_dropdown {
+  .u_sec_dropdown .u_navbar_item_li_dropdown:hover .u_third_dropdown{
+    display:block
+  }
+  .u_item_dropdown {
     position: relative;
-}
+  }
   .u_arrow {
     position: absolute;
     top: 0;
     right: 5%;
     transform: translateY(50%);
-}
-  .u_fourth_dropdown {
-    position: absolute;
-    top: 2%;
-    left: 100%;
-    width: 220px;
-    display:none;
-    border: 1px solid #2d4383;
-    box-shadow: 0 5.5px 5.5px rgb(0 0 0 / 19%);
-     z-index:99999;
-}
-  .u_third_dropdown .u_navbar_item_li_dropdown:hover .u_fourth_dropdown{
-  display:block
   }
+
   .u_sec_dropdown .u_navbar_item_li_dropdown:first-child{
- padding: 10px 0 0 0;
+    padding: 10px 0 0 0;
   }
-   .u_sec_dropdown .u_navbar_item_li_dropdown:last-child{
-     padding: 3px 0 10px 0;
+  .u_sec_dropdown .u_navbar_item_li_dropdown:last-child{
+    padding: 3px 0 10px 0;
+  }
+  .u_search_width {
+    width: 60px;
+  }
+  .u_cart_width {
+    width: 65px;
+    object-fit: none;
+  }
+  .u_account_width {
+    width: 55px;
+  }
+  .u_nav_search_section {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 9999;
+    width: 100%;
+    display: none;
+    outline: 0;
+  }
+  .u_nav_search_sec_content {
+    max-width: 630px;
+    margin: auto;
+    background-color: #fff;
+    padding:30px;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 4px;
+  }
+  .u_nav_search_row {
+    display: flex;
+  }
+  .u_search_input {
+    width: 93%;
+  }
+  .u_search_btn {
+    width: 7%;
+    color: #fff;
+    background-color: #9b1b30;
+    border: 1px solid #9b1b30;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .u_search_email {
+    width: 100%;
+    border: 1px solid #d8d8d8;
+    padding: 10px;
+    font-size: 16px;
+    color: black;
+    border-radius: 4px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .u_search_email::placeholder{
+    opacity:.6;
+    text-transform:capitalize;
+    font-size:13px
+  }
+  .u_search_email:focus{
+    box-shadow:none;
+    outline:none;
+  }
+  .u_search_btn_size {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+
+  }
+  .u_search_btn_size i{
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+  }
+  .u_overflow{
+    overflow:hidden;
+  }
+  .u_search_icon_nav {
+    cursor: pointer;
   }
   .header_sticky{
-      position: sticky;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
@@ -476,271 +558,301 @@ text-decoration:underline;
     width: 100%;
     z-index: 99;
   }
-/*   mobile view */
+  /*   mobile view */
   .u_mb_nav{
-  display:flex;
-        align-items: center;
-        justify-content: space-between;
+    display:flex;
+    align-items: center;
     padding: 10px;
-        border-bottom: 3px solid black;
+    border-bottom: 1px solid black;
+  }
+  .u_mb_nav_block{
+    width:33.3%
+  }
+  .u_mb_nav_ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .u_mb_nav_li {
+    list-style: none;
+    position: relative;
+    padding:0 8px
+  }
+  .u_mb_icon_width {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    display: block;
+  }
+  .u_mb_cart{
+    object-fit: contain;
+    width: 40px;
+    padding-top: 10px;
+    height: 60px;
   }
   .u_berger_line {
-       width: 25px;
+    width: 25px;
     height: 2px;
-     background: white;
+    background: black;
     margin: 5px;
     display: block !important;
-     transition: transform 0.5s ease-in-out;
-}
+    transition: transform 0.5s ease-in-out;
+  }
   .u_hamberger.change {
     position: absolute;
-    top: 30px;
-    right: 4px;
-    z-index: 99;
-}
+    top: 10%;
+    right: 2%;
+    z-index: 9999999;
+    transform: translate(-10%, -2%);
+  }
   .u_number_link_mb {
-          color: white;
+    color: white;
     text-decoration: none;
     font-size: 14px;
     font-weight: bold;
-}
+  }
   .u_logo_width_mb {
     display: block;
     height: 65px;
     width: 100%;
     object-fit: contain;
-}
-  
-  .u_mb_view{
-  display:none;
   }
-  .u_show_cart_mb:before {
-    font-size: 20px;
-    line-height: 20px;
-    color: white;
-    content: "\e902";
-    font-weight: 400;
-    overflow: hidden;
-    speak: none;
-    text-align: center;
-    font-family: 'eatcleanbro';
-    display: inline-block;
-}
-  .u_cart_counter_mb {
-    background: white;
-    color: #fff;
-    border-radius: 100%;
-    width: 15px;
-    height: 15px;
-    position: relative;
-}
-  .u_cart_counter_mb:before {
-    content: '0';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    font-size: 8px;
-    color: black;
-}
-   .u_nav_ul_mb {
+
+  .u_mb_view{
+    display:none;
+  }
+
+  .u_nav_ul_mb {
     display: flex;
     justify-content: flex-end;
-     align-items: center;
-}
- .fa_lighter_mb {
+    align-items: center;
+  }
+  .fa_lighter_mb {
     font-weight: 100;
     color:white;
-}
+  }
 
   .u_nav_li_mb {
     list-style: none;
     padding: 5px;
-}
-.u_mobile_menu{
-    width: 0;
+  }
+  .u_mobile_menu{
+    width: 85%;
     height: 100%;
     overflow: hidden;
     position: fixed;
     top: 0;
-    left: 0%;
+    left: -100%;
     transition:all 0.5s ;
-           background: #2d4383;
+    background: white;
     overflow: auto;
-  z-index: 99;
-}
+    z-index: 99;
+  }
 
-.u_mobile_menu.active {
-  width:95%
-}
-  
+  .u_mobile_menu.active {
+    left:0%
+  }
+  .u_mb_menu_overlay{
+    background: rgba(0,0,0,0.3);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index:1
+  }
   .change .bar_1{
     transform: rotate(
--50deg
-) translate(-3px,0px)
- 
-}
- .change .bar_2{
- opacity: 0;
+      -50deg
+    ) translate(-3px,0px)
+
+  }
+  .change .bar_2{
+    opacity: 0;
 
 
-}
-.change .bar_3{
- transform: rotate(
-50deg
-) translate(-10px,-6px);
+  }
+  .change .bar_3{
+    transform: rotate(
+      50deg
+    ) translate(-10px,-6px);
 
-}
-.overflow{
+  }
+  .overflow{
     overflow: hidden;
-}
-/*   tabs */
-  .u_tab {
+  }
+  .u_mb_nav_search_row {
     display: flex;
     align-items: center;
-}
-  .u_tablinks {
-       width: 50%;
-    padding: 12px;
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    text-transform: capitalize;
-    background: #20305d;
-    text-align: center;
-    letter-spacing: 0.5px;
-}
-  .u_tab .active {
-  background-color:  #2d4383;
-}
-  .u_tabcontent {
-    padding: 60px 0;
-}
-  .u_account_ul {
-    text-align: left;
-}
-  .u_account_li {
+    flex-wrap: wrap;
+  }
+  .u_mb_search_input {
+    width: 90%;
+  }
+  .u_mb_search_email {
+    width: 100%;
+    border: 1px solid;
+    outline: none;
     padding: 10px;
-    list-style: none;
-}
-  .u_account_link {
-    color: white;
-    text-decoration: none;
-    text-transform: capitalize;
-    font-size: 18px;
-    font-weight: 700;
-}
-/*   menu */
+    border-color: transparent transparent #000 transparent !important; 
+    background: #ddd;
+  }
+  .u_mb_search_email::placeholder{
+    opacity:.6;
+    text-transform:capitalize;
+    font-size:13px
+  }
+  .u_mb_search_email:focus{
+    box-shadow:none;
+    outline:none;
+  }
+  .u_mb_search_btn {
+    width: 10%;
+  }
+  .u_mb_search_btn_size {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width:100%
+  }
+  .u_mb_search_btn_size i{
+    font-size: 20px;
+    color: black;
+  }
+  /*   .u_container {
+  padding: 15px;
+  } */
+  .u_mb_nav_search_section{
+    padding: 15px;
+    background: #ddd;
+  }
+  /*   menu */
   .u_sec_dropdown_mb {
     display: none;
-}
+  }
   .u_dropdown_list_mb {
     padding: 10px;
-}
+    list-style:none
+  }
   .u_arrow_mb {
     position: relative;
-}
+  }
   .u_icon_mb {
     padding: 5px;
     display: inline-block;
     position: absolute;
     right: 0;
-}
+  }
   .u_navbar_item_link_mb{
-        color: white;
+    color: black;
     text-transform: uppercase;
     text-decoration: none;
     font-size: 18px;
     font-weight: 700;
+    opacity:1 !important;
+    display: block;
   }
   .u_navbar_item_link_mb_level {
-    color: white;
+    color: black;
     text-transform: uppercase;
     text-decoration: none;
     font-size: 18px;
     font-weight: 100;
-}
+    opacity: 1 !important;
+    display: block;
+  }
   .u_third_dropdown_mb {
     display: none;
     list-style: none;
-}
-   @media screen and (max-width:990px){
-     .u_desktop_view{
-     display:none
-     }
-     .u_mb_view{
-  display:block;
   }
-     .u_list_back_hover{
-        color: white;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 700;
-     }
-}
+  .u_mb_nav_cart_count {
+    position: absolute;
+    top: -8px;
+    right: 2px;
+    background: black;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: white;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9;
+  }
+  .u_navbar_icon_link svg{
+    width: 20px;
+    height: 20px;
+  }
+  .u_nav_li i{
+    font-size: 20px;
+  } 
+  .u_mb_nav_li svg{
+    width: 20px;
+    height: 20px;
+  }
+  @media screen and (max-width:990px){
+    .u_desktop_view{
+      display:none
+    }
+    .u_mb_view{
+      display:block;
+    }
+    .u_list_back_hover{
+      color: white;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
 </style>
+
 <script>
-  $(document).ready(function(){
- 
-    // hamburger
-  $('.u_hamberger, .u_cross').click(function(){
-    $(this).toggleClass('change');
-         $('.u_mobile_menu').toggleClass('active');
-    $('.u_nav_ul_mb').toggle();
-    $('.u_hamberger .u_berger_line:first-child').toggleClass('u_burger_width');
-         $('body').toggleClass('overflow');     
-     });
-  focus
-  $('.fa_lighter').click(function(){
-    $(this).parents('.u_input_search').find('.u_input_text').focus();
-  
-  });
-    //dropdown
-    $('.u_dropdown_menu').click(function(){
-      $('.u_dropdown').slideToggle('u_show');
-    });
-   })
-  // sticky
-$(document).scroll(function(){
-    var scroll =  $(this).scrollTop();
-    // console.log(($(document).scrollTop() +'px'));
-    if(scroll>0){
-        $('.u_sticky').addClass('header_sticky');
+  $('.u_search_icon_nav').click(function(){ 
+    $('.u_overlay_search').addClass('u_overlay_active');
+    $('body').addClass('u_overflow');
+    $('.u_nav_search_section').fadeIn(); 
+    $(".u_search_email").focus();
+  })
+  $("body").click(function(e){
+    if ($(e.target).hasClass('u_search_icon_nav')|| $(e.target).hasClass('search_svg') || $(e.target).hasClass('fa-search') || $(e.target).hasClass('u_nav_search_sec_content') || $(e.target).hasClass('u_search_email') || $(e.target).hasClass('s0'))  {   
+      console.log('click',e.target);
     }
     else{
-        $('.u_sticky').removeClass('header_sticky');
+      console.log('else',e.target);
+      $('body').removeClass('u_overflow');
+      $('.u_nav_search_section').fadeOut();    
+      $('.u_overlay_search').removeClass('u_overlay_active');
     }
-})
-// tabs
+  });
+  // hamburger
+  $('.u_hamberger,.u_mb_menu_overlay').click(function(){
+    $('.u_hamberger').toggleClass('change');
+    $('.u_mobile_menu').toggleClass('active');
+    $('.u_nav_ul_mb').toggle();
+    $('.u_hamberger .u_berger_line:first-child').toggleClass('u_burger_width');
+    $('.u_mb_menu_overlay').toggle();
+    $('body').toggleClass('overflow');     
+  });
+  //   focus
+  $('.fa_lighter').click(function(){
+    $(this).parents('.u_input_search').find('.u_input_text').focus();
 
-    $('.u_tab .u_tablinks').removeClass('active');
-   $('.u_tab .u_tablinks:first-child').addClass('active');
-  $('.u_tabcontent .u_content').hide();
-  $('.u_tabcontent .u_content:first').show();
- 
-$('.u_tab .u_tablinks').click(function(){
-   $('.u_tab .u_tablinks').removeClass('active');
-  $('.u_tabcontent .u_content').hide();
-  $(this).addClass('active');
-  var activetab =$(this).attr('data-id');
-  console.log(activetab);
-  $(activetab).show();
-  return false;
-})  
-// mb_navigation responsive
-            $('.u_navbar_item_link_mb').click(function(){
-                $(this).toggleClass('u_list_back_hover');
-                $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
-            $(this).parent().parent().find('.u_sec_dropdown_mb').slideToggle();
-            })
-            // reverse
-            $('.u_navbar_item_link_mb_level').click(function(){
-                $(this).toggleClass('u_list_back_hover');
-                $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
-          $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();
-            })
- //$(document).scroll(delay(function (e) {
+  });
+  // mb_navigation responsive
+  $('.u_navbar_item_link_mb').click(function(){
+    $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
+    $(this).parent().parent().find('.u_sec_dropdown_mb').slideToggle();
+  })
+  // reverse
+  $('.u_navbar_item_link_mb_level').click(function(){
+    $(this).find('i').toggleClass(' fa-angle-up  fa-angle-down');
+    $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();
+  })
+//$(document).scroll(delay(function (e) {
    // var scroll = $(this).scrollTop();
 //     console.log(scroll);
     //if(scroll > 0)
@@ -770,54 +882,66 @@ $('.u_tab .u_tablinks').click(function(){
 //     };
 //   }
 </script>
-
 {% schema %}
 {
-   "name":"u_header",
-   "settings":[
-      {
-         "type":"textarea",
-         "id":"u_message_text",
-         "label":"u_message_text"
-      },
-      {
-         "type":"color",
-         "id":"u_bg_color",
-         "label":"u_bg_color"
-      },
-      {
-         "type":"text",
-         "id":"u_number",
-         "label":"u_number"
-      },
-      {
-         "type":"image_picker",
-         "id":"u_logo",
-         "label":"u_logo"
-      },
-	{
-         "type":"image_picker",
-         "id":"u_logo_mb",
-         "label":"u_logo_mb"
-      },
-      {
-         "type":"text",
-         "id":"u_link_text_1",
-         "label":"u_link_text_1"
-      },
-	 {
-         "type":"color",
-         "id":"u_navbar_bg_color",
-         "label":"u_navbar_bg_color"
-      },
-      {
-         "type":"text",
-         "id":"u_link_text_2",
-         "label":"u_link_text_2"
-      },
-	
-	
-   ]
+"name":"Custom header",
+"settings":[
+{
+"type":"color",
+"id":"u_bg_color",
+"label":"u_bg_color"
+},
+{
+"type":"image_picker",
+"id":"u_logo",
+"label":"u_logo"
+},
+{
+"type":"image_picker",
+"id":"u_logo_mb",
+"label":"u_logo_mb"
+},
+{
+"type":"textarea",
+"id":"u_dk_account_icon",
+"label":"Account icon",
+"default":"fa-user"
+},
+{
+"type":"textarea",
+"id":"u_account_svg",
+"label":"Account svg"
+},
+{
+"type":"textarea",
+"id":"u_dk_search_icon",
+"label":"Search icon",
+"default":"fa-search"
+},
+{
+"type":"textarea",
+"id":"u_search_svg",
+"label":"Search svg"
+},
+{
+"type":"textarea",
+"id":"u_dk_cart_icon",
+"label":"Cart icon",
+"default":"fa-shopping-cart"
+},
+{
+"type":"textarea",
+"id":"u_cart_svg",
+"label":"Cart svg"
+},
+{
+"type":"link_list",
+"id":"u_navbarlist",
+"label":"header menu"
+}
+
+
+]
 }
 {% endschema %}
 
@@ -826,72 +950,5 @@ $('.u_tab .u_tablinks').click(function(){
 
 {% javascript %}
 {% endjavascript %}
-static navigation
-<div class="u_navbar u_dk">
-                    <div class="u_left_nav">
-                        <ul class="u_dropdown">
-                            <li><a href="">shop <i class="fas fa-chevron-down"></i></a>
-                            <div class="u_sec_dropdown">
-                                <ul>
-                                    <li><a href="">shop all</a></li>
-                                    <li><a href="">domain</a></li>
-                                    <li><a href="">jordy</a></li>
-                                    <li>
-                                        <div class="u_flex_arrow">
-                                            <a href="">augest </a> <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                       
-                                        <div class="u_third_dropdown">
-                                            <ul>
-                                                <li><a href="">tommy</a></li>
-                                                <li><a href="">gift card</a></li>
-                                                <li><a href="">freddy</a></li>
-                                            </ul>
 
-                                        </div>
-                                    
-                                    </li>
-                                </ul>
-
-                            </div>
-                            </li>
-                            <li><a href="">about <i class="fas fa-chevron-down"></i></a>
-                                <div class="u_sec_dropdown">
-                                    <ul>
-                                        <li><a href="">shop all</a></li>
-                                        <li><a href="">domain</a></li>
-                                        <li><a href="">jordy</a></li>
-                                        <li>
-                                            
-                                                <a href="">augest </a>
-                                           
-                                        </li>
-                                    </ul>
-    
-                                </div>
-                            </li>
-                            <li><a href="">contact us <i class="fas fa-chevron-down"></i></a>
-                                <div class="u_sec_dropdown">
-                                    <ul>
-                                        <li><a href="">shop all</a></li>
-                                        <li><a href="">domain</a></li>
-                                        <li><a href="">jordy</a></li>
-                                        <li>
-                                            <div class="u_flex_arrow">
-                                                <a href="">augest </a> <i class="fas fa-chevron-right"></i>
-                                            </div>
-                                            <div class="u_third_dropdown">
-                                                <ul>
-                                                    <li><a href="">tommy</a></li>
-                                                    <li><a href="">gift card</a></li>
-                                                    <li><a href="">freddy</a></li>
-                                                </ul>
-    
-                                            </div>
-                                        
-                                        </li>
-                                    </ul>
-    
-                                </div>
-                            </li>
-                            </ul>
+	

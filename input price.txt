@@ -1,0 +1,64 @@
+        <div class="u_price_content">
+            <div class="u_price_row">
+              <div class="u_price_block">
+                <span class="field-currency">{{ cart.currency.symbol }}</span>
+                <input class="field__input __ccprice-gt"
+                       name="{{ filter.min_value.param_name }}"
+                       id="Mobile-Filter-{{ filter.label | escape }}-GTE"
+                       placeholder="from"
+
+                       type="number"
+                       min="0"         
+                       value="{% if filter.min_value.value > 0 %}{{ filter.min_value.value | divided_by: 100 }}{% endif %}"
+                       >
+
+              </div>
+              <div class="u_price_block">
+                <span class="field-currency">{{ cart.currency.symbol }}</span>
+                <input class="field__input __ccprice-lt"
+                       name="{{ filter.max_value.param_name }}"
+                       id="Mobile-Filter-{{ filter.label | escape }}-LTE"
+                       placeholder="from"
+                       type="number"
+                       min="0"
+                       max-price="{{ max_price_amount }}"
+                       value="{% if filter.max_value.value > 0 %}{{ filter.max_value.value | divided_by: 100 }}{% endif %}"
+                       >
+
+              </div>
+            </div>
+          </div>
+$('.__ccprice-gt').on('keyup', delay(function (e) {
+    if(e.which == 101 || e.which == 45 || e.which == 65 || $('#Filter-Price-GTE').val() >= $('#Filter-Price-GTE').attr('max-price')){
+      return false; 
+    }
+    else{
+      console.log('max price');
+      $('.__ccprice-gt').val($(this).val());
+      $('.__ccprice-gt').attr("value",$(this).val());
+      ajax_req();
+    }
+  }, 500));
+  $('.__ccprice-lt').on('keyup',delay(function (e) {
+    if(e.which == 101 || e.which == 45 || e.which == 65){
+      return false; 
+    }
+    else{
+      console.log('minprice');
+      $('.__ccprice-lt').val($(this).val());
+      $('.__ccprice-lt').attr("value",$(this).val());
+      ajax_req();
+    }
+  }, 500));
+  
+  
+        function delay(callback, ms) {
+        var timer = 0;
+        return function() {
+          var context = this, args = arguments;
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            callback.apply(context, args);
+          }, ms || 0);
+        };
+      }

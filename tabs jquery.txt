@@ -12,4 +12,5 @@ $('.u_tab .u_tablinks').click(function(){
   var activetab =$(this).attr('data-id');
   console.log(activetab);
   $(activetab).show();
-  retu
+  return false
+});
