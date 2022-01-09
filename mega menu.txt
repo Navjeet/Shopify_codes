@@ -1,994 +1,1322 @@
- <header>
-  <div class="u_sticky_header ">
-    <div class="u_announcement_bar_bg">
-      <div class="u_announcement_bar_flex">
-        <div class="u_announcement_bar_block_slider">
-          <div class="u_anouncement_text_slider">
-            {% for blocks in section.blocks %}
-            {% if blocks.type == 'anouncement_text' %}
-            <div class="u_anouncement_text_block">
-              <div class="u_anouncement_text">{{blocks.settings.u_anouncement_text}}</div>
-            </div>
+<div class="u_navbar_dk">
+  <div class="u_navbar_cont">
+    <div class="u_navbar_row">
+      <div class="u_navbar_left">
+        <span class="u_navbar_icon_link">
+          <i class="fa fa-caret-right"></i>   
+          <span class="u_navbar_link"> {{section.settings.u_dk_lang_text}}</span>
+        </span>
+        <a href="{{section.settings.u_dk_boutique_text_link}}" class="u_navbar_icon_link">
+          <span class="u_nav_icon"></span>
+          <span class="u_navbar_link"> {{section.settings.u_dk_boutique_text}}</span>
+        </a>
+      </div> 
+      <div class="u_navbar_center">
+        <div class="u_navbar_logo">
+          <a href="{{routes.root_url}}" class="u_logo_link" title="Graff Home">
+            {% if section.settings.u_navbar_logo != blank %}
+            <img src="{{section.settings.u_navbar_logo | img_url :'master' }}" alt="no logo" class="u_navbar_logo_width" >
             {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-        <div class="u_announcement_bar_block_cross">
-          <div class="u_anouncement_svg">
-            {% render 'cross' %}
-          </div>
+          </a>
         </div>
       </div>
-    </div>
-    <div class="u_desktop_view">
-      <div class="u_mega_menu">
-        <div class="u_navbar">
-          <div class="u_navbar_item_left">
-            <div class="u_navbar_logo">
-              <a href="{{shop.url}}">
-                {% render 'k18_logo' %}
-              </a>
-            </div>
+      <div class="u_navbar_right">
+        <a href="{{routes.account_url}}"  class="u_navbar_icon_link">
+          <span class="u_nav_icon_account"></span>
+          <span class="u_navbar_link"> {{section.settings.u_dk_account_text}}</span>
+        </a>    
+        <div  class="u_navbar_icon_link_u_search">
+          <span class="u_nav_icon_search"></span>
+        </div>
+        <div class="u_search_form_section">
+          <div class="u_search_cross">
           </div>
-          <div class="u_navbar_item_center">
-            <div class="u_navbar_list">
-              <ul class="u_navbar_item_ul">
-                <li class="u_navbar_item_li">
-                  <a href="https://www.youtube.com/watch?v=fZyuT3tbEGE" class="u_navbar_item_link u_red"  data-fancybox>See How It Works
-                    <span class="u_play_icon_center">
-                      {% render 'play_small' %}
-                    </span>
-                  </a>
-                </li>
-                {% for  first_level in linklists[section.settings.u_navbarlist].links %}
-                <li class="u_navbar_item_li ">
-                  <a href="{{ first_level.url }}" class="u_navbar_item_link " >{{ first_level.title }}
-                  </a>
-                  
-                 {% if first_level.links != blank %}
-                  <div class="u_mega_menu_content">
-                    <div class="u_sp_line_full">
-                    </div>
-                    <div class="u_mega_menu_container">
-                      <div class="u_mega_row">
-                        <div class="u_mega_text_block">
-                          <ul class="u_nav_ul_second_level">
-                            {% for second_level in first_level.links %}
-                            <li  class="u_nav_li_second_level">
-                              <h2 class="u_second_level_heading"> {{second_level.title}} </h2>
-                              {% if second_level.links!=blank %}
-                              <ul class="u_nav_ul_third_level">
-                                {% for third_level in second_level.links %}
-                                <li class="u_third_level_li">
-                                  <a class="u_third_level_links" href="#">{{third_level.title}}</a>
-                                </li>
-                                {% endfor %}
-                              </ul>
-                              {% endif %}
-                            </li>
-                            {% endfor %}
-                          </ul>
-                        </div>
-                        <!--           featured images -->
-                        {% assign hover_title = first_level.title | downcase %}
-                        
-                        <div class="u_featured_section" >
-                          {% for featured_img in section.blocks %}
-                          {% if featured_img.type == 'pick'%}
-                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
-                          {% assign hover_title = first_level.title | downcase %}
-                          {% if  img_handle == hover_title %}
-                          <div class="u_featured_img_block">
-                            <a href="{{ featured_img.settings.c-url }}">
-                              <div class="u_featured_position">
-                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <h2 href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</h2>
-                              </div>
-                            </a>
-                          </div>
-                          {% endif %}
-                          {% endif %}
-                          {% endfor %}
-                        </div>
-                       
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {% else %}
-                 {% assign flag = 'false' %}
-                  
-                  
-                  {% assign hover_title = first_level.title | downcase %}
-                  
-                  {% for featured_img in section.blocks %}
-                  {% if featured_img.type == 'pick'%}
-                  {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
-                  {% assign hover_title = first_level.title | downcase %}
-                  {% if  img_handle == hover_title %}
-                  {% assign flag = 'true' %}
-                  {% endif %}
-                  {% endif %}
-                  {% endfor %}
-                  
-
-
-                  {% if flag == 'true' %}
-                  <div class="u_mega_menu_content">
-                    <div class="u_sp_line_full">
-                    </div>
-                    <div class="u_mega_menu_container">
-                      <div class="u_mega_row">
-                       
-                        <!--           featured images -->
- 						<div class="u_featured_section_img_only" >
-                     
-                          {% for featured_img in section.blocks %}
-                          {% if featured_img.type == 'pick'%}
-                          {% assign img_handle = featured_img.settings.u_featured_image_handle | downcase %}
-                          {% assign hover_title = first_level.title | downcase %}
-                          {% if  img_handle == hover_title %}
-                          <div class="u_featured_img_block">
-                            <a href="{{ featured_img.settings.c-url }}">
-                              <div class="u_featured_position">
-                                <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <h3 class="u_featured_img_text">{{featured_img.settings.u_featured_image_text}}</h3>
-                              </div>
-                              <div class="u_featured_img_text_block">
-                                <h2 href="#" class="u_featured_img_text_link">{{featured_img.settings.u_featured_image_link}}</h2>
-                              </div>
-                            </a>
-                          </div>
-                          {% endif %}
-                          {% endif %}
-                          {% endfor %}
-                      
-    					</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {% endif %}
-                  
-                  
-                  
-
-                  {% endif %}
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-          <div class="u_navbar_item_right">
-            <div class="u_right_nav">
-              <ul class="u_nav_ul">
-                <li class="u_nav_li">
-                  <a class="u_nav_link " href="#">
-                    {% render 'u_search' %}
-                  </a>
-                </li>
-                <li class="u_nav_li">
-                  <a class="u_nav_link " href="#">
-                    {% render 'u_user' %}
-                  </a>
-                </li>
-                <li class="u_nav_li">
-                  <a class="u_nav_link u_navlink_svg" href="#">
-                    {% render 'u_cart' %}
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div class="u_search_form">
+            <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+              <div class="u_search_modal_input">
+                <input type="text" class="u_search_input" placeholder="I am looking for...."   name="q" autocomplete="off">
+                <button type="submit" class="u_search_button" >
+                  <span class="u_nav_icon_search"></span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
+        <a href="{{section.settings.u_dk_whishlist_text_link}}"  class="u_navbar_icon_link">
+          <span class="u_nav_icon_whishlist"></span>
+        </a>
+          <a href="{{routes.cart_url}}"  class="u_navbar_icon_link_u_cart">
+          {% if section.settings.u_navbar_cart != blank %}
+            <img src="{{section.settings.u_navbar_cart | img_url :'master' }}" alt="no logo" class="u_navbar_cart_width" >
+           {% else %}
+            <i class="fal fa-shopping-cart"></i>
+            {% endif %}
+          <span class="u_nav_cart_count"></span>
+        </a>
       </div>
     </div>
   </div>
-  <!--   mobile view -->
-  <div class="u_mb_view">
+  <div class="u_hide_part">
+    <div class="u_overlay">
+    </div>
+    <div class="u_custom_separtor">
+    </div>  
+    <div class="u_menu_list">
+      <ul class="u_navbar_item_ul">
+        {% for first_level in linklists[section.settings.u_navbar_list].links %}
+        <li class="u_navbar_item_li"> 
+          <a  class="u_navbar_item_link {% if first_level.active %} u_active {% endif %}" href="{{first_level.url}}">{{first_level.title}}
+            {% if first_level.links!=blank %}
+            <div class="u_arrow_right">
+              <i class="fas fa-caret-down"></i>
+            </div>
+            {% endif %}
+          </a>
+          {% if first_level.links != blank %}
+          <div class="u_mega_menu">
+
+            <div class="u_mega_cont">
+              <div class="u_mega_row">
+                <div class="u_mega_text_block">
+                  <ul class="u_navbar_sec ">
+                    {% for second_level in first_level.links %}
+                    <li class="u_navbar_li_dk_mega {% if second_level.links != blank %} dropdown {% endif %}">
+                      <a  class="u_navbar_link_second_level_dk" href="{{second_level.url}}">{{second_level.title}}</a>
+                      {% if second_level.links!=blank %}
+                      <ul class="u_navbar_third">
+                        {% for third_level in second_level.links %}
+                        <li  class="u_navbar_li_dk_mega">
+                          <a href="{{third_level.url}}" class="u_navbar_link_level_dk">{{third_level.title}}</a>
+                        </li>
+                        {% endfor%}
+                      </ul>
+                      {% endif%}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% for featured_img in section.blocks %}
+                {% if featured_img.type == 'u_mega_img_block'%}
+                {% assign img_handle = featured_img.settings.u_img_handle | downcase | strip %}
+                {% assign hover_title = first_level.title | downcase | strip %}
+                {% if  img_handle == hover_title %}
+                {% assign flag = 'true' %}
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% if flag == 'true' %}
+                <div class="u_mega_img_block">
+                  {% for featured_img in section.blocks %}
+                  {% if featured_img.type == 'u_mega_img_block'%}
+                  {% assign img_handle = featured_img.settings.u_img_handle | downcase | strip %}
+                  {% assign hover_title = first_level.title | downcase | strip %}
+                  {% if  img_handle == hover_title %}
+                  <div class="u_featured_img_block">
+                    <div class="u_featured_img">
+                      <img src="{{featured_img.settings.u_mega_img | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                    </div>
+                    <div class="u_featured_img_text_block">
+                      <p class="u_featured_sh_title">{{featured_img.settings.u_img_sh_title}}</p>
+                      <h3 class="u_featured_img_title">{{featured_img.settings.u_img_title}}</h3>
+                      <p class="u_featured_description">{{featured_img.settings.u_img_desp}}</p>
+                      <div class="u_featured_img_text_block_btn">
+                        <a href="{{section.settings.u_img_link}}" class="u_featured_img_text_link"  
+                           onMouseOver="this.style.background='{{featured_img.settings.u_img_link_hover_bg}}'";
+                           "this.style.color='{{featured_img.settings.u_img_link_hover_color}}'"
+                           onMouseOut="this.style.background='{{featured_img.settings.u_img_link_text_bg}}'" ;
+                           "this.style.color='{{featured_img.settings.u_img_link_text_color}}'"
+                           style="background:{{featured_img.settings.u_img_link_text_bg}};
+                                  color:{{featured_img.settings.u_img_link_text_color}}">
+                          {{featured_img.settings.u_img_link_text}}
+
+                        </a>
+                      </div>
+                    </div>
+
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {% endif %}        
+              </div>
+            </div>
+          </div>
+          {% else %}
+          {% assign flag ='false' %}
+          {% for featured_img in section.blocks %}
+          {% if featured_img.type == 'u_mega_img_block'%}
+          {% assign img_handle = featured_img.settings.u_img_handle | downcase | strip %}
+          {% assign hover_title = first_level.title | downcase | strip %}
+          {% if  img_handle == hover_title %}
+          {% assign flag ='true' %}
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+          {% if flag == 'true' %}
+          <div class="u_mega_menu">
+            <div class="u_mega_cont">
+              <div class="u_mega_row">
+                <div class="u_mega_text_block">
+                </div>
+                <div class="u_mega_img_block">
+                  {% for featured_img in section.blocks %}
+                  {% if featured_img.type == 'u_mega_img_block'%}
+                  {% assign img_handle = featured_img.settings.u_img_handle | downcase | strip %}
+                  {% assign hover_title = first_level.title | downcase | strip %}
+                  {% if  img_handle == hover_title %}
+                  <div class="u_featured_img_block">
+                    <div class="u_featured_img">
+                      <img src="{{featured_img.settings.u_mega_img | img_url:'master'}}" alt="no image" class="u_featured_img_tag">
+                    </div>
+                    <div class="u_featured_img_text_block">
+                      <p class="u_featured_sh_title">{{featured_img.settings.u_img_sh_title}}</p>
+                      <h3 class="u_featured_img_title">{{featured_img.settings.u_img_title}}</h3>
+                      <p class="u_featured_description">{{featured_img.settings.u_img_desp}}</p>
+                      <div class="u_featured_img_text_block_btn">
+                        <a href="{{section.settings.u_img_link}}" class="u_featured_img_text_link" style="background:{{featured_img.settings.u_img_link_text_bg}};color:{{featured_img.settings.u_img_link_text_color}}">{{featured_img.settings.u_img_link_text}}</a>
+                      </div>
+                    </div>
+
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endif %}
+
+
+        </li>
+        {% endfor %}
+
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- mobile view -->
+<div class="u_mb_view">
+  <div class="u_mb_navbar_cont">
     <div class="u_mb_bg">
-      <div class="u_mb_nav">
-        <div class="u_mb_left_nav">
-          <div class="u_mb_inner_row">
+      <div class="u_mb_navbar_row">
+        <div class="u_mb_navbar_left">
+          <div  class="u_mb_navbar_icon_link">
             <div class="u_hamberger">
               <div class="u_berger_line bar_1"></div>
               <div class="u_berger_line bar_2"></div>
               <div class="u_berger_line bar_3"></div>
-            </div>
-            <div class="u_mb_navbar_logo">
-              <a href="">
-                {% render 'k18_mb_logo' %}
-              </a>
+              <div class="u_berger_line bar_4"></div>
             </div>
           </div>
+          <div  class="u_mb_navbar_icon_link_u_search">
+            <span class="u_mb_nav_icon_search"></span>
+          </div>
+          <div class="u_mb_search_form_section">
+            <div class="u_mb_search_cross">
+            </div>
+            <div class="u_mb_search_form">
+              <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+                <div class="u_mb_search_modal_input">
+                  <input type="text" class="u_mb_search_input" placeholder="I am looking for...."   name="q"  autocomplete="off">
+                  <button type="submit" class="u_mb_search_button" >
+                    <span class="u_nav_icon_search"></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> 
+        <div class="u_mb_navbar_center">
+          <div class="u_mb_navbar_logo">
+            <a href="{{routes.root_url}}" class="u_logo_link" title="Graff Home">
+              {% if section.settings.u_navbar_logo != blank %}
+              <img src="{{section.settings.u_navbar_logo | img_url :'master' }}" alt="no logo" class="u_navbar_mb_logo_width" >
+              {% endif %}
+            </a>
+          </div>        
         </div>
-        <div class="u_mb_right_nav">
-          <ul class="u_nav_ul_mb">
-            <li class="u_nav_li_mb">
-              <a class="u_nav_link_mb" href="#">
-                {% render 'u_search' %}
-              </a>
-            </li>
-            <li class="u_nav_li_mb">
-              <a class="u_nav_link_mb" href="#">
-                {% render 'u_user' %}
-              </a>
-            </li>
-            <li class="u_nav_li_mb">
-              <a class="u_nav_link_mb u_navlink_svg" href="#">
-                {% render 'u_cart' %}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="u_mobile_menu">
-      <div class="u_mb_container ">
-        <div class="u_navbar_list">
-          <ul class="u_dropdown_mb">
-                      <li class="u_dropdown_list_mb">
-              <div class="u_mb_flex">
-                
-                <a  href=" https://www.youtube.com/watch?v=fZyuT3tbEGE" class="u_navbar_item_link_mb_first_level " data-fancybox>
-                  {% render 'mb_how_it works'%}
-                </a>
-                        </div>
-            </li>
-            {% for  first_level in linklists[section.settings.u_navbarlist].links %}
-            <li class="u_dropdown_list_mb">
-              <div class="u_mb_flex">              
-                <a href="{{first_level.url}}" class="u_navbar_item_link_mb_first_level  ">{{first_level.title}}</a>
-               {% if first_level.links!=blank %}
-                <i class="fa fa-chevron-right fa-3x u_right_arrow" aria-hidden="true"></i>
-                {% endif %}
-              </div>
-              {% if first_level.links != blank %}
-              <div class="u_mobile_menu_items">
-                <div class="u_mb_container ">
-                  <div class="u_mb_menu_item">
-                    <i class="fa fa-chevron-left fa-3x u_left_arrow" aria-hidden="true"></i>
-                    <div class="u_mb_item_menu">
-                      <ul  class="u_sec_dropdown_mb">
-                        {% for  ssll in first_level.links %}
-                        <li class="u_dropdown_list_mb">
-                          <a href="{{ssll.url}}" class="u_navbar_item_link_mb_second_level">{{ssll.title}}</a>
-                        </li>
-                        {% assign ssll_t = ssll.title | downcase %}
-                        <ul class="u_third_dropdown_mb">
-                          {% for tl in ssll.links %}
-                          <li class="u_dropdown_list_mb">
-                            <a href="{{tl.url}}" class="u_navbar_item_link_mb_third_level">{{tl.title}}</a>
-                          </li>
-                          {% endfor %}
-                        </ul>        
-                        {% for featured_img in section.blocks %}
-                        {% if featured_img.type == 'pick'%}
-                        {% assign handle = featured_img.settings.u_featured_image_handle | downcase | strip %}
-                        {% if ssll_t == handle %}
-                        <div class="u_featured_img_block_mb">
-                          <a class="" href="{{featured_img.url}}">
-                            <div class="u_featured_position">
-                              <img src="{{featured_img.settings.u_featured_image | img_url:'master'}}" alt="no image" class="u_featured_img_tag_mb">
-                            </div>
-                            <div class="u_featured_img_text_block">
-                              <h3 class="u_featured_img_text_mb">{{featured_img.settings.u_featured_image_text}}</h3>
-                            </div>
-                            <div class="u_featured_img_text_block">
-                              <a href="#" class="u_featured_img_text_link_mb">{{featured_img.settings.u_featured_image_link}}</a>
-                            </div>
-                          </a>
-                        </div>
-                        {% endif %}
-                        {% endif %}
-                        {% endfor %}
-                        {% endfor %}
-                      </ul>
-                    </div>
-                  </div>
-                </div>   
-              </div>
+        <div class="u_mb_navbar_right">            
+          <a href="{{section.settings.u_dk_whishlist_text_link}}"  class="u_navbar_icon_link">
+            <span class="u_mb_nav_icon_whishlist"></span>
+          </a>
+          <a href="{{routes.cart_url}}"  class="u_navbar_icon_link_u_cart">
+           {% if section.settings.u_navbar_cart != blank %}
+            <img src="{{section.settings.u_navbar_cart | img_url :'master' }}" alt="no logo" class="u_navbar_cart_width" >
+           {% else %}
+            <i class="fal fa-shopping-cart"></i>
             {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="u_nav_social">
-          <ul class="u_nav_social_list">
-            <li class="u_nav_social_li">
-              <a href=""  class="u_mb_social_flex">
-                {% render 'u_user' %}
-                <span class="u_nav_social_link"> my account</span>
-              </a>
-            </li>
-            <li class="u_nav_social_li">
-              <a href="" class="u_mb_social_flex">
-                {% render 'mb_country_icon' %}
-                <span class="u_nav_social_link"> usa</span>
-              </a>
-            </li>
-          </ul>
-          <div class="u_sp_line_full_mb">
-          </div>
-          <div class="u_nav_social_icons">
-            <ul class="u_nav_social_list_icons">
-              <li class="u_nav_social_icons_li">
-                <a href=""  class="u_nav_social_link">
-                  <i class="fab fa-instagram fa-2x"></i>
-                </a>
-              </li>
-              <li class="u_nav_social_icons_li">
-                <a href=""  class="u_nav_social_link">
-                  <i class="fab fa-facebook-f fa-2x"></i>
-                </a>
-              </li>
-              <li class="u_nav_social_icons_li">
-                <a href=""  class="u_nav_social_link">
-                  <i class="fab fa-youtube fa-2x"></i>
-                </a>
-              </li>
-            </ul>
-
-          </div>
+          <span class="u_nav_cart_count"></span>
+          </a>
         </div>
       </div>
     </div>
   </div>
-</header>
+  <div class="u_mobile_menu">
+    <div class="u_menu_container ">
+      <div class="u_mb_menu_search_form_section">
+        <div class="u_mb_search_form">
+          <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+            <div class="u_mb_search_modal_input">
+              <input type="text" class="u_mb_search_input" placeholder="I am looking for...."   name="q"  autocomplete="off">
+              <button type="submit" class="u_mb_search_button" >
+                <span class="u_nav_icon_search"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="u_menu_list">
+        <ul class="u_mb_navbar_item_ul">
+          {% for  first_level in linklists[section.settings.u_navbar_list].links %}
+
+          <li class="u_mb_navbar_item_li">
+
+            <a href="{% if first_level.links!=blank %} javascript:void(0){% else %}{{first_level.url}}{% endif %}" class="u_mb_navbar_item_link">{{ first_level.title }}
+              {% if first_level.links!=blank %}
+              <div class="u_mb_arrow_right">
+                <i class="fa fa-caret-right"></i>   
+              </div>
+              {% endif %}
+            </a>
+            {% if first_level.links!=blank %}
+            <ul class="u_sec_dropdown_mb">
+              {% for second_level in first_level.links %}
+              <li  class="u_navbar_item_li_dropdown">
+                <div class="u_item_dropdown">
+                  <a href="{{second_level.url}}" class="u_mb_navbar_item_link_level">{{second_level.title}}
+
+                    {% if second_level.links!=blank %}
+                    <div class="u_mb_arrow_right">
+                      <i class="fa fa-caret-right"></i>   
+                    </div>
+                    {% endif %}
+                  </a>
+                </div>
+                {% if second_level.links!=blank %}
+                <ul class="u_third_dropdown_mb">
+                  {% for third_level in second_level.links %}
+                  <li  class="u_navbar_item_li_dropdown">
+                    <a href="{{third_level.url}}" class="u_mb_navbar_item_link_level">{{third_level.title}}</a>
+                  </li>
+                  {% endfor%}
+                </ul>
+                {% endif%}
+              </li>
+              {% endfor%}
+            </ul>
+            {% endif%}
+          </li>
+          {% endfor %}
+
+        </ul>
+      </div>
+      <ul class="u_mb_navbar_item_static_ul">
+        <li class="u_mb_navbar_item_static_li">
+          <a href="{{routes.account_url}}"  class="u_menu_navbar_icon_link">
+            <span class="u_nav_icon_account"></span>
+            <span class="u_menu_navbar_link"> {{section.settings.u_dk_account_text}}</span>
+          </a>  
+          <a href="{{section.settings.u_dk_boutique_text_link}}" class="u_menu_navbar_icon_link">
+            <span class="u_nav_icon"></span>
+            <span class="u_menu_navbar_link"> {{section.settings.u_dk_boutique_text}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="u_mb_overlay">
+  </div>
+</div>
 
 <style>
-  .fancybox-inner {
-    background: white;
-}
-  .u_announcement_bar_bg{
-    background:{{section.settings.u_anouncement_color}};
-    position: relative;
-    z-index: 9999;
-  }
-  .u_announcement_bar_flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 20px 4px 30px;
-
-
-  }
-  .u_announcement_bar_block_slider{
-  width:90%
-  }
-    .u_announcement_bar_block_cross{
-  width:10%;
-      text-align:right;
-  }
-  .u_anouncement_text{
-    color: #333;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight:400 !important;
-       
-
-  }
-  .u_announcement_bar_block {
-    width: 100%;
-}
-  .u_anouncement_svg svg {
-    width: 10px;
-    cursor: pointer;
-  }
-
-  .u_navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 30px;
-    border-bottom: 1px solid #f5f5f5;
-      
-  }
-  .u_navbar_item_ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-  
-  }
-  .u_navbar_item_li {
-    padding: 10px 20px;
-    list-style: none;
-
-  }
-  .u_navbar_item_link {
-    color:black;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
-    position: relative;
-    letter-spacing: 0;
-    font-family: Helvetica Neue, sans-serif !important;
-     line-height: 3.5;
-        transition: all .2s ease-out;
-  }
-  
-  .u_navbar_item_link_level{
-    text-transform: capitalize;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: lighter;
-    color: black;
-    padding: 8px 22px;
-    display: block;
-    width: 100%;
-  }
-  .u_right_nav .u_nav_ul {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-
-  }
-  .u_right_nav .u_nav_link {
-
-    color: black;
-    padding: 4px;
-    border-radius: 4px;
-    text-decoration: none;
-    display:inline-block;
-    text-transform: capitalize;
-    font-size:15px;
-       
-    font-family: HelveticaNeu-Bold,sans-serif !important;
-}
- 
-
-  .u_right_nav .u_nav_li {
-    list-style: none;
-    padding: 5px;
-  }
-  .u_navbar_logo a svg{
-    width: 90px;
-    height: 100%;
-    object-fit: cover;
-        transition: all 250ms ease-in-out;
-  }
-  .u_navlink_svg svg{
-    width: 20px;
-    stroke: #000;
-    color: #000;
-  }
-  .u_nav_link svg{
-    width: 20px;
-    height: auto;
-  }
-  .u_sp_line {
-    width: 1px;
-    height: 30px;
-    background: #ddd;
-  }
-  .u_nav_link.u_nav_link_sp {
-    cursor: default;
-  }
-  .u_nav_link  i{
-
-      padding-left: 10px;
-    font-size: 14px;
-  }
-  .u_red svg{
-    width: 12px;
-
-  }
-  .u_navbar_item_link.u_red {
-    color: #df5657;
-
-  }
-  .u_play_icon_center{
-
-    vertical-align: sub;
-  }
-  .u_navbar_item_link:after{
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 9px;
-    -webkit-transform: scaleX(0);
-    transform: scaleX(0);
-    background-color: #cfde3e;
-    -webkit-transition: -webkit-transform .3s;
-    transition: -webkit-transform .3s;
-    transition: transform .3s;
-    transition: transform .3s,-webkit-transform .3s;
-    -webkit-transform-origin: left;
-    transform-origin: left;
-    z-index: -1;
-  }
-  .u_navbar_item_link:hover:after{
-    transform:scaleX(1);
-  }
-  .u_navbar_item_link:hover{
-    color:black;
-  } 
-  .u_mega_menu{
-    position:relative;
-  }
-  .u_mega_menu_content {
-    position: absolute;
-    width: 100%;
-    display: none;
-    background: white;
-    top: 80px;
-    left: 0;
-    z-index: 999;
-    /*     box-shadow: 0 5px 30px 0 rgb(0 0 0 / 34%);  */
-    box-shadow:0 30px 30px  -12px rgb(0 0 0 / 34%);
-  }
-  .u_navbar_item_li:hover .u_mega_menu_content{
-    display:block
-  }
-  .u_mega_menu_container {
-    max-width: 950px;
-    margin: auto;
-    padding: 30px 100px 50px;
-  }
-  .u_nav_ul_second_level {
-    padding: 0;
-  }
-  .u_nav_li_second_level {
-    list-style: none;
-    text-transform: uppercase;
-  }
-  .u_nav_ul_third_level {
-    padding: 10px 0;
-  }
-  .u_third_level_li {
-    list-style: none;
-    padding: 5px 0;
-  }
-  .u_third_level_links {
-    list-style: none;
-    text-decoration: none;
-  }
-  .u_second_level_heading {
-    font-size: 20px;
-    font-weight: 700;
-    text-transform: capitalize;
-    margin: 0;
-    font-family: Helvetica Neue, sans-serif !important;
-  }
-  .u_third_level_links {
-       text-decoration: none;
-    text-align: left;
-    color: #000;
-    text-transform: capitalize;
-    font-size: 12px;
-    font-family: Helvetica Neue, sans-serif !important;
-  }
-  .u_third_level_links:hover{
-    color:#df5657;
-  }
-  .u_mega_row{
-    display:flex;
-    justify-content:space-between;
-    position: relative;
-  }
-  .u_featured_img_tag {
-    width: 300px;
-    height: 100px;
-    transition: transform .9s cubic-bezier(.16,1,.3,1);
-    object-fit: cover;
-    object-position: center;
-  }
-  .u_featured_section {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 0%;
-    left: 30%;
-  }
-  .u_featured_img_text {
-    color: #df5657;
-    text-transform: uppercase;
-    margin: 0;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 0;
-  }
-  .u_featured_img_text_link {
-    font-weight: 700;
+  .u_navbar_icon_link_u_cart {
     display: inline-block;
-    font-size: 12px;
-    margin: 0;
-    text-decoration: underline;
-    color:black;
+    padding: 0 10px 0 5px;
+    cursor: pointer;
+        vertical-align: middle;
+      position: relative;
   }
-  .u_featured_img_text_block {
-    padding-top: 3px;
+    .u_navbar_icon_link_u_cart i{
+    font-size: 16px;
+    color: white;
+    opacity: .8;
   }
-  .u_featured_img_tag:hover{
-
-    transform:scale(1.1);
+  .u_nav_cart_count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: white;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: black;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .u_featured_position {
-    overflow: hidden;
+  .u_navbar_cart_width {
+    width: 20px;
+    height: 20px;
+    display: block;
   }
-  .u_featured_img_block {
-    padding-left: 10px;
+  .u_navbar_cont {
+    padding: 10px 15px;
   }
-  .u_sp_line_full {
-    width: 100%;
-    height: 1px;
-    margin-top: 35px;
-    background: #f5f5f5;
+  .u_navbar_row {
+    display: flex;
   }
-  .u_right_nav .u_nav_li:last-child{
-    padding-right:0;
-  }
-
-#shopify-section-k18-header, .u_sticky{
+  .u_navbar_dk,#shopify-section-custom-header
+  {
     position: sticky;
     top: 0;
     left: 0;
+    background: black;
+    z-index: 99;
     width: 100%;
-    right: 0;
-    z-index: 99999;
-    background: white;
   }
-  .u_line_height{
-  line-height:0.5
+  .u_navbar_left,.u_navbar_right {
+    width: 30%;
   }
-  .slick-current  div:first-child{
-    line-height:24px !important;
+  .u_navbar_center {
+    width: 40%;
+    text-align:center;
+    margin: 30px 0;
+    transition: all 0.5s;
   }
-  /*   mobile view */
-  .u_mb_view{
-    display:none;
+  .u_navbar_logo_width {
+    height:33px;
+    transition: all 0.5s;
   }
-  .u_mb_nav{
+  .u_navbar_left {
+
+    top: 16px;
+    left: 16px;
+  }
+  .u_navbar_right {
+    text-align:right
+  }
+  .u_navbar_icon_link {
+    display: inline-block;
+    padding: 0 5px;
+    cursor: pointer;
+    text-decoration: none;
+        vertical-align: middle;
+  }
+  .u_navbar_icon_link_u_search{
+    display: inline-block;
+    padding: 0 10px 0 5px;
+    cursor: pointer;
+  }
+  .u_navbar_icon_link i{
+    font-size: 10px;
+    color: white;
+    opacity: .8;
+  }
+  .u_navbar_link {
+    letter-spacing: .5px;
+    margin-left: 5px;
+    text-transform: uppercase;
+    line-height: 10px;
+    font-size: 10px;
+    color: white;
+    font-family: OptimaNovaLTPro !important;
+    font-weight: 200;
+    font-style: normal;
+    display: inline-block;
+    vertical-align: middle;
+
+  }
+  .u_search_form {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    position: relative;
-    z-index: 999;
-    background:white;
+    justify-content: center;
+    height: 100%;
   }
-  .u_mb_container {
-    padding: 80px 25px;
+  .u_search_button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    left: 2px;
   }
-  .u_berger_line {
-    width: 27px;
-    height: 3px;
+  .u_search_form_section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     background: black;
-    margin: 3px;
-    display: block !important;
- transition: .2s ease-in-out;
+    height: 280px;
+    z-index: 99999999;
+    display:none;
+  }
+  .u_search_modal_input {
+    width: 445px;
+    position: relative;
+  }
+  .u_search_input {
+    color: #767676;
+    border: 1px solid #bababa;
+    padding: 7px 10px 7px 30px;
+    line-height: 20px;
+    font-size:12px;
+    width: 100%;
+    text-align: left;
+    font-family: OptimaNovaLTPro !important;
+    border-radius: 0;
+  }
+  .u_search_input:focus{
+    box-shadow:none;
+    border-color: #767676 !important;
+    outline: none;
+  }
+  .u_search_cross {
+    position: absolute;
+    top: 20px;
+    right: 32px;
     cursor: pointer;
   }
 
-  .u_mb_inner_row {
+  .u_overlay_active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.7);
+    z-index: 15;
+  }
+  .u_mb_overlay_active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.4);
+    z-index: 15;
+  }
+  .u_custom_separtor {
+    background: #eee;
+    height: 1px;
+    width: 100%;
+    position: relative;
+    margin: 0 0 20px 0;
+    transition: all .3s ease-out;
+  }  
+  .u_custom_separtor:before {
+    content: '\EA10';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    background: black;
+    font-family: iconfont!important;
+    color: #897358;
+    transform: translate(-50%,-50%); 
+    text-align: center;
+    font-size: 12px;
+    transition: all .3s ease-out;
+  }
+  .u_nav_icon {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .u_nav_icon:before {
+    content: "\EA18";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 13px;
+    color: white;
+    opacity: .8;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .u_nav_icon_account {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .u_nav_icon_account:before {
+    content: "\EA01";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 13px;
+    color: white;
+    opacity: .8;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .u_nav_icon_search {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .u_nav_icon_search:before {
+    content: "\EA25";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 13px;
+    color: white;
+    opacity: .8;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .u_nav_icon_whishlist {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .u_nav_icon_whishlist:before {
+    content: "\EA11";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 13px;
+    color: white;
+    opacity: .8;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .u_nav_active{
+    margin-top: 20%;
+    transition: all .3s ease-in;
+    overflow:hidden
+  }
+  .u_search_cross:before{
+    content: "\EA0C";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 16px;
+    color: black;
+    font-weight: 200;
+    line-height: 24px;
+  }
+  .u_navbar_item_ul {
+    padding: 0;
+    margin: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
-  .u_mb_navbar_logo {
-    padding-left: 20px;
+  .u_navbar_item_li {
+    list-style: none;
+    padding: 0 5px 10px 0;
+    transition: all .3s ease-in;
   }
-  .u_mb_navbar_logo a svg{
-    width:120px;
+  .u_navbar_item_link {
+    color: white !important;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 12px 29px;
+    display: block;
+    letter-spacing: .5px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    font-family: 'OptimaNovaLTPro' !important;
+    position:relative;
+    transition: all .3s ease-in;
   }
+  .u_navbar_item_li:first-child  .u_navbar_item_link{
+    padding: 12px 15px;
+  }
+  .u_menu_list{
+    position: relative;
+  }
+  .u_mega_menu {
+    position: absolute;
+    top: 100%;
+    z-index: 999999999999;
+    background: black;
+    width: 100%;
+    left: 0;
+    max-height:0;
+    visibility:hidden;
+    padding-top: 20px;
+    transition-property:opacity,visibility,max-height;
+    transition-duration: .3s;
+    transition-timing-function: ease-in;
+    transition-delay: 0s;
+    opacity:0 ;
 
-  .u_mb_logo {
-    width: 45px;
   }
-  .u_menu_nav {
+  .u_navbar_item_li:hover .u_mega_menu{
+    visibility:visible;
+    opacity:1  ;    
+    max-height:700px
+
+  }
+  .u_mega_cont {
+    max-width: 1300px;
+    margin: auto;
+    padding: 0 15px 40px 15px;
+  }
+  .u_navbar_sec {
+    padding: 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+
   }
-
-
-
-
-  .u_nav_ul_mb {
+  .u_mega_row {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+
   }
-  .u_nav_li_mb {
-    list-style: none;
-    padding: 5px;
-  }
-  .u_nav_link_mb {
-    color: black;
-    padding: 7px;
-    border-radius: 4px;
+  .u_navbar_link_level_dk {
     text-decoration: none;
-    display: inline-block;
     text-transform: capitalize;
-    font-size: 15px;
+    font-size: 12px;
+    color: white;
+    text-align: left;
+    font-family: 'OptimaNovaLTPro';
+    letter-spacing: .5px;
   }
-  .u_nav_link_mb svg{
-    width: 24px;
-    height: 100%;
+  .u_navbar_link_second_level_dk {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: white;
+    font-family: 'OptimaNovaLTPro';
+    margin: 0 0 24px 0px;
+    border-bottom: 1px solid #ddd;
+    display: inline-block;
+  }
+
+  .u_navbar_third {
+    padding: 0;
+    margin: 0;
+  }
+  .u_mega_text_block {
+    width: 50%;
+  }
+  .u_mega_img_block {
+    width: 50%;
+  }
+  .u_featured_img_tag {
+    width: 100%;
+    display: block;
+
+  }
+  .u_featured_img_block {
+    display: flex;
+  }
+  .u_featured_img {
+    width: 50%;
+  }
+  .u_featured_img_tag {
+    width: 100%;
+    display: block;
+  }
+  .u_featured_img_text_block {
+    width: 50%;
+    padding-left: 40px;
+  }
+  .u_featured_sh_title {
+    display: inline-block;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+    color: white;
+    font-size: 12px;
+    font-family: 'OptimaNovaLTPro';
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .u_featured_img_title {
+    color: white;
+    font-size: 20px;
+    letter-spacing: .5px;
+    text-align: left;
+    text-transform: capitalize;
+    margin-bottom: 32px;
+    font-family: ChronicleDisplay !important;
+    font-weight: 200;
+  }
+  .u_featured_description {
+    color: white !important;
+    font-size: 15px;
+    font-family: 'OptimaNovaLTPro';
+    font-weight: 400;
+    letter-spacing: .5px;
+    text-align: justify;
+    margin: 0;
+  }
+  .u_featured_img_text_block_btn {
+    padding-top: 32px;
+  }
+  .u_featured_img_text_link {
+font-size: 14px;
+    font-family: 'OptimaNovaLTPro' !important;
+    text-transform: uppercase;
+    left: 0.5px;
+    display: inline-block;
+    padding: 10px 25px;
+    border: 1px solid transparent;
+    transition: background-color.3s ease-in;
+    text-decoration: none;
+}
+  .u_navbar_li_dk_mega {
+    width:150px;
+    list-style: none;
+  }
+  .u_mb_view{
+    display:none;
+    border-top: 5px solid #897358;
+  }
+  .u_mb_navbar_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .u_berger_line {
+    width: 19px;
+    height: 1px;
+    background: white;
+    margin: 3px auto;
+        display: block !important;
+  }
+  .u_berger_line:nth-child(1){
+    width: 14px;
+  } 
+  .u_berger_line:nth-child(3){
+    width: 14px;
+  } 
+  .u_berger_line:nth-child(4){
+    width: 7px;
+  } 
+  .u_mb_navbar_left {
+    display: flex;
+    align-items: center;
+    width: 50px;
+    justify-content: space-between;
+  }
+  .u_mb_navbar_cont {
+    padding: 16px;
+  }
+  .u_move{
+    /*     left: 440px;
+    position: relative; */
+    overflow: hidden;
+  }
+  .u_mb_search_form_section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 19;
+    width: 100%;
+    opacity:1;
+    display:none;
+    transition:opacity .3s ease-in;
+    padding: 10px 48px 10px 16px;
+    background: black;
+  }
+  /*   .u_mb_search_form_section.u_mb_search_active{
+  opacity: 1;
+  visibility: visible;
+  } */
+  .u_mb_menu_search_form_section{
+    width: 100%;
+    padding: 16px 24px;
+    background: black;
+  }
+  .u_mb_search_modal_input {
+    position: relative;
+  }
+
+  .u_mb_navbar_icon_link{
+    display: inline-block;
+    padding: 0 2px;
+    cursor: pointer;
+  }
+  .u_mb_nav_icon_search {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .u_mb_nav_icon_search:before {
+    content: "\EA25";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 16px;
+    color: white;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .u_mb_nav_icon_whishlist {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .u_mb_nav_icon_whishlist:before {
+    content: "\EA11";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 16px;
+    color: white;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .u_navbar_mb_logo_width {
+    height: 22px;
+  }
+  .u_mb_nav_item_text {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: white;
+    letter-spacing: 0;
+  }
+  .u_mb_icon_link {
+    text-decoration: none;
+    color: white;
   }
 
   .u_mobile_menu{
-    width: 0;
+    width: 80vw;
     height: 100%;
     overflow: hidden;
     position: fixed;
     top: 0;
-    left: 0%;
-    transition:all 0.2s ease-out ;
-    background: white;
+    left: -440px;
+    background: black;
     overflow: auto;
     z-index: 99;
-    padding-top:100px;
+    max-width: 440px;
+    transition: transform .3s ease-in-out;
   }
-
-  .u_mobile_menu.active {
-    width:100%
+  .u_mobile_menu.active{
+    transform : translateX(440px)
   }
-  .change .bar_1{
-    transform: rotate( 
-      50deg
-    ) translate(3px, 2px);
+  .u_menu_contaner{
+    padding:15px
   }
-
-
-
-  .change .bar_2{
-    opacity: 0;
-
+  .u_mb_search_cross {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+  }
+  .u_mb_search_cross:before{
+    content: "\EA0C";
+    width: 10px;
+    height: 1px;
+    font-family: iconfont !important;
+    font-size: 14px;
+    color: white;
+    font-weight: 200;
+    line-height: 24px;
+  }
+  .u_mb_search_button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+  }
+  .u_mb_search_input {
+    color: white;
+    border: 1px solid #bababa;
+    padding: 7px 10px 7px 45px;
+    line-height: 20px;
+    font-size: 16px;
+    width: 100%;
+    text-align: left;
+    font-family: OptimaNovaLTPro !important;
+    border-radius: 0;
+  }
+  .u_mb_search_input:focus{
+    box-shadow:none;
+    border-color: #767676 !important;
+    outline: none;
+  }
+  .u_menu_container {
+    padding-top: 9px;
+  }
+  .u_mb_navbar_item_ul {
+    padding: 0;
+    margin: 0;
+    align-items: center;
+  }
+  .u_mb_navbar_item_li {
+    list-style: none;
 
   }
-  .change .bar_3{
-    transform:
-      rotate( 
-        -50deg
-      ) translate(7px,-5px);
+  .u_mb_navbar_item_link{
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 13px 24px;
+    position: relative;
+    font-family: 'OptimaNovaLTPro';
+    text-overflow: ellipsis;
+    font-weight: 400;
+    letter-spacing: .5px;
+  }
+  .u_mb_navbar_item_li_login {
+    background: #e1b696;
+  }
+  .u_mb_navbar_item_link_login{
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    text-transform: capitalize;
+    font-size: 16px;
+    padding: 13px 24px;
 
+  }
+  .u_sec_dropdown_mb {
+    display: none;
+/*     background: #f8f8f9; */
+    background: black;
+    padding: 0;
+  }
+  .u_mb_navbar_item_link_level {
+    text-align: left;
+    width: 100%;
+    line-height: 17px;
+    text-transform: uppercase;
+    font-size: 14px;
+    display: block;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    padding: 10px 0 10px 30px;
+    font-family: 'OptimaNovaLTPro';
+    text-overflow: ellipsis;
+    font-weight: 400;
+    letter-spacing: .5px;
+  }
+  .u_third_dropdown_mb {
+    padding: 0 0 0 30px;
+    margin: 0;  
+    display: none;
+  }
+  .u_arrow_right {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-100%, -50%);
+    opacity:0;
+    transition: margin .3s ease-in;
+    margin-top:-2px;
+  }
+  .u_arrow_right i{
+    font-size: 12px;
+    color: white;
+    transition: all .15s ease-in;
+  }
+  .u_navbar_item_li:hover .u_arrow_right {
+    margin-top:4px;
+    opacity:1;
+  }
+  .u_mb_arrow_right {
+    position: absolute;
+    top: 50%;
+    right: 7%;
+    transform: translateY(-50%);
+    transition: all .3s ease-in;
+  }
+  .u_sticky_header{
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: black;
+    z-index: 99;
+
+  }
+  .u_mb_menu_bg{
+/*     background:#f8f8f9; */
+        background:black;
+  }
+  .u_mb_navbar_item_static_ul {
+    display: block;
+    margin-top: 16px;
+    border-top: 1px solid #eee;
+    padding: 24px 0 0 0;
+  }
+  .u_mb_navbar_item_static_li {
+    list-style: none;
+  }
+  .u_menu_navbar_icon_link {
+    display: block;
+    padding: 10px 24px;
+    cursor: pointer;
+  }
+  .u_menu_navbar_link {
+    letter-spacing: .5px;
+    margin-left: 5px;
+    text-transform: uppercase;
+    line-height: 10px;
+    font-size: 14px;
+    color: white;
+    font-family: OptimaNovaLTPro !important;
+    font-weight: 200;
+    font-style: normal;
+    display: inline-block;
+    vertical-align: middle;
 
   }
   .overflow{
-    overflow: hidden;
+    overflow:hidden
   }
-
-
-  /*   menu */
-
-  .u_dropdown_list_mb {
-
-    list-style: none;
-    padding:5px 0;
+  .u_hide{
+    display:none
   }
-  .u_dropdown_list_mb:first-child{
-   padding:8px 0;
+  .u_block{
+    display:block
   }
-    .u_dropdown_list_mb:last-child{
-   padding:8px 0;
+  .u_sticky_width{
+    height: 18px;
   }
-  .u_dropdown_mb {
-    padding: 0;
-  }
-  .u_icon_mb {
-    padding: 5px;
-    display: inline-block;
-    position: absolute;
-    right: 0;
-  }
-  .u_navbar_item_link_mb{
-    color: white;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 700;
-  }
-  .u_navbar_item_link_mb:hover{
-    text-decoration:none
-  }
-  .u_navbar_item_link_mb_first_level {
-    color: black;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 25px;
-    font-weight: 900;
-    line-height: 2.0;
-     letter-spacing: 0;
-  }
-
-  .u_mb_hide{
-    display:none;
-  }
-
-
-  .u_navbar_item_link_mb_level:hover{
-    text-decoration:none
-  }
-
-  .u_mb_flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .u_nav_social {
-    padding-left: 10px;
-  }
-  .u_nav_social_list {
+  .u_navbar_margin {
     margin: 0;
-    padding:0;
   }
-  .u_nav_social_li {
-    list-style: none;
-    margin: 0;
-    padding:5px 0;
+  body{
+    transition: all 0.3s; 
   }
-  .u_nav_social_link {
-    font-weight: 700;
-    font-size: 18px;
-    margin-left: 12px;
-    text-transform: uppercase;
-    color: black;
+  @media screen and (max-width:1024px){
 
-
-  }
-  .u_mb_social_flex{
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-
-  }
-  .u_sp_line_full_mb{
-    width: 100%;
-    height: 2px;
-    margin-top: 30px;
-    background: #f5f5f5;
-  }
-  .u_nav_social_icons_li {
-    list-style: none;
-    margin: 0;
-    padding: 10px;
-  }
-  .u_nav_social_icons_li:first-child{
-    padding-left:0
-  }
-  .u_nav_social_list_icons {
-    padding: 0;
-    display: flex;
-    align-items: center;
-  }
-  .u_nav_social_icons_li .u_nav_social_link:first-child{
-    margin-left:0;
-
-  }
-  .u_mobile_menu_items{
-    width: 0;
-    height: 100%;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0%;
-    transition:all 0.3s ease ;
-    background: white;
-    overflow: auto;
-    z-index: 99;
-    padding-top:100px;
-  }
-
-  .u_mobile_menu_items.active {
-    width:100%
-  }
-  .u_sec_dropdown_mb {
-    padding: 0;
-  }
-  
-  .u_mb_item_menu {
-    padding: 10px 0;
-}
-  .u_navbar_item_link_mb_second_level {
-   text-transform: capitalize;
-    text-decoration: none;
-    color: black;
-    font-size: 24px;
-    font-weight: 700;
-    font-family: Helvetica Neue, sans-serif !important;
-
-  }
-  .u_third_dropdown_mb {
-    padding: 0;
-  }
-  .u_navbar_item_link_mb_third_level{
-  font-size: 18px;
-    text-decoration: none;
-    text-transform: capitalize;
-    font-weight: 500;
-    color: black;
-    font-family: Helvetica Neue, sans-serif !important;
-  }
-  .u_featured_section_mb{
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .u_featured_img_block_mb {
-
-    width: 100%;
-    padding-top: 35px;
-  }
-  .u_featured_img_tag_mb{
-    width: 100%;
-    height: 450px;
-    object-fit: cover;
-    object-position: center;
-  }
-  .u_featured_img_text_mb {
-    color: #df5657;
-    text-transform: uppercase;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 900;
-    letter-spacing: 0;
-  }
-  .u_featured_img_text_link_mb {
-    font-weight: 700;
-    display: inline-block;
-    font-size: 16px;
-    margin: 0;
-    text-decoration: underline;
-    color: black;
-  }
-  .u_logo_width{
-      width: 60px !important;
-  }
-  @media screen and (max-width:1250px){
-    .u_desktop_view{
+    .u_navbar_dk{
       display:none
     }
     .u_mb_view{
-      display:block;
+      display:block
     }
-    .u_list_back_hover{
-      color: white;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .u_anouncement_text {
-    font-size: 12px;
-    }
-
   }
-    @media screen and (max-width:450px){
-   .u_mb_navbar_logo a svg {
-    width: 86px;
-}
-      .u_mb_nav {
-     justify-content: unset;
-    padding: 0 20px;
-  
-}
-      .u_nav_ul_mb {
-    padding: 0;
-    margin: 0;
-}
-      .u_featured_img_tag_mb {
-    width: 100%;
-    height: 145px;
-    object-fit: cover;
-}
-    }
-</style>
-   
-   
-   
 
+</style>
+<script>
+  $('.u_nav_icon_search').click(function(){
+    $('body').addClass('u_nav_active');
+    setTimeout(function(){
+      $('.u_overlay').addClass('u_overlay_active');
+      $('.u_search_form_section').show(); 
+      $(".u_search_input").focus();
+    },500);
+  })
+  $('.u_search_cross').click(function(){
+    $('.u_search_form_section').slideUp(500 ,function(){
+      $('.u_overlay').removeClass('u_overlay_active');
+      $('body').removeClass('u_nav_active');
+    });
+  });
+  $("body").click(function(e){
+    if ($(e.target).hasClass('u_nav_icon_search') || $(e.target).hasClass('u_search_input') || $(e.target).hasClass('u_search_form'))  {   
+      console.log('click');
+    }
+    else{
+      $('.u_search_form_section').slideUp(500 ,function(){
+        $('.u_overlay').removeClass('u_overlay_active');
+        $('body').removeClass('u_nav_active');
+      })
+    }
+  });       
+  $(document).scroll(delay(function (e) {
+    var scroll = $(this).scrollTop();
+//     console.log(scroll);
+    if(scroll > 0)
+    {
+      $('.u_navbar_left').css('visibility', 'hidden');
+      $('.u_navbar_center').addClass('u_navbar_margin');
+      $('.u_navbar_logo_width').addClass('u_sticky_width');
+      $('.u_hide_part').addClass('u_hide');
+
+
+    }
+    else{
+      $('.u_navbar_left').css('visibility', 'visible');;
+      $('.u_navbar_center').removeClass('u_navbar_margin');
+      $('.u_navbar_logo_width').removeClass('u_sticky_width');
+      $('.u_hide_part').removeClass('u_hide')
+
+    }
+  }, 100));
+  // hamburger
+  $('.u_hamberger').click(function(){
+    $('.u_mobile_menu').addClass('active');
+    $('body').addClass('u_move');
+    setTimeout(function(){
+      $('.u_mb_overlay').addClass('u_mb_overlay_active');
+    },300);
+  });
+  $('.u_mb_overlay').click(function(){
+    $('.u_mobile_menu').removeClass('active');
+    $('body').removeClass('u_move')
+    $('.u_mb_overlay').removeClass('u_mb_overlay_active');
+
+  });
+  //mb search
+  $('.u_mb_nav_icon_search,.u_mb_search_cross').click(function(){
+    $('.u_mb_search_form_section').slideToggle();
+    $('.u_mb_search_input').focus();
+  })
+
+  // mb_navigation responsive
+  $('.u_mb_navbar_item_link').click(function(){
+    $(this).find('i').toggleClass(' fa-caret-up  fa-caret-down');
+    $(this).parent().find('.u_mb_navbar_item_link').toggleClass('u_mb_menu_bg');
+    $(this).parent().find('.u_sec_dropdown_mb').toggle();
+  })
+  // navigation third level
+  $('.u_mb_navbar_item_link_level').click(function(){
+    $(this).find('i').toggleClass(' fa-caret-up  fa-caret-down');
+    $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();
+  })
+  //help script
+  $('.u_help_btn').click(function(){
+
+  })
+  function delay(callback, ms) {
+    var timer = 0;
+    return function() {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        callback.apply(context, args);
+      }, ms || 0);
+    };
+  }
+
+</script>
+{% schema %}
+{
+"name": "Custom header",
+"settings": [
+
+{
+"type":"image_picker",
+"id":"u_navbar_logo",
+"label":"Navbar logo"
+},
+{
+"type":"text",
+"id":"u_dk_boutique_text",
+"label":"Desktop boutique text",
+"default":"boutiques"
+},
+{
+"type":"text",
+"id":"u_dk_lang_text",
+"label":"Desktop language text",
+"default":"int"
+},
+{
+"type":"url",
+"id":"u_dk_boutique_text_link",
+"label":"Desktop boutique text link"
+},
+{
+"type":"text",
+"id":"u_dk_account_text",
+"label":"Dektop account text",
+"default":"sign in/register"
+},
+{
+"type":"text",
+"id":"u_account_text",
+"label":"Account text",
+"default":"sign in"
+},
+{
+"type":"url",
+"id":"u_dk_whishlist_text_link",
+"label":"Navbar whichlist icon url"
+},
+{
+"type":"image_picker",
+"id":"u_navbar_cart",
+"label":"Navbar Cart"
+},
+{
+"type":"link_list",
+"id":"u_navbar_list",
+"label":"Navbar menu"
+}
+],
+"blocks":[
+{
+"name":"mega-menu img block",
+"type":"u_mega_img_block",
+"settings":[
+{
+"type":"image_picker",
+"id":"u_mega_img",
+"label":"Mega menu image"
+},
+{
+"type":"text",
+"id":"u_img_sh_title",
+"label":"Img short title"
+},
+{
+"type":"text",
+"id":"u_img_title",
+"label":"Img title"
+},
+{
+"type":"textarea",
+"id":"u_img_desp",
+"label":"Img description"
+},
+{
+"type":"text",
+"id":"u_img_link_text",
+"label":"Img link text"
+},
+{
+"type":"color",
+"id":"u_img_link_text_bg",
+"label":"Img link text background",
+"default":"#000"
+},
+{
+"type":"color",
+"id":"u_img_link_text_color",
+"label":"Img link text color",
+"default":"#fff"
+},
+{
+"type":"color",
+"id":"u_img_link_hover_bg",
+"label":"Img link text hover  background",
+"default":"#897358"
+},
+{
+"type":"color",
+"id":"u_img_link_hover_color",
+"label":"Img link text hover color",
+"default":"#fff"
+},
+{
+"type":"url",
+"id":"u_img_link",
+"label":"Img link"
+},
+{
+"type":"text",
+"id":"u_img_handle",
+"label":"Img handle"
+}
+]
+}
+
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
