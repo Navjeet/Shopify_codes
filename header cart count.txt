@@ -1,0 +1,32 @@
+{% comment %}
+following code put in theme .js
+{% endcomment %}
+ function getCartCount() {
+    $.getJSON('/cart.js', function(cart){ 
+//       console.log(cart);
+      var result = cart.item_count;
+      console.log(result);
+      if(result == '0'){
+      $('.u_nav_cart_count').hide();
+         $('.u_mb_nav_cart_count').hide();
+      }else{
+       $('.u_nav_cart_count').show();
+         $('.u_mb_nav_cart_count').show();
+      $('.u_nav_cart_count').text(result);
+        $('.u_mb_nav_cart_count').text(result);
+      }
+      });
+    }
+    $(document).ready(function(){
+      getCartCount();
+    });
+    
+    $('.product-form__submit').click(function(){
+      setTimeout(function(){
+        getCartCount();
+                    cart_render();
+      }, 1000);
+    });
+in header
+  <span class="u_nav_cart_count"></span>
+ <span class="u_mb_nav_cart_count"></span>
