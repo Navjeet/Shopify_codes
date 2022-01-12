@@ -5,6 +5,9 @@
                  class="number" data-quantity-input>
           <span class="plus">+</span>
         </div>
+ {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  
+   
 <script>
   $('.minus').click(function(){
     var $input =$(this).parent().find('input');
@@ -24,6 +27,9 @@
     $input.val($count);
     $input.change();
   })
+ $(document).ready(function(){
+         Shopify.money_format = "{{ shop.money_with_currency_format }}";   
+    });
  $(document).ready(function(){
     swatches();
   })
@@ -68,7 +74,7 @@
           // variant change price
           var variant_price = $(this).attr('price-data');
           console.log('variant price',variant_price);
-          $('.custom-total').find('.u_pro_price').text(variant_price);
+          $('.custom-total').find('.u_pro_price').text(Shopify.formatMoney(variant_price));
           $('.u_custom_variant_price').attr('value',variant_price);
           let compare_variant_price = $(this).attr('compare-price-data');
           console.log('variant compare price',compare_variant_price);
@@ -113,3 +119,14 @@
       $('.u_sold_out_error').text(' ');
     }
   }
+
+////image change of varients        
+            let image_url =$(this).attr('data-image');
+            console.log('clicked image src',image_url);
+            $(".product-single__thumbnail-image").each(function(){
+              var image_src = $(this).attr("data-src");
+              if($(this).attr("data-src") == image_url){
+                console.log("image_src",image_src);
+                $(this).trigger("click");
+              }
+            });
