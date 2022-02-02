@@ -1,0 +1,7 @@
+{% if block.settings.icon-font != blank and block.settings.icon-svg != blank %}          
+            {{block.settings.icon-svg}}
+            {% elsif block.settings.icon-font != blank and block.settings.icon-svg == blank %}
+             <i class="fas {{block.settings.icon-font}}"></i> 
+            {% elsif block.settings.icon-font == blank and block.settings.icon-svg != blank %}
+            {{block.settings.icon-svg}}
+            {% endif%}
