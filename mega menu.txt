@@ -199,139 +199,604 @@
   </div>
 </div>
 <!-- mobile view -->
-<div class="u_mb_view">
-  <div class="u_mb_navbar_cont">
+ <div class="u_mb_view">
     <div class="u_mb_bg">
-      <div class="u_mb_navbar_row">
-        <div class="u_mb_navbar_left">
-          <div  class="u_mb_navbar_icon_link">
+      <div class="u_mb_nav">
+        <div class="u_mb_left_nav">
+          <div class="u_mb_inner_row">
             <div class="u_hamberger">
               <div class="u_berger_line bar_1"></div>
               <div class="u_berger_line bar_2"></div>
               <div class="u_berger_line bar_3"></div>
-              <div class="u_berger_line bar_4"></div>
+            </div>
             </div>
           </div>
-          <div  class="u_mb_navbar_icon_link_u_search">
-            <span class="u_mb_nav_icon_search"></span>
-          </div>
-          <div class="u_mb_search_form_section">
-            <div class="u_mb_search_cross">
-            </div>
-            <div class="u_mb_search_form">
-              <form action="{{ routes.search_url }}" method="get" role="search" class="search">
-                <div class="u_mb_search_modal_input">
-                  <input type="text" class="u_mb_search_input" placeholder="I am looking for...."   name="q"  autocomplete="off">
-                  <button type="submit" class="u_mb_search_button" >
-                    <span class="u_nav_icon_search"></span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div> 
-        <div class="u_mb_navbar_center">
-          <div class="u_mb_navbar_logo">
-            <a href="{{routes.root_url}}" class="u_logo_link" title="Graff Home">
-              {% if section.settings.u_navbar_logo != blank %}
-              <img src="{{section.settings.u_navbar_logo | img_url :'master' }}" alt="no logo" class="u_navbar_mb_logo_width" >
-              {% endif %}
-            </a>
-          </div>        
-        </div>
-        <div class="u_mb_navbar_right">            
-          <a href="{{section.settings.u_dk_whishlist_text_link}}"  class="u_navbar_icon_link">
-            <span class="u_mb_nav_icon_whishlist"></span>
+         <div class="u_mb_center_nav">
+            <div class="u_mb_navbar_logo">
+              <a href="{{routes.root_url}}" class="u_mb_logo_link" title="Home">
+            {% if section.settings.u_nav_logo != blank and section.settings.u_nav_logo_svg != blank %}          
+            {{section.settings.u_nav_logo_svg}}
+            {% elsif section.settings.u_nav_logo != blank and section.settings.u_nav_logo_svg == blank %}
+            <img src="{{section.settings.u_nav_logo |img_url : 'master' }}" class="u_nav_mb_logo"> 
+            {% elsif section.settings.u_nav_logo == blank and section.settings.u_nav_logo_svg != blank %}
+            {{section.settings.u_nav_logo_svg}}
+            {% endif%}
           </a>
-          <a href="{{routes.cart_url}}"  class="u_navbar_icon_link_u_cart">
-           {% if section.settings.u_navbar_cart != blank %}
-            <img src="{{section.settings.u_navbar_cart | img_url :'master' }}" alt="no logo" class="u_navbar_cart_width" >
-           {% else %}
-            <i class="fal fa-shopping-cart"></i>
-            {% endif %}
-          <span class="u_nav_cart_count"></span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="u_mobile_menu">
-    <div class="u_menu_container ">
-      <div class="u_mb_menu_search_form_section">
-        <div class="u_mb_search_form">
-          <form action="{{ routes.search_url }}" method="get" role="search" class="search">
-            <div class="u_mb_search_modal_input">
-              <input type="text" class="u_mb_search_input" placeholder="I am looking for...."   name="q"  autocomplete="off">
-              <button type="submit" class="u_mb_search_button" >
-                <span class="u_nav_icon_search"></span>
-              </button>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="u_menu_list">
-        <ul class="u_mb_navbar_item_ul">
-          {% for  first_level in linklists[section.settings.u_navbar_list].links %}
-
-          <li class="u_mb_navbar_item_li">
-
-            <a href="{% if first_level.links!=blank %} javascript:void(0){% else %}{{first_level.url}}{% endif %}" class="u_mb_navbar_item_link">{{ first_level.title }}
-              {% if first_level.links!=blank %}
-              <div class="u_mb_arrow_right">
-                <i class="fa fa-caret-right"></i>   
+          </div>
+        <div class="u_mb_right_nav">
+          <ul class="u_nav_ul_mb">
+            <li class="u_nav_li_mb">
+          <div  class="u_nav_mb_search">
+            {{section.settings.u_search_svg}}
+          </div>
+            </li>
+              <li class="u_nav_li_mb">
+            <div  class="u_nav_mb_icon u_account_svg">
+              {{section.settings.u_account_svg}}
+            </div>
+                 <div class="u_mb_nav_accout_sec_content">
+              <div class="u_nav_account_row">
+                <div class="u_nav_account_block">
+                  <a href="{{routes.account_login_url }}" class="u_login_link" >
+                    {{section.settings.u_login_text}}
+                  </a>
+                </div>  
+                <div class="u_nav_account_block">
+                  <a href="{{routes.account_register_url }}" class="u_register_link" >
+                    {{section.settings.u_register_text}}
+                  </a>
+                </div>  
               </div>
-              {% endif %}
-            </a>
-            {% if first_level.links!=blank %}
-            <ul class="u_sec_dropdown_mb">
-              {% for second_level in first_level.links %}
-              <li  class="u_navbar_item_li_dropdown">
-                <div class="u_item_dropdown">
-                  <a href="{{second_level.url}}" class="u_mb_navbar_item_link_level">{{second_level.title}}
-
-                    {% if second_level.links!=blank %}
-                    <div class="u_mb_arrow_right">
-                      <i class="fa fa-caret-right"></i>   
-                    </div>
-                    {% endif %}
+              {% if customer %}
+              <div class="u_nav_profile_row">
+                <div class="u_nav_profile_block">
+                  <a href="{{routes.account_url  }}" class="u_profile_link" >
+                    {{section.settings.u_account_text}}
                   </a>
                 </div>
-                {% if second_level.links!=blank %}
-                <ul class="u_third_dropdown_mb">
-                  {% for third_level in second_level.links %}
-                  <li  class="u_navbar_item_li_dropdown">
-                    <a href="{{third_level.url}}" class="u_mb_navbar_item_link_level">{{third_level.title}}</a>
-                  </li>
-                  {% endfor%}
-                </ul>
-                {% endif%}
-              </li>
-              {% endfor%}
-            </ul>
-            {% endif%}
-          </li>
-          {% endfor %}
+                <div class="u_nav_profile_block">
+                  <a href="{{routes.account_url  }}" class="u_profile_link" >
+                    {{section.settings.u_order_text}}
+                  </a>
+                </div>
+              </div>
+              {% endif %}
+            </div>
 
-        </ul>
+            </li>
+            <li class="u_nav_li_mb">
+              <div class="u_nav_mb_icon">
+              {{section.settings.u_whishlist_svg}}
+          </div>
+          
+            </li>
+            <li class="u_nav_li_mb">
+              <a class="u_nav_link_mb u_navlink_svg" href="{{routes.cart_url }}">
+              {{section.settings.u_cart_svg}}
+                    <span class="u_mb_nav_cart_count"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <ul class="u_mb_navbar_item_static_ul">
-        <li class="u_mb_navbar_item_static_li">
-          <a href="{{routes.account_url}}"  class="u_menu_navbar_icon_link">
-            <span class="u_nav_icon_account"></span>
-            <span class="u_menu_navbar_link"> {{section.settings.u_dk_account_text}}</span>
-          </a>  
-          <a href="{{section.settings.u_dk_boutique_text_link}}" class="u_menu_navbar_icon_link">
-            <span class="u_nav_icon"></span>
-            <span class="u_menu_navbar_link"> {{section.settings.u_dk_boutique_text}}</span>
-          </a>
-        </li>
-      </ul>
     </div>
-  </div>
-  <div class="u_mb_overlay">
-  </div>
-</div>
+    <div class="u_mobile_menu">
+      <div class="u_mb_container ">
+        <div class="u_mb_cross">
+          <i class="fal fa-times"></i>
+        </div>
+        </div>
+        <div class="u_navbar_list">
+          <ul class="u_dropdown_mb">
+            {% for  first_level in linklists[section.settings.u_navbar_list].links %}
+            <li class="u_dropdown_list_mb_first">
+              <div class="u_mb_flex">              
+                <a href="{{first_level.url}}" class="u_navbar_item_link_mb_first_level  ">{{first_level.title}}</a>
+               {% if first_level.links!=blank %}
+                <i class="fal fa-chevron-down" aria-hidden="true"></i>
+                {% endif %}
+              </div>
+              {% if first_level.links != blank %}
+              <div class="u_mobile_menu_items">
+                <div class="u_mb_container ">
+                  <div class="u_mb_menu_item">
+                    <div class="u_mb_item_menu">
+                      <ul  class="u_sec_dropdown_mb">
+                        {% for  ssll in first_level.links %}
+                        <li class="u_dropdown_list_mb">
+                          <a href="{{ssll.url}}" class="u_navbar_item_link_mb_second_level">{{ssll.title}}</a>
+                        </li>
+                        {% assign ssll_t = first_level.title | downcase | strip %}
+                         {% if ssll.links!=blank %}
+                        <ul class="u_third_dropdown_mb">
+                          {% for tl in ssll.links %}
+                          <li class="u_dropdown_list_mb">
+                            <a href="{{tl.url}}" class="u_navbar_item_link_mb_third_level">{{tl.title}}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>  
+                        {% endif %}
+                        {% endfor %}
+                        <div class="u_featered_parent">
+                        <div class="u_featured_img_row">
+                        {% for featured_img in section.blocks %}
+                        {% if featured_img.type == 'u_mega_img_block'%}
+                        {% assign handle = featured_img.settings.u_img_handle | downcase | strip %}
+                        {% if ssll_t == handle %}
+                        <div class="u_featured_img_block_mb">                      
+                           <a href="{{featured_img.settings.u_img_link_url}}" class="u_mb_featured_img_link">
+                        <div class="u_featured_position">
+                          <img src="{{featured_img.settings.u_mega_img | img_url:'master'}}" alt="no image" class="u_featured_img_tag_mb">
+                        </div>
+                        <div class="u_featured_img_text_block">
+                          <h3 class="u_featured_img_text_mb">{{featured_img.settings.u_img_title}}</h3>
+                        </div>
+                      </a>
+                        </div>
+                         
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        </div>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+            {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+                 <div class="u_mb_help_content">
+              {% for block in section.blocks %}
+              {% if block.type == 'u_help_items' %}
+              <a href="{{block.settings.u_page_url}}" class="u_mb_nav_help_row">
+                <div class="u_nav_help_block">
+                  {% if block.settings.u_page_icon != blank and block.settings.u_page_svg != blank %}          
+                  {{block.settings.u_page_svg}}
+                  {% elsif block.settings.u_page_icon != blank and block.settings.u_page_svg == blank %}
+                  <i class="fal {{block.settings.u_page_icon}}"></i> 
+                  {% elsif block.settings.u_page_icon == blank and block.settings.u_page_svg != blank %}
+                  {{block.settings.u_page_svg}}
+                  {% endif%}
+                </div> 
+                <div class="u_nav_help_block_sec">
+                  <p class="u_help_text">
+                    {{block.settings.u_page_text}}</p>
+                </div> 
+              </a>
+              {% endif %}
+              {% endfor%}
+                    {% if settings.social_facebook_link != blank or settings.social_twitter_link != blank or settings.social_instagram_link != blank %}
+              <div class="u_mb_social_block">
+                <p class="u_social_title">{{section.settings.u_social_title}}</p>
+                  <div class="u_product_social_media">
+                    {% if settings.social_facebook_link != blank %}
+           <a target="_balnk" href="{{settings.social_facebook_link}}" class="u_social_icon_link_fb">
+            <div class="u_social_icon" >
+              <i class="fab fa-facebook-f"></i>
+            </div>
+          </a>
+                    {% endif %}
+                     {% if settings.social_twitter_link != blank %}
+          <a target="_balnk" href="{{settings.social_twitter_link}}" class="u_social_icon_link_tw">
+            <div class="u_social_icon" >
+              <i class="fab fa-twitter"></i>
+            </div>
+          </a>
+                    {% endif %}
+                     {% if settings.social_instagram_link != blank %}
+          <a target="_balnk" href="{{settings.social_instagram_link}}" class="u_social_icon_link_insta">
+            <div class="u_social_icon" >
+             <i class="fab fa-instagram" aria-hidden="true"></i>
+            </div>
+          </a>  
+                    {% endif %}
+        </div> 
+              </div>
+                   {% endif %}
 
+            </div>
+    
+        </div>
+      </div>
+    </div>
+     <div class="u_mb_search_section">
+        <div class="u_mb_search_container" id="pageheader">
+            <form action="{{ routes.search_url }}" method="get" role="search" class="search-box">
+              <div class="u_mb_nav_search_row">
+                <div class="u_mb_search_back">
+               <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="u_mb_search_input">
+                  <input type="text" class="u_mb_search_email" placeholder="{{section.settings.u_search_placeholder}}." name="q" required autocomplete="off"> 
+                </div>
+                <div class="u_mb_search_btn">
+                  <button class="u_mb_search_btn_size" type="submit">
+                 <i class="fal fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+       </div>
+        </div>
+
+<style>
+  
+  .u_mb_nav{
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    position: relative;
+    z-index: 999;
+    background:white;
+  }
+  .u_mb_left_nav {
+    width: 10%;
+}
+  .u_mb_center_nav {
+    width: 30%;
+}
+  .u_mb_right_nav {
+    width: 60%;
+}
+  
+  .u_mb_container {
+    padding: 15px ;
+  }
+  .u_mb_search_container {
+    padding: 10px 15px ;
+  }
+  .u_berger_line {
+    width: 22px;
+    height: 1px;
+    background: black;
+    margin: 3px;
+    display: block !important;
+ transition: .2s ease-in-out;
+    cursor: pointer;
+  }
+
+  .u_mb_inner_row {
+      display: inline-block;
+    vertical-align: revert;
+  }
+  .u_mb_navbar_logo {
+    padding-left: 15px;
+  }
+  .u_mb_navbar_logo .u_mb_logo_link svg{
+  width: 80px;
+  }
+
+  .u_menu_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .u_mb_search_cross {
+    display: none;
+}
+  
+    .u_mb_nav_accout_sec_content {
+    background: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    border-top: 1px solid #e4e4e4;
+    box-shadow: 0px 20px 20px 0px rgb(11 48 73 / 15%);
+    padding: 20px 0;
+    border-radius: 0 0 10px 10px;
+    opacity:0;
+    max-height:0;
+    transition:max-height .3s;
+       overflow: auto;
+      visibility:hidden
+  }
+  .u_account_active{
+  opacity:1;
+    max-height:500px
+  }
+    .u_mb_search_section{
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0%;
+    transition:all 0.2s ease-out ;
+    background: white;
+    overflow: auto;
+    z-index: 9999;
+  }
+
+  .u_mb_search_section.active_search {
+    width:100%
+  }
+  .u_mb_nav_search_row{
+  display: flex;
+    position: relative;
+    align-items: center;
+  }
+  .u_mb_search_back {
+    width: 10%;
+}
+  .u_mb_search_input {
+    width: 80%;
+}
+  .u_mb_search_btn {
+    width: 10%;
+}
+ .u_mb_search_email {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    color: black;
+    border-radius: 30px;
+    background: rgb(242, 242, 242);
+  }
+  .u_mb_search_email::placeholder{
+    text-transform:capitalize;
+  }
+  .u_mb_search_email:focus{
+    box-shadow:none;
+    outline:none;
+  }
+	.u_mb_search_btn_size {
+    background: rgb(38, 171, 255);
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+}
+  .u_mb_search_btn_size i{
+    color: white;
+    font-size: 14px;
+}
+  .u_nav_ul_mb {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+        margin: 0;
+    padding: 0;
+  }
+  .u_nav_li_mb {
+    list-style: none;
+    padding: 5px;
+  }
+  .u_nav_link_mb {
+    color: black;
+    padding: 7px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 15px;
+    position:relative
+  }
+  .u_mb_nav_cart_count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: black;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+  }
+  .u_nav_link_mb svg{
+    width: 24px;
+    height: 100%;
+  }
+
+  .u_mobile_menu{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition:all 0.2s ease-out ;
+    background: white;
+    overflow: auto;
+    z-index: 9999;
+  }
+  .u_mobile_menu.active {
+    left:0%
+  }
+  .u_mb_cross i{
+ color: rgb(51, 51, 51);
+    opacity: .8;
+        font-size: 14px;
+  }
+  .u_mb_cross {
+    display: inline-block;
+    width: 15px;
+}
+  .u_overflow{
+    overflow: hidden;
+  }
+
+
+  /*   menu */
+  .u_mb_flex i{
+    color: rgb(51, 51, 51);
+    font-size: 10px;
+  }
+  .u_dropdown_list_mb_first{
+    list-style: none;
+    padding:5px 0;
+  }
+  .u_dropdown_list_mb{
+    list-style: none;
+  }
+  .u_dropdown_mb {
+    padding: 0;
+        margin: 0;
+  }
+  .u_icon_mb {
+    padding: 5px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+  .u_navbar_item_link_mb{
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .u_navbar_item_link_mb:hover{
+    text-decoration:none
+  }
+  .u_navbar_item_link_mb_first_level {
+   text-transform: capitalize;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
+  }
+
+  .u_mb_hide{
+    display:none;
+  }
+
+
+  .u_navbar_item_link_mb_level:hover{
+    text-decoration:none
+  }
+
+  .u_mb_flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+       padding: 5px 15px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+  }
+  .u_nav_social {
+    padding-left: 10px;
+  }
+  .u_nav_social_list {
+    margin: 0;
+    padding:0;
+  }
+  .u_nav_social_li {
+    list-style: none;
+    margin: 0;
+    padding:5px 0;
+  }
+  .u_mobile_menu_items{
+       transition: all .3s ease-in;
+    max-height:0;
+        overflow: auto;
+  }
+  .u_mobile_menu_items.active{
+    max-height:1000px
+  }
+  .u_sec_dropdown_mb {
+    padding: 0;
+  }
+  
+  .u_mb_item_menu {
+    padding: 10px 0;
+}
+  .u_navbar_item_link_mb_second_level {
+    text-transform: capitalize;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
+
+  }
+  .u_third_dropdown_mb {
+    padding: 0;
+  }
+  .u_navbar_item_link_mb_third_level{
+   text-transform: capitalize;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
+  }
+  .u_featured_section_mb{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .u_featured_img_block_mb {
+
+    width: 100%;
+    padding-top: 20px;
+  }
+  .u_featured_img_tag_mb{
+        width: 100px;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .u_featured_img_row {
+    display: flex;
+}
+  .u_featured_img_text_mb {
+       text-transform: capitalize;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
+    padding: 10px 0;
+  }
+  .u_mb_featured_img_link{
+      padding: 5px;
+    text-decoration: none;
+    display: block;
+  }
+ .u_featered_parent {
+    overflow: auto;
+    border-top: 1px solid rgb(228, 228, 228);
+ }
+  .u_mb_nav_help_row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 15px;
+    text-decoration: none;
+  }
+  .u_mb_social_block {
+    padding: 5px 15px;
+}
+</style>
+<script>
+  $('.u_account_svg').click(function(){
+  $(this).next().toggleClass('u_account_active');
+    $('body').toggleClass('u_overflow')
+  })
+    $('.u_nav_mb_search,.u_mb_search_back').click(function(){
+    $('.u_mb_search_section').toggleClass('active_search');
+  });
+    $('.u_hamberger,.u_mb_cross').click(function(){
+    $('.u_mobile_menu').toggleClass('active');
+    $('body').toggleClass('u_overflow');
+  });
+  // mb_navigation responsive
+  $('.u_mb_flex ').click(function(){
+    $(this).find('i').toggleClass(' fa-chevron-up  fa-chevron-down');
+    $(this).parent().find('.u_mobile_menu_items').toggleClass('active');
+  })
+  // navigation third level
+  $('.u_mb_navbar_item_link_level').click(function(){
+    $(this).find('i').toggleClass(' fa-caret-up  fa-caret-down');
+    $(this).parent().parent().find('.u_third_dropdown_mb').slideToggle();
+  })
+</script>
 <style>
   .u_navbar_icon_link_u_cart {
     display: inline-block;
@@ -767,321 +1232,354 @@ font-size: 14px;
     display:none;
     border-top: 5px solid #897358;
   }
-  .u_mb_navbar_row {
+ .u_mb_nav{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 5px 10px;
+    position: relative;
+    z-index: 999;
+    background:white;
+  }
+  .u_mb_left_nav {
+    width: 10%;
+}
+  .u_mb_center_nav {
+    width: 30%;
+}
+  .u_mb_right_nav {
+    width: 60%;
+}
+  
+  .u_mb_container {
+    padding: 15px ;
+  }
+  .u_mb_search_container {
+    padding: 10px 15px ;
   }
   .u_berger_line {
-    width: 19px;
+    width: 22px;
     height: 1px;
-    background: white;
-    margin: 3px auto;
-        display: block !important;
-  }
-  .u_berger_line:nth-child(1){
-    width: 14px;
-  } 
-  .u_berger_line:nth-child(3){
-    width: 14px;
-  } 
-  .u_berger_line:nth-child(4){
-    width: 7px;
-  } 
-  .u_mb_navbar_left {
-    display: flex;
-    align-items: center;
-    width: 50px;
-    justify-content: space-between;
-  }
-  .u_mb_navbar_cont {
-    padding: 16px;
-  }
-  .u_move{
-    /*     left: 440px;
-    position: relative; */
-    overflow: hidden;
-  }
-  .u_mb_search_form_section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 19;
-    width: 100%;
-    opacity:1;
-    display:none;
-    transition:opacity .3s ease-in;
-    padding: 10px 48px 10px 16px;
     background: black;
-  }
-  /*   .u_mb_search_form_section.u_mb_search_active{
-  opacity: 1;
-  visibility: visible;
-  } */
-  .u_mb_menu_search_form_section{
-    width: 100%;
-    padding: 16px 24px;
-    background: black;
-  }
-  .u_mb_search_modal_input {
-    position: relative;
-  }
-
-  .u_mb_navbar_icon_link{
-    display: inline-block;
-    padding: 0 2px;
+    margin: 3px;
+    display: block !important;
+ transition: .2s ease-in-out;
     cursor: pointer;
   }
-  .u_mb_nav_icon_search {
-    vertical-align: middle;
-    display: inline-block;
+
+  .u_mb_inner_row {
+      display: inline-block;
+    vertical-align: revert;
   }
-  .u_mb_nav_icon_search:before {
-    content: "\EA25";
-    width: 10px;
-    height: 1px;
-    font-family: iconfont !important;
-    font-size: 16px;
-    color: white;
-    font-weight: 400;
-    line-height: 24px;
+  .u_mb_navbar_logo {
+    padding-left: 15px;
   }
-  .u_mb_nav_icon_whishlist {
-    vertical-align: middle;
-    display: inline-block;
-  }
-  .u_mb_nav_icon_whishlist:before {
-    content: "\EA11";
-    width: 10px;
-    height: 1px;
-    font-family: iconfont !important;
-    font-size: 16px;
-    color: white;
-    font-weight: 400;
-    line-height: 24px;
-  }
-  .u_navbar_mb_logo_width {
-    height: 22px;
-  }
-  .u_mb_nav_item_text {
-    margin: 0;
-    text-transform: uppercase;
-    font-size: 13px;
-    color: white;
-    letter-spacing: 0;
-  }
-  .u_mb_icon_link {
-    text-decoration: none;
-    color: white;
+  .u_mb_navbar_logo .u_mb_logo_link svg{
+  width: 80px;
   }
 
-  .u_mobile_menu{
-    width: 80vw;
+  .u_menu_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .u_mb_search_cross {
+    display: none;
+}
+  
+    .u_mb_nav_accout_sec_content {
+    background: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    border-top: 1px solid #e4e4e4;
+    box-shadow: 0px 20px 20px 0px rgb(11 48 73 / 15%);
+    padding: 20px 0;
+    border-radius: 0 0 10px 10px;
+    opacity:0;
+    max-height:0;
+    transition:max-height .3s;
+       overflow: auto;
+      visibility:hidden
+  }
+  .u_account_active{
+  opacity:1;
+    max-height:500px
+  }
+    .u_mb_search_section{
+    width: 0;
     height: 100%;
     overflow: hidden;
     position: fixed;
     top: 0;
-    left: -440px;
-    background: black;
+    left: 0%;
+    transition:all 0.2s ease-out ;
+    background: white;
     overflow: auto;
-    z-index: 99;
-    max-width: 440px;
-    transition: transform .3s ease-in-out;
+    z-index: 9999;
   }
-  .u_mobile_menu.active{
-    transform : translateX(440px)
+
+  .u_mb_search_section.active_search {
+    width:100%
   }
-  .u_menu_contaner{
-    padding:15px
-  }
-  .u_mb_search_cross {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    cursor: pointer;
-  }
-  .u_mb_search_cross:before{
-    content: "\EA0C";
-    width: 10px;
-    height: 1px;
-    font-family: iconfont !important;
-    font-size: 14px;
-    color: white;
-    font-weight: 200;
-    line-height: 24px;
-  }
-  .u_mb_search_button {
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    position: absolute;
-    top: 5px;
-    left: 10px;
-  }
-  .u_mb_search_input {
-    color: white;
-    border: 1px solid #bababa;
-    padding: 7px 10px 7px 45px;
-    line-height: 20px;
-    font-size: 16px;
-    width: 100%;
-    text-align: left;
-    font-family: OptimaNovaLTPro !important;
-    border-radius: 0;
-  }
-  .u_mb_search_input:focus{
-    box-shadow:none;
-    border-color: #767676 !important;
-    outline: none;
-  }
-  .u_menu_container {
-    padding-top: 9px;
-  }
-  .u_mb_navbar_item_ul {
-    padding: 0;
-    margin: 0;
+  .u_mb_nav_search_row{
+  display: flex;
+    position: relative;
     align-items: center;
   }
-  .u_mb_navbar_item_li {
-    list-style: none;
-
-  }
-  .u_mb_navbar_item_link{
-    display: inline-block;
+  .u_mb_search_back {
+    width: 10%;
+}
+  .u_mb_search_input {
+    width: 80%;
+}
+  .u_mb_search_btn {
+    width: 10%;
+}
+ .u_mb_search_email {
     width: 100%;
-    text-align: left;
-    text-decoration: none;
-    color: white;
-    text-transform: uppercase;
+    border: none;
+    padding: 10px;
     font-size: 14px;
-    padding: 13px 24px;
-    position: relative;
-    font-family: 'OptimaNovaLTPro';
-    text-overflow: ellipsis;
-    font-weight: 400;
-    letter-spacing: .5px;
+    color: black;
+    border-radius: 30px;
+    background: rgb(242, 242, 242);
   }
-  .u_mb_navbar_item_li_login {
-    background: #e1b696;
+  .u_mb_search_email::placeholder{
+    text-transform:capitalize;
   }
-  .u_mb_navbar_item_link_login{
-    display: block;
-    width: 100%;
-    text-align: center;
-    text-decoration: none;
+  .u_mb_search_email:focus{
+    box-shadow:none;
+    outline:none;
+  }
+	.u_mb_search_btn_size {
+    background: rgb(38, 171, 255);
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+}
+  .u_mb_search_btn_size i{
     color: white;
-    text-transform: capitalize;
-    font-size: 16px;
-    padding: 13px 24px;
-
-  }
-  .u_sec_dropdown_mb {
-    display: none;
-/*     background: #f8f8f9; */
-    background: black;
+    font-size: 14px;
+}
+  .u_nav_ul_mb {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+        margin: 0;
     padding: 0;
   }
-  .u_mb_navbar_item_link_level {
-    text-align: left;
-    width: 100%;
-    line-height: 17px;
-    text-transform: uppercase;
-    font-size: 14px;
-    display: block;
+  .u_nav_li_mb {
+    list-style: none;
+    padding: 5px;
+  }
+  .u_nav_link_mb {
+    color: black;
+    padding: 7px;
+    border-radius: 4px;
     text-decoration: none;
-    color: white;
-    position: relative;
-    padding: 10px 0 10px 30px;
-    font-family: 'OptimaNovaLTPro';
-    text-overflow: ellipsis;
-    font-weight: 400;
-    letter-spacing: .5px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 15px;
+    position:relative
   }
-  .u_third_dropdown_mb {
-    padding: 0 0 0 30px;
-    margin: 0;  
-    display: none;
-  }
-  .u_arrow_right {
+  .u_mb_nav_cart_count {
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-100%, -50%);
-    opacity:0;
-    transition: margin .3s ease-in;
-    margin-top:-2px;
-  }
-  .u_arrow_right i{
+    top: 0;
+    right: 0;
+    background: black;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 12px;
     color: white;
-    transition: all .15s ease-in;
   }
-  .u_navbar_item_li:hover .u_arrow_right {
-    margin-top:4px;
-    opacity:1;
+  .u_nav_link_mb svg{
+    width: 24px;
+    height: 100%;
   }
-  .u_mb_arrow_right {
-    position: absolute;
-    top: 50%;
-    right: 7%;
-    transform: translateY(-50%);
-    transition: all .3s ease-in;
-  }
-  .u_sticky_header{
-    position: sticky;
-    top: 0;
-    left: 0;
-    background: black;
-    z-index: 99;
 
+  .u_mobile_menu{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition:all 0.2s ease-out ;
+    background: white;
+    overflow: auto;
+    z-index: 9999;
   }
-  .u_mb_menu_bg{
-/*     background:#f8f8f9; */
-        background:black;
+  .u_mobile_menu.active {
+    left:0%
   }
-  .u_mb_navbar_item_static_ul {
-    display: block;
-    margin-top: 16px;
-    border-top: 1px solid #eee;
-    padding: 24px 0 0 0;
+  .u_mb_cross i{
+ color: rgb(51, 51, 51);
+    opacity: .8;
+        font-size: 14px;
   }
-  .u_mb_navbar_item_static_li {
+  .u_mb_cross {
+    display: inline-block;
+    width: 15px;
+}
+  .u_overflow{
+    overflow: hidden;
+  }
+
+
+  /*   menu */
+  .u_mb_flex i{
+    color: rgb(51, 51, 51);
+    font-size: 10px;
+  }
+  .u_dropdown_list_mb_first{
+    list-style: none;
+    padding:5px 0;
+  }
+  .u_dropdown_list_mb{
     list-style: none;
   }
-  .u_menu_navbar_icon_link {
-    display: block;
-    padding: 10px 24px;
-    cursor: pointer;
+  .u_dropdown_mb {
+    padding: 0;
+        margin: 0;
   }
-  .u_menu_navbar_link {
-    letter-spacing: .5px;
-    margin-left: 5px;
-    text-transform: uppercase;
-    line-height: 10px;
-    font-size: 14px;
-    color: white;
-    font-family: OptimaNovaLTPro !important;
-    font-weight: 200;
-    font-style: normal;
+  .u_icon_mb {
+    padding: 5px;
     display: inline-block;
-    vertical-align: middle;
+    position: absolute;
+    right: 0;
+  }
+  .u_navbar_item_link_mb{
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .u_navbar_item_link_mb:hover{
+    text-decoration:none
+  }
+  .u_navbar_item_link_mb_first_level {
+   text-transform: capitalize;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
+  }
+
+  .u_mb_hide{
+    display:none;
+  }
+
+
+  .u_navbar_item_link_mb_level:hover{
+    text-decoration:none
+  }
+
+  .u_mb_flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+       padding: 5px 15px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+  }
+  .u_nav_social {
+    padding-left: 10px;
+  }
+  .u_nav_social_list {
+    margin: 0;
+    padding:0;
+  }
+  .u_nav_social_li {
+    list-style: none;
+    margin: 0;
+    padding:5px 0;
+  }
+  .u_mobile_menu_items{
+       transition: all .3s ease-in;
+    max-height:0;
+        overflow: auto;
+  }
+  .u_mobile_menu_items.active{
+    max-height:1000px
+  }
+  .u_sec_dropdown_mb {
+    padding: 0;
+  }
+  
+  .u_mb_item_menu {
+    padding: 10px 0;
+}
+  .u_navbar_item_link_mb_second_level {
+    text-transform: capitalize;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
 
   }
-  .overflow{
-    overflow:hidden
+  .u_third_dropdown_mb {
+    padding: 0;
   }
-  .u_hide{
-    display:none
+  .u_navbar_item_link_mb_third_level{
+   text-transform: capitalize;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
   }
-  .u_block{
-    display:block
+  .u_featured_section_mb{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
-  .u_sticky_width{
-    height: 18px;
+  .u_featured_img_block_mb {
+
+    width: 100%;
+    padding-top: 20px;
   }
-  .u_navbar_margin {
-    margin: 0;
+  .u_featured_img_tag_mb{
+        width: 100px;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
   }
+  .u_featured_img_row {
+    display: flex;
+}
+  .u_featured_img_text_mb {
+       text-transform: capitalize;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: .5px;
+    color: rgb(51, 51, 51);
+    padding: 10px 0;
+  }
+  .u_mb_featured_img_link{
+      padding: 5px;
+    text-decoration: none;
+    display: block;
+  }
+ .u_featered_parent {
+    overflow: auto;
+    border-top: 1px solid rgb(228, 228, 228);
+ }
+  .u_mb_nav_help_row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 15px;
+    text-decoration: none;
+  }
+  .u_mb_social_block {
+    padding: 5px 15px;
+}
   body{
     transition: all 0.3s; 
   }
