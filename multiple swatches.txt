@@ -33,15 +33,6 @@
  $(document).ready(function(){
     swatches();
   })
-   $(".product-form__variants option").each(function(){
-     var word =$(this).text().trim();
-       console.log('---',word);
-      if(parseInt($(this).attr('data-iq')) == 0){
-      var final_word =word.substring(0 ,word.length-11);
-        $(this).text(final_word);
-      console.log('final_word',final_word);
-      } 
-    }); 
   $('.u_radio_btn').change(function(){
     swatches()
   })
