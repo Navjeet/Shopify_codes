@@ -1,0 +1,47 @@
+           <div class="u_all_media_block">
+                            {% assign count = 0 %}
+              {% capture vid %}
+              {% assign external_videos = product.media | where: "media_type", "external_video" %}
+              {% for external_video in external_videos %}
+              https://www.{{ external_video.host }}.com/watch?v={{ external_video.external_id }},
+              {% endfor %}
+              {% endcapture %}
+              {% assign videos = vid | split: ',' %}              
+              {% for media in product.media  %}
+              {% if media.media_type == 'image' %}
+              <div class="u_single_media_block">
+                <a data-fancybox="video-gallery" data-src="{{ media.src | img_url: 'master' }}"  >
+                  <img src="{{ media.src | img_url: 'master' }}" class="u_pro_single_media_block_size">
+                </a>
+              </div>
+              {% elsif media.media_type == 'video' %}
+              {% assign  p_count = 0 %}
+                {% assign p_videos = product.media | where: "media_type", "video" %}
+                              {% for video in p_videos %}
+              {% for source in video.sources %}
+                {% if source.format == 'mp4'%}
+              {% capture pro_video %}
+              {{source.url}},
+              {% endcapture %}
+                            {% assign p_videos = pro_video | split: ',' %}  
+                {% endif %}
+              {% endfor %}
+              {% endfor %}
+              <div class="u_single_media_block aaaaa"> 
+                <a data-fancybox="video-gallery" data-src="{{- p_videos[p_count] -}}"  >
+  {{ media | video_tag: controls: true , image_size: "1024x" }}
+                </a>
+                                {% assign p_count = p_count | plus: 1 %}
+              </div>
+              {% elsif media.media_type == 'external_video' %}
+              <div class="u_single_media_block bbbbb">
+                <a data-fancybox="video-gallery" data-src="{{- videos[count] -}}"  >
+                  {{media | video_tag}}
+                </a>
+                {% assign count = count | plus: 1 %}
+              </div>
+              
+              {% endif %}
+              {% endfor %}
+
+            </div>
