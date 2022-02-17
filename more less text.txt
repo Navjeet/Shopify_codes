@@ -1,0 +1,40 @@
+<div class="product__description rte">
+          {% assign description = product.description | split :'<!--split--> ' %}
+          <span class="u_short_desp"> 
+            {{-description[0]-}}
+
+          </span>
+          <span class="u_read_dots">.....</span>
+          <span class="u_long_desp"> 
+            {{-description[1]-}}                             
+          </span>
+          <button class="u_read_btn">read less</button>
+        </div>
+<style>
+ .u_read_btn {
+        background: transparent;
+        border: none;
+        color: white;
+        text-decoration: underline;
+        text-transform: capitalize;
+        cursor: pointer;
+      }
+      .u_long_desp{
+        display:none
+      }
+      .u_hide{
+        display:none
+      }
+      .u_inline{
+        display:inline
+      }
+</style>
+    <script>
+      $('.u_read_btn').click(function(){
+        $('.u_long_desp').toggleClass('u_hide u_inline');
+        $('.u_read_dots').toggle();
+        var text = $(this).text();
+        console.log(text);
+        $(this).text(text == "read less" ? "read more" : "read less");
+      })
+    </script>
