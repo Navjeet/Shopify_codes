@@ -128,11 +128,28 @@ width: 130px;
 }
 </style>
    {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   <script>
     $(document).ready(function(){
          Shopify.money_format = "{{ shop.money_with_currency_format }}";
        
     });
+          function CartCount() {
+        $.getJSON('/cart.js', function(cart){ 
+          //       console.log(cart);
+          var result = cart.item_count;
+          console.log('cart count',result);
+          if(result == '0'){
+            $('.u_nav_cart_count').hide();
+            $('.u_mb_nav_cart_count').hide();
+          }else{
+            $('.u_nav_cart_count').show();
+            $('.u_mb_nav_cart_count').show();
+            $('.u_nav_cart_count').text(result);
+            $('.u_mb_nav_cart_count').text(result);
+          }
+        });
+      }
   $('.u_minus').click(function(){
     let input =$(this).parent().find('.u_number');
     let count =parseInt(input.val()) -1;
@@ -150,12 +167,14 @@ width: 130px;
             quantity: counter, 
           id: var_id
 });     
+            setTimeout(function(){
           UpdatePrice();
-
+    CartCount()
+            },2000);
   })
   $('.u_plus').click(function(){
     let input =$(this).parent().find('.u_number');
-    let input_val =parseInt(input.val());
+    let input_val =input.val();
     let pro_qty =$(this).parents('.u_quantity').find('.u_pro_qty').val();
     console.log('product qty',pro_qty);
     if(input_val >= pro_qty  )
@@ -176,7 +195,10 @@ width: 130px;
             quantity: count, 
           id: var_id
 })
-      UpdatePrice()
+ setTimeout(function(){
+          UpdatePrice();
+    CartCount()
+            },2000);
 
     }
   })
@@ -186,8 +208,7 @@ width: 130px;
           console.log(result);
           $(".totals__subtotal-value").text(Shopify.formatMoney(result.total_price));
         });
-      }, 1000);
-             
+      }, 1000);             
     }
       $(document).on("click",".u_cart_remove",function() {
         let data_idd = $('.u_item_variant_id').val();
@@ -197,6 +218,9 @@ width: 130px;
         });
          UpdatePrice();
         $(this).closest(".u_cart_item").fadeOut();
+  setTimeout(function(){
+    CartCount()
+            },2000);
       });
 
  </script>
