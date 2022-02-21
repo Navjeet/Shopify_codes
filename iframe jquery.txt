@@ -1,0 +1,4 @@
+ let head = $(".trustpilot-widget iframe").contents().find("head");
+      console.log('ddwsd',head);
+      let css ='<style> .tp-widget-wrapper {flex-direction: column-reverse !important;}</style>';
+      $(head).append(css);   
