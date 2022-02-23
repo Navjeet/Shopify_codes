@@ -1,0 +1,262 @@
+<div class="custom-paq-overlay"></div>
+<div class="custom-paq-section">
+  <div class="custom-paq-container">
+    {% if section.settings.heading %}
+    <h2 class="custom-paq-heading"><span>{{ section.settings.heading }}</span></h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+    <div class="custom-paq-subheading">{{ section.settings.subheading }}</div>
+    {% endif %}
+
+    {% form 'contact' %}
+    <div class="u_form_row">
+      <div class="u_form_block">
+        <label class="custom-paq-label">your name <span>*</span></label>
+        <input class="custom-paq-inp" type="text" name="contact[name]" placeholder="First & Last Name" />
+      </div>
+      <div class="u_form_block">
+        <label class="custom-paq-label">your email address <span>*</span></label>
+        <input class="custom-paq-inp" type="email" placeholder="Email Address" name="contact[email]" />
+      </div>
+    </div>
+    <div class="u_form_row">
+      <div class="u_form_block">
+        <label class="custom-paq-label">start date <span>*</span></label>
+        <input type="text" name="contact[start-date]" class="custom-paq-inp datepicker"  autocomplete="off">
+      </div>
+      <div class="u_form_block">
+        <label class="custom-paq-label">end date <span>*</span></label>
+        <input type="text"  name="contact[end-date]" class="custom-paq-inp datepicker"  autocomplete="off" >
+      </div>
+    </div>
+    <div class="u_form_row">
+      <div class="u_form_textarea">
+        <label class="custom-paq-label">comment <span>*</span></label>
+        <textarea class="custom-paq-inp" placeholder="What's your question?" name="contact[body]" rows="2"></textarea>
+      </div>
+    </div>
+    <input type="hidden" name="contact[productTitle]" value="{{ product.title }}"  />
+    <input type="hidden" name="contact[productUrl]" value="{{ shop.url }}{{ product.url }}" />
+    <button type="button" class="custom-paq-cancel">Cancel</button>
+    <button type="submit" class="custom-paq-submit">Submit Request</button>
+    {% endform %}
+  </div>
+</div>
+
+<style>
+  .u_form_row {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap
+  }
+  .u_form_block {
+    width: 50%;
+    padding: 0 10px;
+  }
+  .u_form_textarea {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .custom-paq-overlay{
+    background: {{ section.settings.u_pop_up_bg }};
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    opacity: 0.9;
+    filter: brightness(0.5);
+    display: none;
+  }
+  .custom-paq-section{
+    background:{{ section.settings.u_pop_up_bg }};
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 800px;
+    padding: 20px;
+    padding-top: 25px;
+    border-radius: 7px;
+    display: none;
+  }
+  .custom-paq-container{
+    /*   border: 1px solid  #772120; */
+    padding: 20px;
+    border-radius: 5px;
+  }
+  .custom-paq-heading{
+    color:{{section.settings.u_title_color}};
+    font-size: 24px;
+    text-align: center;
+    margin-top: -9px;
+    text-transform: capitalize;
+    letter-spacing: .5px;
+  }
+  .custom-paq-heading span{
+    background: {{ settings.alternate_bg_color }};
+    padding: 0 15px;
+  }
+  .custom-paq-subheading p{
+    color: {{section.settings.u_title_color}};
+    font-weight: normal;
+    margin: 0;
+    padding: 15px 0px 10px 0;
+  }
+  .custom-paq-subheading a{
+    color: rgb(212, 101, 31) !important;
+    text-decoration: none !important;
+  }
+  .custom-paq-subheading strong{
+    color: #000;
+  }
+  .custom-paq-label{
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 5px;
+    text-transform: capitalize;
+    font-weight: normal;
+    /*     font-family: roboto; */
+    font-size: 15px;
+    text-align: left;
+  }
+  .custom-paq-label span{
+    color: red; 
+  }
+  .custom-paq-inp{
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    margin-bottom: 10px;
+    font-weight: normal;
+    /*     font-family: 'Roboto'; */
+  }
+  .custom-paq-cancel{
+    /*   font-family: 'Roboto'; */
+    font-weight: normal;
+    background: rgb(99 88 76);
+    color: white;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    background:{{section.settings.u_cancel_bg}};
+    cursor:pointer
+  }
+  .custom-paq-submit{
+    background:{{section.settings.u_submit_bg}};
+    color: #fff;
+    /*     font-family: 'Roboto'; */
+    font-weight: normal;
+    background: #363e4f;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    cursor:pointer
+  }
+
+  @media screen and (max-width: 450px){
+    .u_form_block {
+      width: 100%;
+      padding: 0px;
+    }
+    .custom-paq-section {
+      width: 100%;
+      top: 0;
+      left: 0;
+      transform: unset;
+      padding: 0px;
+      height: 100%;
+      overflow: auto;
+    }
+    .custom-paq-heading {
+      margin-top: 10px
+    }
+
+</style>
+
+<script>
+
+  $(".u_hold_req").click(function(){
+    if($(this).hasClass('u_disabled')){
+      console.log('disabled')
+      return false;
+    }
+    else{
+      $(".custom-paq-overlay, .custom-paq-section").fadeToggle();
+    }
+  });
+  $(".custom-paq-overlay, .custom-paq-cancel").click(function(){
+    $(".custom-paq-overlay, .custom-paq-section").fadeToggle();
+  });
+
+</script>
+{% schema %}
+{
+"name": "Request Hold Popup",
+"settings": [
+{
+"type": "text",
+"id": "heading",
+"label": "Heading",
+"default": "Ask a Question"
+},
+{
+"type":"color",
+"id":"u_title_color",
+"label":"Title color",
+"default":"#363e4f"
+},
+{
+"type": "richtext",
+"id": "subheading",
+"label": "Subheading"
+},
+{
+"type":"color",
+"id":"u_desp_color",
+"label":"Description color",
+"default":"#000"
+},
+{
+"type":"color",
+"id":"u_pop_up_bg",
+"label":"Request hold pop up background",
+"default":"#fff"
+},
+{
+"type":"color_background",
+"id":"u_pop_up_over_bg",
+"label":"Request hold overlay background",
+"default":"rgba(0,0,0,.5)"
+},
+{
+"type":"color",
+"id":"u_submit_bg",
+"label":"Submit background",
+"default":"#363e4f"
+},
+{
+"type":"color",
+"id":"u_cancel_bg",
+"label":"Cancel background",
+"default":"#DA3613"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

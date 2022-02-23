@@ -1,0 +1,396 @@
+{% if product.metafields.my_fields.pro_addon != blank %}
+<div class="u_freq_bought_block">
+  <div class="u_freq_bought_content">
+    <div class="u_freq_accordian_block">
+      <div class="u_freq_accordian_head u_freq_accordian_padding">
+        <h2 class="u_freq_accordian_head_text">{{section.settings.u_freq_title}}</h2>
+        <div class="u_freq_icon">
+          <div class="f_arrow arrow"></div>
+          <div class="l_arrow arrow"></div>
+        </div>
+      </div>
+      <div class="u_freq_accordian_body u_freq_accordian_padding">
+
+        {% assign pro = product.metafields.my_fields.pro_addon | split: ',' %} 
+        <div class="u_addon_row">
+          {% for p in pro %}
+          {% assign addons = all_products[p] %}
+          <div class="u_addon_block">
+            <div class="u_addon_img">
+              <img src="{{addons.featured_image | img_url : 'master'}}" class="u_addon_img_size">
+              <label class="u_checkbox_block">
+                <input type="checkbox" class="u_chec_input">
+                <span class="u_custom_checkbox"></span>
+              </label>
+            </div>
+            <div class="u_addon_body">
+              <input type="hidden" class="u_addon_variant_id" value="{{addons.selected_or_first_available_variant.id}}">
+              <a href="{{addons.url}}" class="u_addon_title"> {{addons.title}}</a>
+              <p class="u_addon_price" addon-price ="{{addons.price}}"> {{addons.price | money_without_trailing_zeros}}</p>                     
+            </div>
+          </div>
+          {% endfor %}
+          <div class="u_addons_price_block">
+            <span class="u_addon_price_title">{{section.settings.u_addon_price_title}}</span>
+            <span class="u_addon_total_price">{{product.price | money_without_trailing_zeros}}</span>
+            <button type="button" class="u_addon_add_cart" >
+              {{section.settings.u_addon_addto_title}}
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<style>
+  /* animation */
+  .f_arrow{
+    width:2px;
+    height:15px;
+    background:black;
+    transition:all .8s ease;
+  }
+  .arrow{
+    cursor:pointer;
+  }
+  .l_arrow {
+    width: 2px;
+    height: 15px;
+    background: black;
+    transition: all .8s ease;
+    transform: rotate(
+      90deg
+    ) translate(0px,2px);
+  }
+  .minus .f_arrow{
+    transform:rotate(90deg);
+  }
+  .minus .l_arrow{
+    opacity:0;
+  }
+  .plus .f_arrow{
+    transform:rotate(0deg);
+  }
+  .plus .l_arrow{
+    opacity:1;
+  }
+  .u_freq_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 5%;
+  }
+  .u_freq_accordian_head_text {
+    font-size: 20px;
+    font-family: 'Oswald';
+    color: black;
+    letter-spacing: .5px;
+    margin: 0;
+  }
+  .u_freq_accordian_head {
+    padding: 15px 0;
+  }
+  .u_freq_accordian_body{
+    padding-bottom:15px
+  }
+  .u_addon_row {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .u_addon_img_size {
+    width: 100%;
+    background: #fff;
+    border-radius: 6px;
+  }
+  .u_addon_block {
+    width: 20%;
+    cursor: pointer;
+  }
+  .u_addon_block:nth-child(2) {
+    padding-left: 40px;
+    position: relative;
+    width: 30%;
+  }
+  .u_addon_block:nth-child(2):before {
+    content: "+";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    margin-top: -40px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #5d5d5d;
+  }
+  .u_addon_body {
+    text-align: center;
+  }
+  .u_addon_img {
+    position: relative;
+    cursor: pointer;
+    z-index:1
+  }
+  .u_addon_img:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.25);
+    z-index: 99;
+    transition: all .4s ease-in-out;
+    opacity: 0;
+  }
+  .u_addon_block:hover .u_addon_img:before{
+    opacity:1
+  }
+  .u_addon_block:hover .u_addon_title{
+    color: #f0494a;
+  }
+  .u_addon_title {
+    margin: 0;
+    padding: 5px 0;
+    letter-spacing: .5px;
+    color: black;
+    font-size: 16px;
+    font-family: 'Oswald';
+    text-transform: capitalize;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-decoration:none;
+    display: block;
+    color: #5d5d5d;
+    transition: all .4s ease-in-out;
+    white-space: nowrap;
+  }
+  .u_addon_price{
+    margin: 0;
+    padding:  0;
+    letter-spacing: .5px;
+    color: black;
+    font-size: 16px;
+    font-family: 'Oswald';
+    text-transform: capitalize;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    font-weight: bold;
+  }
+  .u_checkbox_block {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    z-index: 99;
+  }
+  .u_chec_input {
+    display: none;
+  }
+  .u_custom_checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1.4px solid #c2c2c2;
+    background: #fff;
+    border-radius: 1.5px;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    margin: 0;
+  }
+  .u_custom_checkbox:before {
+    position: absolute;
+    content: '';
+    width: 6px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate( 45deg );
+    transition: all .4s ease-in-out;
+    opacity: 0;
+    left: 6px;
+    top: 2px;
+  }
+  .u_chec_input:checked + .u_custom_checkbox{
+    background: #345fa8
+  }
+  .u_chec_input:checked + .u_custom_checkbox:before{
+    opacity: 1;
+  }
+  .u_addons_price_block {
+    padding-left: 40px;
+    width: 50%;
+  }
+  .u_addon_price_title {
+    text-transform: capitalize;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #5d5d5d;
+    margin-bottom: 2px;
+  }
+  .u_addon_add_cart {
+    display: inline-block;
+    width: auto;
+    min-width: 134px;
+    padding: 8px 15px;
+    background: black;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: capitalize;
+    border-radius: 0;
+    transition: all .4s ease-in-out;
+    font-family: 'Oswald';
+    letter-spacing: .5px;
+    margin-top: 5px;
+  }
+  .u_addon_add_cart:hover{
+    background: #f34745;
+  }
+  .ajs-message.ajs-error.ajs-visible{
+    color: white;
+    font-size: 18px;
+    letter-spacing: .5px;
+    font-family: 'Oswald';
+    text-transform: capitalize;
+  }
+  @media screen and (max-width:1200px){
+    .u_addon_block {
+      width: 50%;
+    }
+    .u_addon_block:nth-child(2) {
+      width: 50%;
+    }
+
+    .u_addons_price_block {
+      width: 100%;
+      padding: 20px 0;
+    }
+    .u_addon_add_cart {
+      display: block;
+    }
+.u_freq_accordian_head_text {
+    font-size: 16px;
+}
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+  $(document).ready(function(){
+    Shopify.money_format = "{{ shop.money_with_currency_format }}";   
+  });
+  $(document).ready(function(){
+    swatches();
+  })
+  $('.u_custom_variant').change(function(){
+    swatches()
+  })
+  function swatches(){
+    let final ='';
+    let comb= '';
+    $('.u_custom_variant:checked').each(function(){
+      let checked_val= $(this).val(); 
+      comb += checked_val + ' / '
+    })
+    console.log(comb)
+    var finall =comb.slice(0 ,comb.length-2).trim();
+    console.log('--final combination',finall);
+
+    let flag=false;
+    $(".product-single__variants option").each(function(){
+      var word =$(this).attr('data-title').trim();
+      if(word == finall){
+        console.log('---',word);
+        flag =true; 
+      } 
+
+    }); 
+    if(flag==true)
+    {
+      //master select
+      $(".product-single__variants option").each(function(){
+        if($(this).attr('data-title').trim() == finall){  
+          console.log('if condition')
+          let var_price = $(this).attr('data-price');
+          $('.u_addon_total_price').text(var_price)
+
+          let var_without_price = $(this).attr('out-price');
+          $('.u_addon_total_price').attr('without_curr_pr',var_without_price)
+
+        }
+      });
+    }
+  }
+  $('.u_chec_input').change(function(){
+    pro_addons()
+  })
+  function pro_addons(){
+    let add_price=0;
+    $('.u_chec_input:checked').each(function(){
+      add_price += parseInt($(this).parents('.u_addon_block').find('.u_addon_price').attr('addon-price'));
+    })
+    console.log('addon price',add_price)
+    let var_pr = parseInt($('.u_addon_total_price').attr('without_curr_pr'));
+    let final_pr =add_price + var_pr;
+    $('.u_addon_total_price').text(Shopify.formatMoney(final_pr))
+  }
+
+  $('.u_addon_add_cart').on('click',function(){
+    let ids=[];
+    $('.u_chec_input:checked').each(function(){
+      $(this).parents('.u_addon_block').find('.u_addon_variant_id').each(function(){
+        let id =$(this).val();
+        let qty = 1;
+        let item={"id":id,"quantity":qty};
+        ids.push(item);
+      })
+      console.log('array',ids)
+    });
+    if(ids.length > 0){
+      $.ajax({
+        type:'POST',
+        url:'/cart/add.js',
+        data:{items:ids},
+        dataType: 'json',
+        beforeSend: function() {
+          // setting a timeout
+          console.log('before enter');
+          $('.lds-facebook').show();
+          $('.u_loader_overlay').removeClass('u_loader_hide')
+        },
+        success: function(result){
+          console.log('add to cart');
+          console.log('success');
+          if($('.add-to-cart').hasClass('disabled')){
+          }
+          else{
+            $('.add-to-cart').trigger('click')
+          }
+        },
+        error: function(textStatus) {
+          console.log('error')
+        },
+        complete: function() {
+          console.log('complete');    
+        }
+      })
+    }
+    else{
+      console.log('no checkbox')
+      alertify.error('No checkbox is selected');
+    }
+        
+  });
+</script>
