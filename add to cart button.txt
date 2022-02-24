@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$(document).on('click','.u_cart_btn',function(){
+$('.u_cart_btn_val').addClass('active');
+$('.u_loading_state').addClass('active');
+})
+});
+</script>
+<style>
+.u_cart_btn {
+    background: transparent;
+    border: none;
+    text-transform: capitalize;
+    padding: 10px;
+    letter-spacing: .5px;
+    font-size: 15px;
+    color: black;
+    cursor:pointer;
+    transition: all .5s;
+    position: relative;
+    background: #ddddddbd;
+}
+.u_cart_btn:hover{
+background:#ddd
+}
+.u_cart_loading{
+ position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.u_loading_state {  
+    width: 10px;
+    height: 10px;
+    border: 1px solid;
+        border-color: transparent brown transparent brown;
+    border-radius: 50%;
+        animation: btn_loader 1s linear infinite;
+            display: block;
+            visibility: hidden
+    }
+    @keyframes btn_loader{
+    0%{
+    transform : rotate(0deg)
+    }
+     100%{
+    transform : rotate(360deg)
+    }
+    }
+    .u_cart_btn_val.active{
+      visibility:hidden
+    } 
+   .u_loading_state.active{
+     visibility:visible
+   }    
+}
+</style>
+</head>
+<body>
+<button class="u_cart_btn">  
+<span class="u_cart_btn_val">add too cart</span>
+<span class="u_cart_loading">
+<span class="u_loading_state"></span>
+</span>
+<span class="u_complete_state"></span>
+</button>
+</body>
+</html>
