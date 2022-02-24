@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Dates</h2>
+
+<p>The internal clock in JavaScript starts at midnight January 1, 1970.</p>
+
+<p>Date.now() returns the number of milliseconds since January 1, 1970 00:00:00 UTC:</p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<p class="current_date"></p>
+<p class="delivery_msg"></p>
+<script>
+let d = new Date();
+let current_day_int = d.getDay(); 
+let current_date_int =d.getDate();
+let current_month_int =d.getMonth();
+get_day_date(current_day_int,current_date_int,current_month_int)
+function get_day_date(current_day_int,current_date_int,current_month_int){
+let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let current_day =days[current_day_int];
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let current_month =months[current_month_int];
+$('.current_date').text(`${current_day} ${current_date_int}${current_month}`)
+}
+var someDate = new Date();
+var numberOfDaysToAdd = 2;
+var result = someDate.setDate(someDate.getDate() + 5);
+let update_date = new Date(result);
+$('.delivery_msg').text(update_date)
+</script>
+</body>
+</html>
