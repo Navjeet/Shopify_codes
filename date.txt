@@ -25,7 +25,7 @@ $('.current_date').text(`${current_day} ${current_date_int}${current_month}`)
 }
 var someDate = new Date();
 var numberOfDaysToAdd = 2;
-var result = someDate.setDate(someDate.getDate() + 5);
+var result = someDate.setDate(someDate.getDate() + numberOfDaysToAdd );
 let update_date = new Date(result);
 $('.delivery_msg').text(update_date)
 </script>
