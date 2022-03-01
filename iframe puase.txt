@@ -17,3 +17,68 @@ console.log('video')
 </script>
 </body>
 </html>
+//slick slide video
+ <div class="u_pro_media_slider kkp-Thumb">
+          {% if product.media.size > 0 %}
+          {% for media in product.media %}
+          {% if media.media_type == 'image' %}
+          <div class="u_pro_upper_media_block">
+            <img src="{{ media.src | img_url: 'master' }}" class="u_pro_image_size">
+          </div>
+          {% elsif media.media_type == 'video' %}
+          <div class="u_pro_upper_media_block">
+            {{ media | video_tag: controls: true , image_size: "1024x" : class: "internal_video" }}
+          </div>
+          {% elsif media.media_type == 'external_video' %}
+          <div class="u_pro_upper_media_block">
+            {{ media | external_video_tag : class: "youtube_video" }}
+
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+        </div>
+<script>
+  $('.u_pro_media_slider').slick({
+    dots: false,
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows:true,
+    prevArrow:'.u_pro_left_arrow',
+    nextArrow:'.u_pro_right_arrow',
+     adaptiveHeight: true,
+
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          dots:true,
+          swipe:true
+        }
+      }
+      // You can unslick at a given breakpoint now by adding:
+      // settings: "unslick"
+      // instead of a settings object
+    ]
+  });
+  $('.u_media_index').click(function(){
+    let index =$(this).attr('data-index')
+    $('.u_pro_media_slider').slick('slickGoTo', index);
+  })
+      $('.kkp-Thumb').on('afterChange', function(event, slick, currentSlide){
+        let prevSlide = currentSlide - parseInt(1)
+        console.log('current slide number',currentSlide,'prev slide',prevSlide)
+      if($('.kkp-Thumb [data-slick-index="'+prevSlide+'"]').find('iframe').length > 0){
+        console.log('.kkp-Thumb  [data-slick-index="'+prevSlide+'"]')
+        console.log('external video paused')
+  	$('.youtube_video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+          
+      }
+        else{
+        $('.internal_video').trigger('pause')
+        console.log('internal video paused')
+        }
+
+    });
+</script>
