@@ -82,3 +82,14 @@ console.log('video')
 
     });
 </script>
+//comment
+$('a.play-video').click(function(){
+	$('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+});
+
+$('a.stop-video').click(function(){
+	$('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+});
+//internal video
+$(this).trigger('pause')
+$(this).trigger('play')
