@@ -31,32 +31,61 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
 <!DOCTYPE html>
 <html>
 <body>
-<button class="btn" data-d1="Wednesday" data-c1 ="Monday 12" data-d2="Friday" data-c2 ="Wednesday 12" >Add to Cart</button>
+<button class="btn" data-d1="Wednesday" data-c1="Monday 12" data-d2="Friday" data-c2="Wednesday 12">Add to Cart</button>
 <p id="demo"></p>
-<p class="u_delivery_date"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-$(".btn").click(function(){
-let d1 =  $(this).attr('data-d1');
-let c1_day = $(this).attr('data-c1').split(' ')[0];
-let c1_time = parseInt($(this).attr('data-c1').split(' ')[1]);
-let d2 =  $(this).attr('data-d2');
-let c2_day = $(this).attr('data-c2').split(' ')[0];
-let c2_time = parseInt($(this).attr('data-c2').split(' ')[1]);
-console.log('delvery date 1',d1,'cut off day 1 ->',c1_day,'cut off time 1->',c1_time,'delvery date->',d2,'cut off day 2->',c2_day,'cut off time 2->',c2_time)
-const d = new Date();
-const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const time = d.getHours();
-console.log('current time',time,'cut off day int',days.indexOf(c1_day))
-let day = d.getDay();
-if((day >= days.indexOf(c1_day) && time >= c1_time ) || (day <= days.indexOf(c2_day) && time <= c2_time)){
-$('.u_delivery_date').text('if condiiton friday')
-}
-else if((day >= days.indexOf(c2_day) && time >= c2_time ) || (day <= days.indexOf(c1_day) && time <= c1_time)){
-$('.u_delivery_date').text('else if condiiton wednesday')
-}
-});
-</script>
+  <script>
+    $(".btn").click(function(){
+      const d = new Date();
+      const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const time = d.getHours();
+      let d1 = $(this).attr("data-d1");
+      let c1Day = $(this).attr("data-c1").split(" ")[0];
+      let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
+      let d2 = $(this).attr("data-d2");
+      let c2Day = $(this).attr("data-c2").split(" ")[0];
+      let c2Time = parseInt($(this).attr("data-c2").split(" ")[1]);
+      let day = d.getDay();
+      let deliver = '';
+
+      if(day >= days.indexOf(c1Day) && day <= days.indexOf(c2Day)){
+        if(days[day] == c1Day){
+          if(time >= c1Time){
+            deliver = 'next '+d2.toLowerCase().trim();
+            console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " !main if!");
+          }
+          else{
+            deliver = 'next '+d1.toLowerCase().trim();
+             console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " !main if!");
+          }
+        }
+        else if(days[day] == c2Day){
+          if(time >= c2Time){
+            deliver = 'next '+d1.toLowerCase().trim();
+             console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " !main if!");
+          }
+          else{
+            deliver = 'next '+d2.toLowerCase().trim();
+ console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " !main if!");
+          }
+        }
+        else{
+          deliver = 'next '+d2.toLowerCase().trim();
+           console.log(deliver)
+          $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " !main if!");
+        }
+      }
+      else{
+        deliver = 'next '+d1.toLowerCase().trim();
+         console.log(deliver)
+        $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " !main else!");
+      }
+    });
+  </script>
 </body>
 </html>
