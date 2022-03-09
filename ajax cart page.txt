@@ -211,7 +211,7 @@ width: 130px;
       }, 1000);             
     }
       $(document).on("click",".u_cart_remove",function() {
-        let data_idd = $('.u_item_variant_id').val();
+        let data_idd = $(this).find('.u_item_variant_id').val();
         jQuery.post('/cart/change.js', { 
           quantity: 0, 
           id: data_idd
