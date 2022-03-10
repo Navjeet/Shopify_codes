@@ -394,3 +394,16 @@
         
   });
 </script>
+//product tyype refernce metafield
+{% if product.metafields.my_fields.recommend_pro_1 != blank or product.metafields.my_fields.recommend_pro_2 != blank or product.metafields.my_fields.recommend_pro_3 != blank or product.metafields.my_fields.recommend_pro_4 != blank %}
+{%- capture m_products -%}
+{{- all_products[product.metafields.my_fields.recommend_pro_1].handle -}}, 
+{{- all_products[product.metafields.my_fields.recommend_pro_2].handle -}}, 
+{{- all_products[product.metafields.my_fields.recommend_pro_3].handle -}},
+{{- all_products[product.metafields.my_fields.recommend_pro_4].handle -}}
+{%- endcapture -%}
+{%- assign pro = m_products | split: ',' | uniq -%}
+{% for pr in pro %}
+{% assign pp = pr | strip %}
+{% assign p = all_products[pp] %}
+{% endfor %}
