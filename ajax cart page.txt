@@ -127,7 +127,8 @@ width: 130px;
     box-shadow: none;
 }
 </style>
-   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
    {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   <script>
     $(document).ready(function(){
