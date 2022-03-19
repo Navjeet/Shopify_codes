@@ -89,3 +89,105 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
   </script>
 </body>
 </html>
+
+    const d = new Date();
+          const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+          const time = d.getHours();
+          let day = d.getDay();
+          let d1='';
+          let c1Day=''
+          let c1Time =0;
+          let d2 ='';
+          let c2Day ='';
+          let c2Time =0;
+          let che_len=0;
+          $('.u_custom_variant:checked').each(function(){
+            che_len =$(this).parent().find('.u_var_val input').length;       
+          });
+
+          if(che_len == 4){
+            console.log('4')
+            $('.u_custom_variant:checked').each(function(){
+              d1 = $(this).parent().find(".data-d1").attr('value');
+              c1Day = $(this).parent().find(".data-c1").attr('value').split(" ")[0];
+              c1Time = parseInt($(this).parent().find(".data-c1").attr('value').split(" ")[1]);
+              d2 = $(this).parent().find(".data-d2").attr('value');
+              c2Day = $(this).parent().find(".data-c2").attr('value').split(" ")[0];
+              c2Time = parseInt($(this).parent().find(".data-c2").attr('value').split(" ")[1]);        
+            });
+            console.log('d1->',d1,'c1day->',c1Day,'c1Time->',c1Time,'d2->',d2,'c2Day->',c2Day,'c2Time->',c2Time)
+
+            let deliver = '';
+            if(day >= days.indexOf(c1Day) && day <= days.indexOf(c2Day)){
+              if(days[day] == c1Day){
+                if(time >= c1Time){
+                  deliver = 'next '+d2.toLowerCase().trim();                 
+                  console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d2 + " !main if!")
+                  $('.u_item_dm').attr('value',`Order before ${c2Time} ${c2Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+                }
+                else{
+                  deliver = 'next '+d1.toLowerCase().trim();
+                  console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
+                  $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+                }
+              }
+              else if(days[day] == c2Day){
+                if(time >= c2Time){
+                  deliver = 'next '+d1.toLowerCase().trim();
+                  console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
+                  $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for deliverey ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+
+                }
+                else{
+                  
+                  deliver = 'next '+d2.toLowerCase().trim();
+                  $('.u_item_dm').attr('value',`Order before ${c2Time} ${c2Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+
+                }
+              }
+              else{
+                deliver = 'next '+d2.toLowerCase().trim();
+                $('.u_item_dm').attr('value',`Order before ${c2Time} ${c2Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+                console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d2 + " !main if!")
+              }
+            }
+            else{
+              deliver = 'next '+d1.toLowerCase().trim();
+              console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main else!")
+              $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for delivered by ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+            }
+          }
+          else if (che_len == 2){
+            console.log('variant 2')
+            $('.u_custom_variant:checked').each(function(){
+              d1 = $(this).parent().find(".data-d1").attr('value');
+              c1Day = $(this).parent().find(".data-c1").attr('value').split(" ")[0];
+              c1Time = parseInt($(this).parent().find(".data-c1").attr('value').split(" ")[1]);
+            });
+            console.log('d1->',d1,'c1day->',c1Day,'c1Time->',c1Time)
+
+            if(day >= days.indexOf(c1Day)){
+              if(days[day] == c1Day){
+                if(time >= c1Time){
+				deliver =Date.parse("17-Mar-2022").next().friday().add(7).day()
+//                   deliver = 't + 8d'.toLowerCase().trim();
+                  console.log(Date.parse("17-Mar-2022").next().friday().add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
+                  $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for deliverey ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+                }
+                else{
+                  deliver = 'next '+d1.toLowerCase().trim();
+                  console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
+                  $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)        
+                }
+              }
+                          else{
+              	deliver =Date.parse("17-Mar-2022").next().friday().add(7).day();
+              console.log(Date.parse("17-Mar-2022").next().friday().add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
+              $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for deliverey ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+            }
+            }
+            else{
+             	deliver =Date.parse("17-Mar-2022").next().friday().add(7).day();
+              console.log(Date.parse("17-Mar-2022").next().friday().add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
+              $('.u_item_dm').attr('value',`Order before ${c1Time} ${c1Day} for deliverey ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}`)
+            }
