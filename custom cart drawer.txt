@@ -1,0 +1,380 @@
+<div class="u_cart_drawer">
+  <div class="u_cart_drawer_content">
+    <div class="u_cart_drawer_header">
+      <h3 class="u_drawer_title">your bag</h3>
+                <div class="u_drawer_remove">
+                <i class="fa fa-times"></i>
+                 </div>
+ 
+    </div>
+    <div class="u_drawer_body">
+      </div>
+    </div>
+
+  <div class="u_cart_sticky">
+    <div class="u_cart_drawer_footer">
+          <a href="{{routes.cart_url}}" class="u_drawer_checkout_btn" >view cart</a>
+      </div>
+  </div>
+  </div>
+<div class="u_cart_drawer_overlay">
+</div>
+<style>
+  .u_cart_drawer_overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    background: rgba(0,0,0,.5);
+    display: none;
+  }
+  .u_cart_drawer {
+    position: fixed;
+    top: 0;
+    right: -150%;
+    z-index: 999999999999;
+    background: white;
+    box-shadow: 0px 0px 10px #ddd;
+    width: 400px;
+    height: 100%;
+    overflow-y: auto;
+    transition: 1s;
+  }
+  .u_cart_drawer.active{
+    right:0
+  }
+  .u_cart_drawer::-webkit-scrollbar {
+  width: 5px;
+}
+  .u_cart_drawer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+  .u_cart_drawer_content {
+    padding: 10px;
+        height: calc(100% - 50px);
+}
+  .u_cart_item_detail {
+    padding: 0 10px;
+}
+  .u_cart_item_title {
+    font-size: 14px;
+    letter-spacing: .5px;
+    color: black;
+       text-transform: capitalize;
+    margin:0;
+    padding-bottom: 5px
+}
+  .u_item_price {
+    font-size: 14px;
+    color: black;
+    letter-spacing: .5px;
+}
+  .u_item_clear {
+    color: black;
+    font-size: 14px;
+    text-transform: capitalize;
+    letter-spacing: .5px;
+        cursor: pointer;
+}
+  .u_drawer_title {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 15px;
+    letter-spacing: .5px;
+    color: black;
+}
+  .u_drawer_item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+    padding: 10px 0;
+}
+  .u_cart_drawer_header {
+    border-bottom: 1px solid;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+    .u_quantity {
+width: 130px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+          cursor: auto;
+}
+  .u_drawer_minus,.u_drawer_plus {
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+    cursor:pointer;
+    height:30px;
+    background:#ddd
+  }
+  .u_number {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    padding: 6px 0;
+}
+  .u_number:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+  .u_drawer_checkout_btn {
+    width: 100%;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    background: black;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: .5px;
+    transition:all .5s;
+    cursor:pointer;
+        text-decoration: none;
+    display: block;
+    height:45px
+  }
+  .u_drawer_checkout_btn:hover{
+  background:#6a6a6a
+  }
+  .u_bag_empty {
+    text-align: center;
+    padding: 20px;
+    text-transform: capitalize;
+    color: black;
+    font-size: 18px;
+    letter-spacing: .5px;
+  }
+  .u_drawer_product_image {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+  }
+  .u_drawer_remove i{
+  display:block !important
+  }
+  .u_drawer_remove {
+    cursor: pointer;
+    width: 20px;
+    text-align: center;
+}
+  .u_cart_drawer_footer { 
+    box-shadow: 0 0 2px 4px white;
+  }
+  .u_drawer_error {
+    text-align: center;
+    text-transform: capitalize;
+    letter-spacing: .5px;
+    color: black;
+    margin: 0;
+    padding: 5px 0;
+  }
+  .u_cart_item_image,.u_cart_item_detail,.u_cart_item_remove {
+    width: 33.3%;
+    text-align:center
+}
+  @media screen and (max-width:768px){
+  .u_cart_drawer {
+    width: 100%;
+  }
+   
+    .u_cart_item_remove{
+    text-align:right
+    }
+  }
+
+</style>
+    <script>
+     function getCartCount() {
+        $.getJSON('/cart.js', function(cart){ 
+          //       console.log(cart);
+          var result = cart.item_count;
+          console.log(result);
+          if(result == '0'){
+            $('.u_nav_cart_count').hide();
+            $('.u_mb_nav_cart_count').hide();
+          }else{
+            $('.u_nav_cart_count').show();
+            $('.u_mb_nav_cart_count').show();
+            $('.u_nav_cart_count').text(result);
+            $('.u_mb_nav_cart_count').text(result);
+          }
+        });
+      }
+      $(document).ready(function(){
+        getCartCount();
+        
+      });
+
+     
+      $('.u_navbar_shopping_icon').click(function(){
+        getCartCount();
+        cart_render();
+        $('body').addClass('c_overflow');
+        $('.u_cart_drawer_overlay').show();
+      })
+       $('.u_drawer_remove,.u_cart_drawer_overlay').click(function(){
+        $('.u_cart_drawer').removeClass('active');
+          $('body').removeClass('c_overflow');
+        $('.u_cart_drawer_overlay').hide();
+      })
+      function cart_render(){
+        $.getJSON('/cart.js', function(cart){
+          
+          console.log(cart);
+          var cart_count = cart.item_count;
+          if(cart_count == 0){
+            $('.u_drawer_body').html('<h3 class="u_bag_empty"> your bag is empty </h3>')
+            $('.u_cart_sticky').hide()
+          }
+          else{
+            let i= '';
+            let cart_body='';
+            for( i= 0;i<cart.items.length ;i++)
+            {
+              let pro_title = cart.items[i].title;
+              let pro_image = cart.items[i].image;
+              let qty = cart.items[i].quantity;
+              let price =Shopify.formatMoney(cart.items[i].line_price);
+              let var_id = cart.items[i].variant_id;
+              cart_body += `<div class="u_drawer_items">
+<div class="u_drawer_item">
+<div  class="u_cart_item_image">
+<img class="u_drawer_product_image"
+src="${pro_image}">
+      </div>
+<div  class="u_cart_item_detail">
+<h3 class="u_cart_item_title">${pro_title}</h3>
+<div class="u_quantity">
+<span class="u_drawer_minus">-</span>
+<input type="text"  name="number"  value="${qty}" class="u_number" readonly>
+<span class="u_drawer_plus">+</span>
+<input type="hidden" class="u_item_variant_id" value="${var_id}">
+      </div>
+      </div>
+<div  class="u_cart_item_remove">
+<div class="u_item_clear">remove</div>
+                   <input type="hidden" class="u_item_var_id" value="${var_id}">
+<p class="u_item_price">${price} </p>
+      </div>
+      </div>
+<p class="u_drawer_error"></p>
+      </div>`
+            }
+            $('.u_drawer_body').html(cart_body);
+             $('.u_cart_sticky').show()
+          }
+          $('.u_cart_drawer').addClass('active');
+        });
+      }
+      $(document).on('click','.u_drawer_plus',function(){
+        console.log('click');
+        let input =$(this).parent('.u_quantity').find('.u_number');
+        let count =parseInt(input.val()) + 1;
+        let counter = count <1 ?1:count;
+        console.log('counter',counter);
+        let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
+        console.log('variant id',var_id);
+        $.ajax({
+          type:'POST',
+          url:'/cart/change.js',
+          data:{
+            quantity: counter, 
+            id: var_id
+          },
+          dataType: 'json',
+          beforeSend: function() {
+            // setting a timeout
+            console.log('before enter');
+          },
+          success: function(result){
+            console.log('change');
+            cart_render();                        
+          },
+          error: function(err) {
+            console.log('error',err);
+          },
+          complete: function() {
+            console.log('complete');
+                    setTimeout(function(){
+            $('.u_item_variant_id').each(function(){
+            let id = $(this).attr('value')
+            if(id == var_id){
+            console.log('variant id ',id)
+            let b_qty = $(this).parent('.u_quantity').find('.u_number').attr('value');
+              console.log('---qty',b_qty)
+                          if(counter != b_qty ){
+                            $(this).parents('.u_drawer_items').find('.u_drawer_error').text('no inventory left')
+            console.log('no inventory left')
+            } 
+            }
+            })
+                      },2000)  
+          }
+        })
+      });   
+      $(document).on('click','.u_drawer_minus',function(){
+        console.log('click');
+        let input =$(this).parent('.u_quantity').find('.u_number');
+        let count =parseInt(input.val()) -1;
+        let counter = count <1 ?1:count;
+        input.val(counter);
+        let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
+        console.log('variant id',var_id);
+        $.ajax({
+          type:'POST',
+          url:'/cart/change.js',
+          data:{
+            quantity: counter, 
+            id: var_id
+          },
+          dataType: 'json',
+          beforeSend: function() {
+            // setting a timeout
+            console.log('before enter');
+          },
+          success: function(result){
+            console.log('change');
+            cart_render();
+            
+          },
+          error: function(err) {
+            console.log('error',err);
+          },
+          complete: function() {
+            console.log('complete');
+          }
+        })     
+      })
+            $(document).on("click",".u_item_clear",function() {
+        let data_idd = $(this).parent().find('.u_item_var_id').val();
+        jQuery.post('/cart/change.js', { 
+          quantity: 0, 
+          id: data_idd
+        });
+  setTimeout(function(){
+        getCartCount();
+                cart_render();
+            },1000);
+      });
+
+        $(document).on('click','.product-form__submit',function(){
+          if($('.product-form__error-message').length == 0){
+           setTimeout(function(){
+            getCartCount();
+                cart_render();
+           },1000)          
+          }
+
+         })
+</script>
