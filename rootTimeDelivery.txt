@@ -39,14 +39,14 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
     $(".btn").click(function(){
       const d = new Date();
       const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      const time = 2;
+      const time = d.getHours();
       let d1 = $(this).attr("data-d1");
       let c1Day = $(this).attr("data-c1").split(" ")[0];
       let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
       let d2 = $(this).attr("data-d2");
       let c2Day = $(this).attr("data-c2").split(" ")[0];
       let c2Time = parseInt($(this).attr("data-c2").split(" ")[1]);
-      let day = 5;
+      let day = d.getDay();
       let deliver = '';
 
       if(day >= days.indexOf(c1Day) || day <= days.indexOf(c2Day)){
