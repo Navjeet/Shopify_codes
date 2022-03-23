@@ -31,7 +31,7 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
 <!DOCTYPE html>
 <html>
 <body>
-<button class="btn" data-d1="Wednesday" data-c1="Monday 12" data-d2="Friday" data-c2="Wednesday 12">Add to Cart</button>
+<button class="btn" data-d1="Tuesday" data-c1="Thursday 13" data-d2="Friday" data-c2="Monday 23">Add to Cart</button>
 <p id="demo"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -46,20 +46,20 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
       let d2 = $(this).attr("data-d2");
       let c2Day = $(this).attr("data-c2").split(" ")[0];
       let c2Time = parseInt($(this).attr("data-c2").split(" ")[1]);
-      let day = d.getDay();
+      let day = 3;
       let deliver = '';
 
-      if(day >= days.indexOf(c1Day) && day <= days.indexOf(c2Day)){
+      if(day >= days.indexOf(c1Day) || day <= days.indexOf(c2Day)){
         if(days[day] == c1Day){
           if(time >= c1Time){
             deliver = 'next '+d2.toLowerCase().trim();
             console.log(deliver)
-            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " !main if!");
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " upper main if!");
           }
           else{
             deliver = 'next '+d1.toLowerCase().trim();
              console.log(deliver)
-            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " !main if!");
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " lower main if!");
           }
         }
         else if(days[day] == c2Day){
@@ -71,19 +71,34 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
           else{
             deliver = 'next '+d2.toLowerCase().trim();
  console.log(deliver)
-            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " !main if!");
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " main if!");
           }
         }
         else{
-          deliver = 'next '+d2.toLowerCase().trim();
-           console.log(deliver)
-          $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " !main if!");
+         if(day < days.indexOf(c2Day)){
+      deliver = 'next '+d2.toLowerCase().trim();
+             console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " first condition false");
+          }
+          else{
+   deliver = Date.parse('next'+ d2.toLowerCase().trim()).add(7).day()
+         console.log(deliver)
+          $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " main oo if!");
+        }
         }
      }
+      else{
+      if(day <= days.indexOf(c1Day)){
+      deliver = 'next '+d1.toLowerCase().trim();
+             console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " first condition false");
+          }
+      
       else{
  deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day()
          console.log(deliver)
         $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " !main else!");
+      }
       }
     });
   </script>
