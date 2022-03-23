@@ -31,7 +31,7 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
 <!DOCTYPE html>
 <html>
 <body>
-<button class="btn" data-d1="Tuesday" data-c1="Monday 12" data-d2="Sunday" data-c2="Friday 12">Add to Cart</button>
+<button class="btn" data-d1="Tuesday" data-c1="Thursday 12" data-d2="Friday" data-c2="Monday 23">Add to Cart</button>
 <p id="demo"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,22 +39,29 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
     $(".btn").click(function(){
       const d = new Date();
       const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      const time = d.getHours();
+      const time = 23;
       let d1 = $(this).attr("data-d1");
       let c1Day = $(this).attr("data-c1").split(" ")[0];
       let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
       let d2 = $(this).attr("data-d2");
       let c2Day = $(this).attr("data-c2").split(" ")[0];
       let c2Time = parseInt($(this).attr("data-c2").split(" ")[1]);
-      let day = d.getDay();
+      let day = 4;
       let deliver = '';
 
       if(day >= days.indexOf(c1Day) || day <= days.indexOf(c2Day)){
         if(days[day] == c1Day){
           if(time >= c1Time){
+          if( day > days.indexOf(d2)){
             deliver = 'next '+d2.toLowerCase().trim();
             console.log(deliver)
             $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " upper main if!");
+          }
+          else{
+           deliver =Date.parse('next'+d2.toLowerCase().trim()).add(7).day();
+            console.log(deliver)
+            $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " upper main if!");
+          }
           }
           else{
             deliver = 'next '+d1.toLowerCase().trim();
@@ -104,5 +111,4 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
   </script>
 </body>
 </html>
-
 
