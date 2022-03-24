@@ -1,0 +1,68 @@
+      $(function(){
+      featured_slider()
+      })
+//         $(".slider").not('.slick-initialized').slick()
+          $(document).on('shopify:section:load',function(){
+     featured_slider()
+  }); 
+
+  $(document).on('shopify:section:unload',function(){
+      featured_slider()
+  }); 
+        $(document).on('shopify:section:select',function(){
+   featured_slider()
+  }); 
+
+  $(document).on('shopify:section:deselect',function(){
+ featured_slider()
+  });
+
+  $(document).on('shopify:block:select',function(){
+  featured_slider()
+  });
+
+  $(document).on('shopify:block:deselect',function(){
+  featured_slider()
+  });
+
+    $(document).on('shopify:block:select',function(){
+ featured_slider()
+    });
+     
+      function featured_slider(){
+//          $('.u_featured_product_row').not('.slick-initialized').slick({
+             $('.u_featured_product_row').slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    dots:false,
+    infinite:false,
+    nextArrow: '.u_right_arrow',
+    prevArrow: '.u_left_arrow',
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false
+
+        }
+      }
+      // You can unslick at a given breakpoint now by adding:
+      // settings: "unslick"
+      // instead of a settings object
+    ]
+
+  });
+      }
