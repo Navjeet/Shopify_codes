@@ -39,14 +39,14 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
     $(".btn").click(function(){
       const d = new Date();
       const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      const time = 15;
+      const time = 7;
       let d1 = $(this).attr("data-d1");
       let c1Day = $(this).attr("data-c1").split(" ")[0];
       let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
       let d2 = $(this).attr("data-d2");
       let c2Day = $(this).attr("data-c2").split(" ")[0];
       let c2Time = parseInt($(this).attr("data-c2").split(" ")[1]);
-      let day = 6;
+      let day = 3;
       let deliver = '';
 
       if(day >= days.indexOf(c1Day) || day <= days.indexOf(c2Day)){
@@ -82,7 +82,7 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
           }
         }
         else{
-         if(day <= days.indexOf(d2)){
+         if(day < days.indexOf(d2)){
       deliver = 'next '+d2.toLowerCase().trim();
              console.log(deliver)
             $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d2 + " first condition fale");
@@ -95,7 +95,7 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
         }
      }
       else{
-      if(day <= days.indexOf(d1)){
+      if(day > days.indexOf(d1)){
       deliver = 'next '+d1.toLowerCase().trim();
              console.log(deliver)
             $("#demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " + d1 + " first condition false");
@@ -111,3 +111,4 @@ console.log(Date.parse(deliver).toString("dd/MM/yyyy"));
   </script>
 </body>
 </html>
+
