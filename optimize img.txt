@@ -1,0 +1,37 @@
+{% render 'optimize-images', s_img:section.settings.j-im%}
+code in snippet 'optimize-image'
+{% assign image = s_img %}
+{% capture list %}
+{% comment %}Loop through images only once{% endcomment %}
+{{ image.id }}`~`{{ image.alt }}`~`{{ image | img_url: '50x' }}`~`{{ image | img_url: '200x' }}`~`{{ image | img_url: '400x' }}`~`{{ image | img_url: '600x' }}`~`{{ image | img_url: '800x' }}`~`{{ image | img_url: '1200x' }}`~`{{-image.width-}}px`~`{{-image.height-}}px{% if forloop.last == false %}^{% endif %}
+{% endcapture %}
+{% assign image_list = list | split: "^" %}
+
+
+    {% for image_item in image_list %}
+    {% assign image = image_item | split: "`~`" %}
+    {% capture image_id %}{{ image[0] | strip }}{% endcapture %}
+    {% capture image_alt %}{{ image[1] | strip }}{% endcapture %}
+    {% capture image_50x %}{{ image[2] }}{% endcapture %}
+    {% capture image_200x %}{{ image[3] }}{% endcapture %}
+    {% capture image_400x %}{{ image[4] }}{% endcapture %}
+    {% capture image_600x %}{{ image[5] }}{% endcapture %}
+    {% capture image_800x %}{{ image[6] }}{% endcapture %}
+    {% capture image_1200x %}{{ image[7] }}{% endcapture %}
+    {% capture original_image_width %}{{- image[9] -}}{% endcapture %}
+    {% capture original_image_height %}{{- image[10] -}}{% endcapture %}
+{% if forloop.first %}
+    <img  src="{{ image_50x }}"
+         alt="{{ image_alt | escape }}"
+         data-index="{{ forloop.index0 }}"
+         data-image-id="{{ image_id }}"
+         data-sizes="auto"
+         data-src="{{ image_2000x }}"
+         srcset="{{ image_200x }} 200w,
+                 {{ image_400x }} 400w,
+                 {{ image_600x }} 600w,
+                 {{ image_800x }} 800w,
+                 {{ image_1200x }} 1200w"
+         />
+{% endif %}
+    {% endfor %}
