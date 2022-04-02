@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+ $(document).on('click','.btn',function(){
+ let i;
+ let is_prime= 'true';
+ let no = $('.inp_no').val();
+ for(i =2 ; i<=no/2;i++)
+ {
+ if( no % i ==0 ){
+ is_prime = 'false';
+ break;
+ }
+ }
+ if(is_prime == 'true')
+ {
+ $('.demo').text(`${no} is a prime number`)
+ }
+ else{
+ $('.demo').text(`${no} is not a prime number`)
+ }
+ 
+ })
+});
+</script>
+
+</head>
+<body>
+<input type="number" min="2" class="inp_no" >
+<button type="button" class="btn">
+click
+</button>
+<p class="demo"></p>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+ $(document).on('click','.btn',function(){
+ let temp,r,rev=0;
+ let no = $('.inp_no').val();
+  console.log('vfwe',no)
+ temp = no;
+ console.log('vfwe',rev)
+while(temp > 0){
+r = parseInt(temp % 10);
+rev = parseInt((rev * 10) + r);
+temp = parseInt(temp / 10) 
+}
+console.log('reverse',rev)
+if(rev == no){
+$('.demo').text(`${no} is a palindrome number`)
+}
+else{
+$('.demo').text(`${no} is not a palindrome number`)
+}
+ })
+});
+</script>
+
+</head>
+<body>
+<input type="number" min="2" class="inp_no" >
+<button type="button" class="btn">
+click
+</button>
+<p class="demo"></p>
+
+</body>
+</html>
+
