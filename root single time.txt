@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button class="btn" data-d1="Thursday" data-c1="Wednesday 13">Add to Cart</button>
+<p class="u_item_dm"></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    $(".btn").click(function(){
+      const d = new Date();
+      const days =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const time =d.getHours();
+      let d1 = $(this).attr("data-d1");
+      let c1Day = $(this).attr("data-c1").split(" ")[0];
+      let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
+      let day =d.getDay();
+      let deliver = '';
+      
+       if(day >= days.indexOf(c1Day)){
+              if(days[day] == c1Day){
+                if(time >= c1Time){
+                  deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+                  console.log(Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
+                  $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} same day time greater than`)
+                  
+                }
+                else{
+                  deliver = 'next '+d1.toLowerCase().trim();
+                  console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
+                  $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} same day time less than`)
+                }
+              }
+              else{
+
+                deliver = 'next'+ d1.toLowerCase().trim();
+                console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
+                $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} upper else`)
+              }
+            }
+            else{
+            
+              deliver =Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+              console.log(Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
+              $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} main else`)
+             
+            }
+     
+    });
+  </script>
+</body>
+</html>
