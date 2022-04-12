@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+</head>
+<style>
+.u_img{
+width:400px;
+height:300px;
+display:block
+}
+</style>
+<body>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy"
+data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<div>
+<img class="u_img lazy" data-src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" >
+</div>
+<script>
+ $(document).ready(function(){
+ 
+        $('.lazy').Lazy({
+        visibleOnly:true,
+       threshold:100,
+               effect: 'fadeIn',
+        beforeLoad: function(element) {
+        console.log('loading image',element)
+        },
+        afterLoad: function(element) {
+        console.log('loaded image')
+        },
+        onError: function(element) {
+        console.log('error lazy')
+        },
+        onFinishedAll: function() {
+    console.log('all imgs are loaded') 
+    }
+        });
+    });
+</script>
+</body>
+</html>
