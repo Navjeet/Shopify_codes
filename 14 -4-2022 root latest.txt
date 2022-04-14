@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button class="btn" data-d1="Wednesday" data-c1="Thursday 13">Add to Cart</button>
+<p class="u_item_dm"></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(".btn").click(function(){
+const d = new Date();
+const days =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const time =d.getHours();
+console.log('time',time);
+let d1 = $(this).attr("data-d1");
+let c1Day = $(this).attr("data-c1").split(" ")[0];
+let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
+let day =d.getDay();
+console.log('current day',day);
+let deliver = '';
+
+if(days.indexOf(d1) > days.indexOf(c1Day)){
+  if(c1Day == days[day]){
+    if(time >= c1Time){
+      if(days.indexOf(d1) <= day){
+
+      deliver ='next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} cut off time less and same day time greater than current time shift  to next week `);
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time less and same day time greater than current time shift  to next week cuurent day less than today`)
+      }
+      else{
+
+      
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} cut off time less and same day time greater than current time shift  to next week`);
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time less and same day time greater than current time shift  to next week cuurent day greater than today`)
+  
+      }  
+    }
+  else{
+    deliver = 'next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).toString("dddd yyyy-MM-dd")}  cut off time less and same day time less than current time shift to same week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time less and same day time less than current time shift to same week`)
+  }
+  }else if(days.indexOf(c1Day) > day)
+  {
+    deliver = 'next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")}  cut off time less and  day greater than delivery day shift to next week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time less and  day greater than delivery day shift to next week`)
+
+  }  else{
+    if(days.indexOf(d1) <= day){
+      deliver = 'next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).toString("dddd yyyy-MM-dd")}  cut off time less and  day less than delivery day shift to same week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time less and  day less than delivery day shift to same week  cuurent day greater than today`)
+
+    }
+    else{
+
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).toString("dddd yyyy-MM-dd")}  cut off time less and  day less than delivery day shift to same week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time less and  day less than delivery day shift to same week  cuurent day less than today`)
+
+  }
+}
+
+}  
+else if (days.indexOf(d1) <= days.indexOf(c1Day)){
+if(c1Day == days[day]){
+    if(time >= c1Time){
+
+      if(days.indexOf(d1) <= day){
+
+        deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} cut off time greater and same day time greater than current time shift  to 14 days`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time greater and same day time greater than current time shift  to 14 days cuurent day less than today`)
+    
+      }
+      else{
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(14).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(14).day().toString("dddd yyyy-MM-dd")} cut off time greater and same day time greater than current time shift  to 14 days`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time greater and same day time greater than current time shift  to 14 days cuurent day greter than today`)
+    
+        }    }
+    else{
+    deliver = 'next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} cut off time greater and same day time less than current time shift  to next week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time greater and same day time less than current time shift  to next week hvhv`)
+    }
+  }
+  else{
+    if(days.indexOf(d1) <= day){
+
+      deliver = 'next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} cut off time greater than delivery day to next week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time greater than delivery day to next week cuurent day less than today`)
+  
+    }
+    else{
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} cut off time greater than delivery day to next week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} cut off time greater than delivery day to next week cuurent day greater than today`)
+  }
+}
+}
+else if (d1 == c1Day){
+if(time >= c1Time){
+
+  if(days.indexOf(d1) <= day){
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} same day time greater than current time shift  to 14 days` )
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}  same day time greater than current time shift  to 14 days cuurent day less than today`)
+    
+  }
+  else{
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(14).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(14).day().toString("dddd yyyy-MM-dd")} same day time greater than current time shift  to 14 days` )
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")}  same day time greater than current time shift  to 14 days cuurent day greater than today`)
+    }
+  }
+    else{
+      if(days.indexOf(d1) <= day){
+        deliver = 'next'+ d1.toLowerCase().trim();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} same day time less than current time shift  to next week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} same day time less than current time shift  to next week cuurent day less than today`)
+    
+      }
+
+      else{
+    deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
+          console.log(`${Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd")} same day time less than current time shift  to next week`)
+          $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} same day time less than current time shift  to next week cuurent day greater than today`)
+    
+          }
+              }
+}
+});
+</script>
+</body>
+</html>
