@@ -171,6 +171,9 @@
     color: black;
     font-size:16px
 }
+  .fancybox__container{
+      z-index: 99999;
+  }
   @media screen and (max-width:768px){
   .u_slider_nav_pos {
     width: 20%;
@@ -191,6 +194,10 @@
     .u_slider_for video {
     width: 100%;
      height: unset;
+  }
+    .u_slider_for iframe {
+    height: 160px;
+    }
   }
 </style>
 <script>
