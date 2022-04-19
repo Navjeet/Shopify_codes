@@ -1,0 +1,246 @@
+<div class="u_pro_card">
+  <div class="u_product_slider">
+     <div class="u_slider_nav_pos">
+    <div class="u_slider_nav kkp-Thumb">
+      {% for media in product.media %}
+{% case media.media_type %}
+    {% when 'image' %}
+      <div>
+ 	 <img src="{{ media | img_url: 'master' }}" class="u_img_nav_size" >
+      </div>
+       {% when 'external_video' %}
+     <div>
+        <div class="u_pro_nav external_video">
+        <i class="far fa-play"></i>
+        </div>
+      </div>
+       {% when 'video' %}
+     <div>
+        <div class="u_pro_nav">
+        <i class="far fa-play"></i>
+        </div>
+      </div>
+      {% endcase %}
+	{% endfor %}
+      </div>
+      
+       {% if product.media.size > 5%}
+      <a class="u_more_link" >
+       <div class="u_pro_plus">
+        <i class="fas fa-plus"></i>
+        </div>
+        <span class="u_pro_more">more</span>
+       </a>
+       {% endif %}
+      
+    </div>
+       <div class="u_slider_for_pos">
+      <div class="u_slider_for">
+         {% assign count = 0 %}
+              {% capture vid %}
+              {% assign external_videos = product.media | where: "media_type", "external_video" %}
+              {% for external_video in external_videos %}
+              https://www.{{ external_video.host }}.com/watch?v={{ external_video.external_id }},
+              {% endfor %}
+              {% endcapture %}
+        {% assign videos = vid | split: ',' %} 
+        {% assign  p_count = 0 %}
+                {% assign p_videos = product.media | where: "media_type", "video" %}
+                              {% for video in p_videos %}
+              {% for source in video.sources %}
+                {% if source.format == 'mp4'%}
+              {% capture pro_video %}
+              {{source.url}},
+              {% endcapture %}
+                            {% assign p_videos = pro_video | split: ',' %}  
+                {% endif %}
+              {% endfor %}
+              {% endfor %}
+        {% for media in product.media %}
+{% case media.media_type %}
+    {% when 'image' %}
+      <div>
+         <a data-fancybox="video-gallery" data-src="{{ media.src | img_url: 'master' }}"  >
+ 	 <img src="{{ media | img_url: 'master' }}" class="u_img_for_size" >
+        </a>
+      </div>
+       {% when 'external_video' %}
+     <div>        
+        <a data-fancybox="video-gallery" data-src="{{- videos[count] -}}"  >
+          {{ media | external_video_tag : class: "youtube_video" ,image_size: "1024x"  }}
+       </a>
+       {% assign count = count | plus: 1 %}
+      </div>
+       {% when 'video' %}
+     <div>
+       <a data-fancybox="video-gallery" data-src="{{- p_videos[p_count] -}}"  >
+       
+          {{ media | video_tag: class: 'internal_video', controls: true , image_size: "1024x"  }}
+       </a>
+       {% assign p_count = p_count | plus: 1 %}
+        
+      </div>
+      {% endcase %}
+	{% endfor %}     
+      </div>        
+   </div>
+  </div>
+</div>
+<style>
+  .u_product_slider {
+    display: flex;
+    flex-wrap: wrap;
+}
+  .u_slider_nav_pos {
+    width: 14%;
+    position: relative;
+/*     height: 330px; */
+    padding-right:20px
+}
+  .u_slider_for_pos {
+    width: 86%;
+    position: relative;
+
+/*     height: 320px; */
+}
+  .u_img_nav_size{
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+       border:1px solid #cccccc
+  }
+  .u_img_for_size{
+  width:100%;
+    height: 520px;
+    object-fit: contain;;
+    cursor: -webkit-zoom-in;
+  }
+  .u_slider_nav .slick-current img, .u_slider_nav .slick-current .u_pro_nav i {
+    border: 1px solid #333;
+}
+  .u_pro_card {
+    padding-bottom: 20px;
+  }
+  .u_pro_nav i {
+    width: 100%;
+    height: 85px;
+   border:1px solid #cccccc;
+    object-fit: contain;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+  .u_slider_for  iframe{
+  height: 360px;
+    width: 100%;
+  }
+  .u_slider_for video{
+      width: 100%;
+    height: 470px;
+  }
+  .u_more_link {
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+ .u_pro_more {
+    text-transform: capitalize;
+    font-size: 14px;
+    letter-spacing: 0;
+    color: black;
+    margin: 0;
+    padding-left: 10px;
+}
+.u_pro_plus {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+}
+  .u_pro_plus i{
+  font-weight: 100;
+    color: black;
+    font-size:16px
+}
+  @media screen and (max-width:768px){
+  .u_slider_nav_pos {
+    width: 20%;
+    padding: 0 10px;
+  }
+    .u_slider_for_pos {
+    width: 80%;
+    height: 320px;
+  }
+    .u_img_for_size {
+    width: 100%;
+    height: unset;
+    }
+    .u_pro_nav i {
+    height: 45px;
+    font-size: 16px;
+  }
+    .u_slider_for video {
+    width: 100%;
+     height: unset;
+  }
+</style>
+<script>
+        $('.u_slider_for').slick({
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         arrows: true,
+         fade:true,
+         infinite:false,
+         asNavFor:'.u_slider_nav',
+          arrows:'false',
+        adaptiveHeight: true,
+          swipe:false
+});
+$('.u_slider_nav').slick({
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  asNavFor:'.u_slider_for',
+  vertical:true,
+    verticalSwiping:true,
+    arrows:true,
+ infinite:false,
+    focusOnSelect: true,
+  arrows:'false',
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        vertical:true,
+        arrows:false
+      }
+    }
+  ]
+});
+  $('.u_more_link').click(function(){
+  $('.u_img_for_size').trigger('click')
+  })
+  $('.kkp-Thumb').on('afterChange', function(event, slick, currentSlide){
+        let prevSlide = currentSlide - parseInt(1)
+           let nextSlide = currentSlide + parseInt(1)
+        console.log('current slide number',currentSlide,'prev slide',prevSlide,'Next slide',nextSlide)
+      if($('.kkp-Thumb [data-slick-index="'+prevSlide+'"]').find('.external_video').length > 0 || $('.kkp-Thumb [data-slick-index="'+nextSlide+'"]').find('.external_video').length > 0){
+        console.log('.kkp-Thumb  [data-slick-index="'+prevSlide+'"]')
+        console.log('external video paused')
+  	$('.youtube_video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+          
+      }
+        else{
+        $('.internal_video').trigger('pause')
+        console.log('internal video paused')
+        }
+  });
+</script>
