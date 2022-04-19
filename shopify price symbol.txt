@@ -1,0 +1,4 @@
+ {% assign curr = shop.money_format | split: '{' %}
+            {% assign curr_symbol = curr.first %}
+            <div class="u_pro_price">
+            <span class="u_cur_symb">{{- curr_symbol -}}</span>
