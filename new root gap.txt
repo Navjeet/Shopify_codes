@@ -22,7 +22,7 @@
       console.log('gap',dgap)
       let deliver = '';
       
-      if(day >= days.indexOf(c1Day) && day <= days.indexOf(c2Day)){
+      if(day >= days.indexOf(c1Day) || day <= days.indexOf(c2Day)){
         if(days[day] == c1Day){
           if(time >= c1Time){
           if(dgap == d2){
