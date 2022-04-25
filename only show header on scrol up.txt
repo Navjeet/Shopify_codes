@@ -1,0 +1,48 @@
+      let flag = false;
+      $(window).resize(function(){
+        if($(window).width() > 990){
+          flag = true;
+        }
+      });
+      if($(window).width() > 990){
+        flag = true;
+      }
+      var position = $(this).scrollTop(); 
+      // should start at 0
+
+      $(window).scroll(function() {
+        if(flag){
+          var scroll = $(this).scrollTop();
+          if(scroll > position) {
+            $('#shopify-section-header').removeClass('section_sticky');
+            console.log('scrollDown');
+          } else {
+            $('#shopify-section-header').addClass('section_sticky');
+            console.log('scrollUp');
+          }
+        }
+        else{
+          var scroll = $(window).scrollTop();
+          console.log('scroll',scroll,'position',position)
+          if(scroll > position) {
+            $('.u_menu_container').removeClass('active');
+            $('.u_mb_nav.mb_sticky_nav').removeClass('active');
+            console.log('mb scrollDown');
+          } else {
+            $('.u_mb_nav.mb_sticky_nav').addClass('active');
+            $('.u_menu_container').addClass('active');
+            console.log('mb scrollUp');
+          }
+        }
+        position = scroll;
+      });
+
+      $(window).scroll(function(){
+        var scroll = $(this).scrollTop();
+        console.log('scroll',scroll);
+        if(scroll <200){
+          $('.u_menu_container').removeClass('active');
+          $('.u_mb_nav.mb_sticky_nav').removeClass('active')
+          console.log('equall')
+        }
+      })  
