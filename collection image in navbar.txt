@@ -1,0 +1,11 @@
+{% assign handle = first_level.url | split: '/' | last %}
+                {% assign col = collections[handle] %}
+                {% if col.image != nil %}
+                <img src="{{col.image | img_url : 'master' }}" class="u_mb_col_img">
+                {% else %}
+                {% if col.products.size >1 %}
+                <img src="{{col.products.first | img_url: 'master' }}" class="u_mb_col_img" alt="{{ col.title | escape }}">
+                {% else %}
+                {{ 'product-1' | placeholder_svg_tag : 'placeholder_img' }}
+                {% endif %}
+                {% endif %}
