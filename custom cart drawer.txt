@@ -378,3 +378,53 @@ src="${pro_image}">
 
          })
 </script>
+ for( i= 0;i<cart.items.length ;i++)
+            {
+              let pro_title = cart.items[i].title;
+              let pro_image = cart.items[i].image;
+              let qty = cart.items[i].quantity;
+              let price =Shopify.formatMoney(cart.items[i].final_line_price);
+              let var_id = cart.items[i].variant_id;
+              let disc = ``;
+              let strike = '';
+              if(cart.items[i].line_level_discount_allocations.length > 0){
+                disc = `<p style="color:#ea0606;margin: 0;padding-top: 0px;margin-top:-10px;">
+<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-saletag"><path d="M10 3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-3H7a1 1 0 0 0-.71.29l-6 6a1 1 0 0 0 0 1.42l4 4a1 1 0 0 0 1.42 0c.19-.2 5.8-5.81 6-6A1 1 0 0 0 12 5V2a2 2 0 0 0-2-2z" fill="#231F20"></path></svg>
+<span>${cart.items[i].line_level_discount_allocations[0].discount_application.title}</span> (-<span>${Shopify.formatMoney(cart.items[i].line_level_discount_allocations[0].discount_application.total_allocated_amount)}</span>)
+      </p>`
+                strike = 'style="text-decoration: line-through;"';
+              }
+              cart_body += `<div class="u_drawer_items">
+<div class="u_drawer_item">
+<div  class="u_cart_item_image">
+<img class="u_drawer_product_image"
+src="${pro_image}">
+      </div>
+<div  class="u_cart_item_detail">
+<h3 class="u_cart_item_title">${pro_title}</h3>
+${disc}
+<div class="u_quantity">
+<span class="u_drawer_minus">-</span>
+<input type="text"  name="number"  value="${qty}" class="u_number" readonly>
+<span class="u_drawer_plus">+</span>
+<input type="hidden" class="u_item_variant_id" value="${var_id}">
+      </div>
+      </div>
+<div  class="u_cart_item_remove">
+<input type="hidden" class="u_item_var_id" value="${var_id}">
+<p class="u_item_price" ${strike}>${price}  </p>
+      </div>
+      </div>
+<p class="u_drawer_error"></p>
+      </div>`
+            }
+            $('.u_drawer_body').html(cart_body);
+            $('.u_cart_sticky').show()
+            let cart_subtotal = `<div class="u_cart_subtotal_row">
+<h2 class="u_cart_subtotal_title">subtotal</h2>
+<p class="u_cart_sub_price">${Shopify.formatMoney(subtotal)}</p>
+      </div>`;
+            $('.u_cart_drawer_footer').html(cart_subtotal);
+          }
+          $('.u_cart_drawer').addClass('active');
+        });
