@@ -428,3 +428,38 @@ ${disc}
           }
           $('.u_cart_drawer').addClass('active');
         });
+//qauntity update
+ $(document).on('click','.u_drawer_plus',function(){
+        console.log('click');
+        let input =$(this).parent('.u_quantity').find('.u_number').attr('value');
+        console.log('quantity found', input);
+        let count =parseInt(input) + 1;
+        let counter = count <1 ?1:count;
+        console.log('counter',counter);
+        let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
+        console.log('variant id',var_id);
+        jQuery.post('/cart/update.js', 'updates['+var_id+']='+counter+'');
+        setTimeout(function(){
+          console.log('ab chlna chye');
+          cart_render();
+          getCartCount();
+        },1000);
+      });   
+
+
+
+
+      $(document).on('click','.u_drawer_minus',function(){
+        console.log('click mm');
+        let input =$(this).parent('.u_quantity').find('.u_number').attr('value');
+        let countm =parseInt(input) -1;
+        console.log('count',countm)
+        let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
+        console.log('variant id',var_id);
+        jQuery.post('/cart/update.js', 'updates['+var_id+']='+countm+'');
+        setTimeout(function(){
+          console.log('ab chlna chye');
+          cart_render();
+          getCartCount();
+        },1000);
+      })
