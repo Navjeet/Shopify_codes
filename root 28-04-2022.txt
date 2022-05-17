@@ -151,7 +151,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<button class="btn" data-d1="Thursday" data-c1="Monday 23" data-d2="Tuesday" data-c2="Friday 11" data-gap ="1,2,3,4,5">Add to Cart</button>
+<button class="btn" data-d1="Thursday" data-c1="Tuesday 13" data-d2="Saturday" data-c2="Thursday 12" data-gap ="1,2">Add to Cart</button>
 <p id="demo"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
