@@ -1,3 +1,16 @@
+<div class="u_size_cart_tabs">
+          <a href="#" data-id="#{{product.metafields.my_fields.inches_title | handleize}}" class="u_tab_link active">
+            {{product.metafields.my_fields.inches_title}}
+          </a>
+           <a href="#" data-id="#{{product.metafields.my_fields.cm_title | handleize}}" class="u_tab_link active">
+            {{product.metafields.my_fields.cm_title}}
+          </a>
+        </div>
+        <div class="u_tabcontent">
+        <div class="u_size_chart_table" id="{{product.metafields.my_fields.inches_title | handleize}}">
+                   {% assign table = product.metafields.my_fields.inches_table | split:',' %}                
+        </div>
+          </div>
 // tabs
 
     $('.u_tab .u_tablinks').removeClass('active');
