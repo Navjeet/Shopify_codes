@@ -6,6 +6,7 @@
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
           {% for block in section.blocks %}
+//{% assign  collection = collections[section.settings.c_collection].products %}
           {% assign c_product = all_products[block.settings.custom-pro] %}      
           <div class="cstm-product-container swiper-slide">
             <div class="kk">
