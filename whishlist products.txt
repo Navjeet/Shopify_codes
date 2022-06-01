@@ -1,0 +1,728 @@
+<div class="u_featured_product_wrapper u_f_pro">
+  {% if section.settings.u_featured_product_heading != blank %}
+  <div class="u_featured_product_heading">
+    <h2 class="u_featured_product_heading_bg_size">{{section.settings.u_featured_product_heading}}</h2>
+    <a href="{{section.settings.u_collection_link}}" class="u_collection_link">
+      {{section.settings.u_collection_link_text}}
+      <i class="fa-solid fa-arrow-right-long"></i>
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="u_products" id="f_product"> 
+    {% assign collection = collections[section.settings.u_f_product] %}
+    <div class="u_left_arrow u_f_arrow">
+      <i class="fa fa-angle-left" aria-hidden="true"></i>
+    </div>
+    <div class="u_right_arrow u_f_arrow">
+      <i class="fa fa-angle-right" aria-hidden="true"></i>
+    </div>
+    <div class="u_featured_product_row">
+      {% for f_product in collection.products%}
+      <div class="u_fetured_product_block">
+        <div class="u_product_content">
+          <div class="u_featured_pro_item_img">
+            {% if f_product.featured_image != blank %}
+             <div class="u_f_product_whishlist">
+                <i class="fa fa-heart"></i>
+                  <div class="u_whishlist_tooltip">
+                    <div class="u_whislist_wrapp">
+                      <span class="u_whislit_txt">add to whish list</span>
+                    </div>
+                  </div>
+               <input type="hidden" value="{{f_product.handle}}" class="u_pro_handle">
+            </div>
+            <div class="u_active_product_whishlist">
+              <i class="fa fa-heart"></i>
+            </div>
+            <a href="{{f_product.url}}" class="u_f_product_img_link">
+              <div class="u_featured_img">
+                <img src="{{f_product.featured_image | img_url : 'master' }}" class="u_f_product_img_size">
+                <div class="u_pro_label">
+                  <p class="u_pro_label_text">
+                  </p>
+                  <p class="u_pro_label_price">
+                  </p>
+                </div>
+               
+                 {% assign pro_label = section.settings.u_label_prefix | split:'-' %}
+                  {% assign pro_tag = pro_label[0] |strip %}
+                   {% assign pro_tag_msg = pro_label[1] |strip  %}
+                {% if f_product.tags contains pro_tag %}
+                <div class="u_pro_tag_label">                
+                  <p class="u_pro_label_msg">
+                    {{pro_tag_msg}}
+                  </p>
+                </div>
+                {% endif %}
+              </div>                
+              {% endif %}
+            </a>
+          </div>
+          <div class="u_featured_pro_item_desp">
+            {% assign curr = shop.money_format | split: '{' %}
+            {% assign curr_symbol = curr.first %}
+            <div class="u_pro_price">
+            <span class="u_cur_symb">{{- curr_symbol -}}</span>
+            <span class="u_featured_price" data-price="{{f_product.price}}">{{- f_product.price | divided_by: 100 -}}</span>
+            </div>
+                        <p class="u_featured_c_price" data-cprice="{{f_product.compare_at_price}}">{{- f_product.compare_at_price | money_without_trailing_zeros -}}</p>
+           <a href="{{f_product.url}}" class="u_f_product_title_link">
+             {{f_product.title }}
+            </a>
+            {% if f_product.available %}          
+            <p class="u_stock"> <i class="fas fa-check-circle"></i>In stock</p>
+            {% else %}
+                       <p class="u_ostock">Out of stock</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<style>
+  .u_f_pro .u_featured_product_heading_bg_size {
+    font-size: 30px;
+    margin: 0;
+    color: {{section.settings.u_heading_clr}};
+    text-transform: capitalize;
+    letter-spacing: .5px;
+  }
+  .u_f_pro .u_featured_product_heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding:0 10px
+}
+ .u_f_pro .u_collection_link {
+    color: {{section.settings.u_see_more_clr}};
+    text-decoration: none;
+    margin-left: 20px;
+    display: inline-block;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+  .u_f_pro .u_collection_link:hover{
+    color:{{section.settings.u_see_more_hvr_clr}}
+  }
+  .u_f_pro .u_f_product_title_link {
+    text-decoration: none;
+    color:{{section.settings.u_title_clr}};
+        font-size: 15px;
+    text-transform: capitalize;
+    letter-spacing: .5px;    
+    display: inline-block;
+    min-height: 30px;
+  }
+  .u_f_pro .u_fetured_product_block {
+    padding: 10px;
+  }
+  .u_f_pro .u_featured_img {
+    /*     background: #ddd; */
+    position: relative;
+  }
+  
+  .u_f_pro .u_f_product_img_size {
+    width: 100%;
+  }
+  .u_f_pro .u_featured_pro_item_desp {
+    padding: 15px 0;
+     background: {{section.settings.u_featured_bg}};
+  }
+  .u_f_pro .u_f_product_title_link:hover{
+     color:{{section.settings.u_title_hover_clr}};
+  }
+  .u_f_pro .u_f_product_whishlist {
+    margin: 0;
+    position: absolute;
+    top: 3%;
+    left: 4%;
+    z-index: 99;
+  padding-bottom: 6px;
+  cursor:pointer
+}
+  .u_f_pro .u_products {
+    position: relative;
+    padding:20px 0
+  }
+  .u_f_pro .u_left_arrow {
+    position: absolute;
+    top: 32%;
+    left: -2%;
+    z-index: 99;
+  }
+  .u_f_pro .u_right_arrow {
+    position: absolute;
+    top: 32%;
+    right: -2%;
+    z-index: 99;
+  }
+  .u_f_pro .u_f_arrow{
+    width: 50px;
+    height: 50px;
+    background: {{section.settings.u_arrow_bg}};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer
+  }
+  .u_f_pro .u_f_arrow i{
+  font-size: 35px;
+    color: white;
+    font-weight: 100;
+  }
+  .u_f_pro  .u_products .slick-disabled{
+    visibility:hidden
+  }
+
+  .u_f_pro.u_featured_product_wrapper {
+    max-width: 1200px;
+    margin: auto;
+  }
+.u_f_pro .u_product_content {
+  padding:0 10px;
+  border:1px solid {{section.settings.u_featured_border_clr}}
+}
+  .u_f_pro .u_featured_price {
+    font-size: 18px;
+    letter-spacing: .5px;
+  }
+  .u_f_pro .u_pro_price{
+   color: {{section.settings.u_price_clr}};
+  }
+  .u_f_pro .u_featured_c_price {
+    color: {{section.settings.u_c_price_clr}};
+    font-size: 14px;
+    letter-spacing: .5px;
+    text-decoration: line-through;
+}
+  .u_f_pro .u_f_product_img_link {
+    text-decoration: none;
+  }
+  .u_f_pro .u_pro_label {
+    position: absolute;
+    top: -5%;
+    right: 0;
+    width: 70px;
+    z-index: 1;
+    background:{{section.settings.u_label_bg}};
+    text-align: center;
+    color:{{section.settings.u_label_clr}};
+        display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 55px;
+    padding:10px 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .u_f_pro .u_pro_label:before {
+    position: absolute;
+    bottom: -10px;
+    right: 0;
+    border-style: solid;
+    border-width: 10px 35px 0 35px;
+    border-color:{{section.settings.u_label_bg}} transparent transparent transparent;
+    content: '';
+  }
+  .u_f_pro .u_pro_label_price {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .u_f_pro .u_pro_label_text {
+    text-transform: uppercase;
+        font-size: 12px;
+    letter-spacing: .5px;
+    line-height: normal;
+  }
+  .u_f_pro .u_f_product_whishlist i{
+    color:{{section.settings.u_whishlist_clr}}
+  }
+  .u_f_product_whishlist:hover i{
+    color:{{section.settings.u_whishlist_hover_clr}}
+  }
+  .u_f_pro .u_whishlist_tooltip {
+    position: absolute;
+    top: 100%;
+    left: -46px;
+    width: max-content;
+    z-index: 99;
+ opacity:0;
+    visibility: hidden;
+    transition: all .5s;
+  }
+  .u_f_pro .u_whislist_wrapp {
+    background: #484848;
+        border-radius: 5px;
+  }
+  .u_f_pro .u_whislit_txt {
+font-size: 13px;
+    letter-spacing: 0;
+    color: white;
+    padding: 5px;
+    text-transform: capitalize;
+}
+  .u_f_pro .u_whishlist_tooltip:before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50px;
+    background: #484848;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+}
+  .u_f_pro .u_f_product_whishlist:hover .u_whishlist_tooltip{
+ opacity:1;
+    visibility: visible;
+  }
+  .u_f_pro .u_stock {
+    color: {{section.settings.u_stock_clr}};
+    font-size: 16px;
+    letter-spacing: 0;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+  .u_f_pro .u_stock i{
+    padding-right:8px
+  
+  }
+  .u_f_pro .u_ostock {
+    color: {{section.settings.u_ostock_clr}};
+    font-size: 16px;
+    letter-spacing: 0;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+  .u_f_pro .u_pro_tag_label {
+    position: absolute;
+    top: -5%;
+    right: 40%;
+    width: 70px;
+    z-index: 1;
+    background: {{section.settings.u_tag_label_bg}};
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: normal;
+    padding: 10px 0;
+      border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .u_f_pro .u_pro_label_msg{
+    font-size:15px;
+    text-align: center;
+    color:{{section.settings.u_tag_label_clr}}
+  }
+  .u_f_pro .u_pro_tag_label:before {
+    position: absolute;
+    bottom: -10px;
+    right: 0;
+    border-style: solid;
+    border-width: 10px 35px 0 35px;
+    border-color:{{section.settings.u_tag_label_bg}} transparent transparent transparent;
+    content: '';
+  }
+  .u_f_pro .u_featured_pro_item_img {
+    position: relative;
+}
+  .u_active_product_whishlist i{
+   color:{{section.settings.u_whishlist_hover_clr}} !important 
+  }
+    .u_active_product_whishlist{
+      margin: 0;
+    position: absolute;
+    top: 3%;
+    left: 4%;
+    z-index: 99;
+  padding-bottom: 6px;
+  cursor:pointer
+    }
+  .u_active_product_whishlist{
+  display:none
+  }
+  @media screen and (max-width:768px)
+  {
+    .u_f_pro .u_featured_product_heading_bg_size {
+      font-weight: 700;
+      font-size: 25px;
+    }
+    .u_f_pro .u_f_product_title_link {
+    min-height: 55px;
+  }
+   
+    .u_f_pro .u_pro_label,.u_pro_tag_label {
+      width: 50px;
+    }
+    .u_f_pro .u_pro_label:before ,.u_f_pro .u_pro_tag_label:before{ 
+   border-width: 10px 25px 0 25px;
+  }
+    .u_f_pro .u_pro_label_msg,.u_pro_label_price {
+    font-size: 12px;
+    }
+    .u_f_pro .u_pro_tag_label {
+    position: absolute;
+    top: 45%;
+    right: 0%;
+    }
+        .u_f_pro .u_f_arrow{
+    width: 40px;
+    height: 40px;
+  }
+        .u_f_pro .u_right_arrow {
+    right: 5%;
+}
+        .u_f_pro .u_left_arrow  {
+    left: 5%;
+}
+  }
+
+</style>
+ {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+<script>
+
+
+  $(document).ready(function(){
+         Shopify.money_format = "{{ shop.money_with_currency_format }}";      
+    });
+
+  $('.u_featured_product_row').not('.slick-initialized').slick({
+          slidesToShow: 5,
+          slidesToScroll: 2,
+          arrows: true,
+          dots:false,
+          nextArrow: '.u_right_arrow',
+          prevArrow: '.u_left_arrow',
+          swipe:false,
+          infinite:false,
+          responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                infinite: true,
+                dots: false,
+                swipe:true,
+              }
+            },
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                dots: false,
+                swipe:true,
+
+              }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+          ]
+
+        });
+      
+  $('.u_featured_pro_item_desp').each(function(){
+    let price = parseInt($(this).parents('.u_fetured_product_block').find('.u_featured_price').attr('data-price'));
+    let c_price = parseInt($(this).parents('.u_fetured_product_block').find('.u_featured_c_price').attr('data-cprice'))
+      if(price > 0 && c_price > 0){
+       
+  console.log('price',price)
+    console.log('compare price',c_price)
+    let pp = c_price - price
+    let save = Shopify.formatMoney(pp,"{{ shop.money_with_currency_format }}");
+                                   let finall = (save.split('.')[1] > 0) ? save : save.split('.')[0];
+    console.log('save',finall)
+    $(this).parents('.u_fetured_product_block').find('.u_pro_label_text').text(`save`)
+      $(this).parents('.u_fetured_product_block').find('.u_pro_label_price').text(`${finall}`)
+      }
+    else{
+    console.log('both value 0');
+      $(this).parents('.u_fetured_product_block').find('.u_pro_label').hide()
+    }
+  })     
+      let whish_arr1 =[];
+    if(localStorage.getItem("whishlist products") != null){
+                                let data =JSON.parse(localStorage.getItem("whishlist products"));
+    whish_arr1 =whish_arr1.concat(data);
+    console.log('concat array',whish_arr1)
+    }
+         $(document).on('click','.u_f_product_whishlist',function(){
+                 let pro_han = $(this).parent().find('.u_pro_handle').val();
+      console.log('product handle',pro_han)
+      if(whish_arr1.indexOf(pro_han) == -1){
+        whish_arr1.push(pro_han);
+      } 
+      localStorage.setItem("whishlist products",JSON.stringify(whish_arr1));
+      console.log('whishlist products',JSON.stringify(whish_arr1));
+      $(this).hide();
+           $(this).parent().find('.u_active_product_whishlist').show();
+                 })      
+                 $('.u_product_content').each(function(){   
+                   let pro_val =$(this).parent().find('.u_pro_handle').val();
+ 	 let products = JSON.parse(localStorage.getItem('whishlist products'));
+ 	 console.log('products array',products)
+  	for(let i =0; i<products.length;i++){
+    	if(pro_val == products[i])
+    	{
+          $(this).find('.u_f_product_whishlist').hide();
+           $(this).find('.u_active_product_whishlist').show();
+    	console.log('equal handle',products[i])
+    	}
+  }
+  })
+   $(document).on('click','.u_active_product_whishlist',function(){
+     console.log('active click');
+                 let pro_han = $(this).parent().find('.u_pro_handle').val();
+  console.log('pro handle',pro_han);
+  let local_sto =JSON.parse(localStorage.getItem("whishlist products"))
+        console.log('get local storge data',JSON.parse(localStorage.getItem("whishlist products")))
+         local_sto.splice(local_sto.indexOf(pro_han),1)
+        console.log('after splice',local_sto)
+         localStorage.setItem("whishlist products",JSON.stringify(local_sto))
+         $(this).hide();
+                $(this).parent().parent().find('.u_f_product_whishlist').show();
+      whish_arr1 =[];
+  });
+</script>
+{% schema %}
+{
+"name": "Featured collection",
+"settings": [
+{
+"type":"text",
+"id":"u_featured_product_heading",
+"label":"Featured product heading",
+"default":"our products"
+},
+{
+"type":"color",
+"id":"u_heading_clr",
+"label":"Heading Color",
+"default":"#666666"
+},
+{
+"type":"url",
+"id":"u_collection_link",
+"label":"Featured collection link"
+},
+{
+"type":"text",
+"id":"u_collection_link_text",
+"label":"Featured collection link text",
+"default":"see more"
+},
+{
+"type":"color",
+"id":"u_see_more_clr",
+"label":"Link text Color",
+"default":"#148fcc"
+},
+{
+"type":"color",
+"id":"u_see_more_hvr_clr",
+"label":"Link text hover Color",
+"default":"#40b3ec"
+},
+{
+"type":"collection",
+"id":"u_f_product",
+"label":"product"
+},
+{
+"type":"color",
+"id":"u_featured_bg",
+"label":"Background color",
+"default":"#fafafa"
+},
+{
+"type":"color",
+"id":"u_featured_border_clr",
+"label":"Border color",
+"default":"#efefef"
+},
+{
+"type":"color_background",
+"id":"u_arrow_bg",
+"label":"Arrows background",
+"default":"rgba(0,0,0,.2)"
+},
+{
+"type":"color",
+"id":"u_price_clr",
+"label":"Price color",
+"default":"#e84f05"
+},
+{
+"type":"color",
+"id":"u_c_price_clr",
+"label":"Compare price color",
+"default":"#565959"
+},
+{
+"type":"color",
+"id":"u_title_clr",
+"label":"Title color",
+"default":"#000"
+},
+
+{
+"type":"color",
+"id":"u_title_hover_clr",
+"label":"Tiitle hover color",
+"default":"#e84f05"
+},
+{
+"type":"color",
+"id":"u_label_bg",
+"label":"Label background",
+"default":"#ffcc00"
+},
+{
+"type":"color",
+"id":"u_label_clr",
+"label":"Label text color",
+"default":"#000"
+},
+{
+"type":"color",
+"id":"u_whishlist_clr",
+"label":"Whishlist icon color",
+"default":"#ADADAD"
+},
+{
+"type":"color",
+"id":"u_whishlist_hover_clr",
+"label":"Whishlist icon hover color",
+"default":"#e84f05"
+},
+{
+"type":"color",
+"id":"u_stock_clr",
+"label":"Stock in color",
+"default":"#739900"
+},
+{
+"type":"color",
+"id":"u_ostock_clr",
+"label":"Out of Stock color",
+"default":"#e84f05"
+},
+{
+"type":"text",
+"id":"u_label_prefix",
+"label":"Label prefix",
+"info":"Please add prefix (tag name) - (message)"
+},
+{
+"type":"color",
+"id":"u_tag_label_bg",
+"label":"Tag label background",
+"default":"#e84f05"
+},
+{
+"type":"color",
+"id":"u_tag_label_clr",
+"label":"Tag label text color",
+"default":"#000"
+}
+],
+"presets":[
+{
+"name":"Custom featured collection",
+"category":"select"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+// show in oage whishlist products
+<div class="u_page_cont">
+<div class="u_page_header">
+  <h2 class="u_page_title">{{page.title}}</h2>
+</div>
+    <div class="u_page_content">
+  <div class="u_page_row">
+  </div>
+</div>
+</div>
+<style>
+  .u_page_cont {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 15px;
+}
+  .u_page_header {
+    padding: 20px 0;
+}
+  .u_page_title {
+    font-size: 20px;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
+    color: black;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  .u_page_row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+  .u_whish_pro_block {
+    width: 25%;
+    padding: 10px;
+}
+  .u_whish_pro_image_size {
+    width: 100%;
+    display: block;
+}
+  .u_whish_pro_link {
+    text-decoration: none;
+    display: inline-block;
+}
+</style>
+<script>
+  $(function(){
+    
+  let products = JSON.parse(localStorage.getItem('whishlist products'));
+    console.log('whishlist array length',products.length)
+     if(products.length >=1){
+  console.log(products)
+  let whish_pro='';
+  for(let i =0; i<products.length;i++){
+    jQuery.getJSON(window.Shopify.routes.root + 'products/'+products[i]+'.js', function(product) {
+      console.log('product',product)
+       whish_pro +=`
+<div class="u_whish_pro_block">
+<a href="${product.url}" class="u_whish_pro_link">
+<div class="u_whish_pro_image">
+<img src="${product.featured_image}" class="u_whish_pro_image_size">
+</div>
+<div class="u_whish_pro_body">
+<h2 class="u_whish_ttl">${product.title}</h2>
+</div>
+</a>
+</div>
+`; 
+      $('.u_page_row').html(whish_pro)
+});
+  }
+     }
+    else{
+    $('.u_page_content').html('<h3>No whishlist products</h3>')
+    }
+    
+  });
+</script>
