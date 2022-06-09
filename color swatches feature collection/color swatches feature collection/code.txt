@@ -1,0 +1,268 @@
+<div class="custom_coll">
+  <div class="coll_inner">    
+
+    <h2 class="title_colll"> {{section.settings.Head}} </h2>
+
+    <div class="prods_CS_main">
+
+      {% assign c_collection = collections[section.settings.my-collection] %}      
+      {%- for p in c_collection.products -%}
+      <div class="_product_div">
+        <div class="for-margin">
+
+          <div class="_prod_img">
+            <a href="{{ p.url }}" class="link-product">
+              <img src="{{p.featured_image | img_url:"master" }}" class="img_prod_swatch" />
+            </a>
+          </div>
+
+          {%-capture colorArr-%} colors,colors,colour  {%-endcapture-%} 
+
+          <div class="_prod_details">          
+            <p class="pro-titl"> {{p.title}} </p>            
+
+            <div class="_color_swatches">
+              {% for product_option in p.options_with_values %}
+              {% assign co = product_option.name | downcase | strip %}    
+              {% if colorArr contains co %}
+              {% for val in product_option.values%}
+
+              <label class="color__ custom---color---{{val | downcase | strip | handleize}} {% if forloop.first %}custom-active{% endif %}">
+                {{ val }}
+              </label>
+
+
+              {% endfor %}
+              {% endif %}
+              {% endfor %}
+              <div class="color_namee"> </div>
+            </div>  
+
+
+            <div class="container-Price">
+              <p class="pro_var_color_name"> {{p.price | money}} </p>
+              <p class="pro--com">{{p.compare_at_price | money}}  </p>
+            </div>
+
+
+            <select class="custom-master-select" hidden>
+              {%- for variant in p.variants -%}
+              <option value="{{ variant.url }}" vp="{{variant.price | money}}" data-img="{% if variant.image %}{{ variant.image | img_url: 'master' }}{% else %}none{% endif %}"
+                      {%- if variant == p.selected_or_first_available_variant -%}selected="selected"{%- endif -%}
+                      >
+                {{- variant.title | downcase | strip -}}
+              </option>
+              {%- endfor -%}
+            </select>
+          </div>
+
+        </div>
+      </div>
+      {%endfor%}
+
+
+    </div>    
+  </div>
+</div>
+
+
+<script>
+
+
+  $(".color__").click(function(){
+    $(this).parent().find(".color__").removeClass("custom-active");
+    $(this).addClass("custom-active");
+
+    var color_name = $(this).text();
+    $(this).parents('._product_div').find('.color_namee').text(color_name);
+
+    let a = $(this).parents(".for-margin").find(".link-product");
+    let img = $(this).parents(".for-margin").find(".img_prod_swatch");
+    let text = $(this).text().toLowerCase().trim();
+  $(this).parents('._prod_details').find(".custom-master-select option").each(function(i){
+      if($(this).text().toLowerCase().trim().indexOf(text) != -1){
+        a.attr("href", $(this).val());
+        if($(this).attr("data-img") != "none"){
+          img.attr("src", $(this).attr("data-img"));
+        }
+      }
+    });
+  });
+
+
+  $('.custom-active').each(function(){
+    var t = $(this).text();
+    $(this).parents('._product_div').find('.color_namee').text(t);
+  });
+
+</script>
+
+
+
+<style>
+
+
+  .pro--com {
+    font-size: 14px;
+    text-decoration: line-through;
+    padding-left:10px;
+  }
+
+  .container-Price {
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .custom-active{
+    outline: 1px solid;
+    outline-offset: 2px;
+  }
+
+  .color_namee {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    font-family: sans-serif;
+  }
+  ._color_swatches {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+  } 
+  label.color__ {
+    font-size: 0;
+    height: 20px;
+    width: 20px;
+    display: block;
+    border-radius: 10px;
+    margin: 4px;
+    cursor: pointer;
+  } 
+
+
+  a.link-product {
+    text-decoration: none;
+    display:block;
+    color:black;
+
+  }
+  .for-margin:hover {
+    box-shadow: rgb(0 0 0 / 13%) 0px 10px 20px 0px, rgb(0 0 0 / 19%) 0px 3px 9px 0px;
+  }
+
+  .for-margin {
+    margin: 0 10px;
+    transition:0.3s all;
+  }
+  ._prod_details {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom:20px;
+  }
+  ._prod_details p{
+    margin: 0;
+    font-size: 13px;
+    font-family: sans-serif;
+  }
+
+  .custom_coll {
+    width: 100%;
+    display: block;
+  }
+  .prods_CS_main {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  img.img_prod_swatch {
+    width: 100%;
+    display: block;
+  }
+  ._product_div {
+    display: block;
+    width: 25%;
+  }
+
+
+  .coll_inner {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    padding: 50px 0;
+  }
+  ._prod_img {
+    background: #F5F5F5;
+  }
+  h2.title_colll {
+    display: block;
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  
+  @media only screen and (max-width:1024px){
+    ._product_div {
+      width: 50%;
+    }
+    label.color__ {
+      height: 15px;
+      width: 15px;
+    }
+    .custom-active {
+      outline-offset: 1.5px;
+    }
+  }
+
+  @media only screen and (max-width:420px){
+    ._product_div {
+      width: 100%;
+    }
+    label.color__ {
+      height: 15px;
+      width: 15px;
+    }
+    .custom-active {
+      outline-offset: 1.5px;
+    }
+  }
+  
+
+
+  
+  
+  
+</style>
+
+
+
+{% schema %}
+{
+"name": "Color swatches products",
+"settings": [
+{
+"id": "Head",
+"type": "text",
+"label": "Collection title"
+},
+{
+"id": "my-collection",
+"type": "collection",
+"label": "Select Collection"
+}
+],
+"presets": [
+{
+"name": "Custom Collection Products",
+"category": "Custom work"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

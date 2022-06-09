@@ -1,0 +1,44 @@
+<style>
+  {% for block in section.blocks %}
+  .custom---color---{{block.settings.title}}{
+    background: {{ block.settings.color }} !important; 
+  }
+  {% endfor %}
+</style>
+
+
+{% schema %}
+  {
+    "name": "Custom Colors",
+"blocks": [
+    {
+      "type": "select",
+      "name": "Color",
+      "settings": [
+        {
+        "id": "title",
+        "type": "text",
+        "label": "Color Title"
+        },
+        {
+        "id": "color",
+        "type": "color",
+        "label": "Color"
+        }
+      ]
+    }
+  ],
+ "presets": [
+    {
+      "name": "Custom Colors",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
