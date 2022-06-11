@@ -1,0 +1,55 @@
+// parent slider  
+$('.c_twp-collection-{{ section.id }}').not(".slick-initialized").slick({
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    adaptiveHeight: true,
+    nextArrow: '.c_twp-arrow-right-{{ section.id }}',
+    prevArrow: '.c_twp-arrow-left-{{ section.id }}',
+    responsive: [
+    {
+    breakpoint: 769,
+    settings: {
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    arrows:false,
+    dots: true
+    }
+    },
+    {
+    breakpoint: 491,
+    settings: {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    arrows:false,
+    dots: true,
+    }
+    }
+    ]
+    });
+  //child slider
+  $('.u_mb_pro_images').not(".slick-initialized").slick({
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: true,
+    adaptiveHeight: true,
+    swipe:true,
+    cssEase: 'linear'
+    })
+  $('.u_mb_pro_images').on('touchstart touchmove mousemove mouseenter', function(e) {
+  $('.c_twp-collection-{{ section.id }}').slick('slickSetOption', 'swipe', false, false);
+});
+
+$('.u_mb_pro_images').on('touchend mouseover mouseout', function(e) {
+  $('.c_twp-collection-{{ section.id }}').slick('slickSetOption', 'swipe', true, false);
+});

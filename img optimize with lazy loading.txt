@@ -1,0 +1,38 @@
+//theme.liquid 
+   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+//jquery
+<script>
+      $('.lazy').Lazy({
+      visibleOnly:false,
+      threshold:10,
+      effect: 'fadeIn',
+      beforeLoad: function(element) {
+        console.log('loading image',element)
+      },
+      afterLoad: function(element) {
+        console.log('loaded image')
+      },
+      onError: function(element) {
+        console.log('error lazy',element)
+      },
+      onFinishedAll: function() {
+        console.log('all imgs are loaded') 
+      }
+    });
+    </script>
+
+{% capture sizes %}100x,480x,765x,1400x,2048x{% endcapture %}
+  {% assign sizes = sizes | split: ',' %}
+       <img  src="{{ planting_image_small | product_img_url: '100x' }}"
+                alt="{{ alt_text | escape }}"
+                class="lazy {{ settings.image_loading_style }} mainImg"
+                data-sizes="auto"
+                data-src="{{ planting_image_small | product_img_url: 'master' }}"
+                data-srcset=" {{ planting_image_small | product_img_url: '300x' }} 300w,
+                              {{ planting_image_small | product_img_url: '400x' }} 400w,
+                              {{ planting_image_small | product_img_url: '500x' }} 500w,
+                              {{ planting_image_small | product_img_url: '600x' }} 600w,
+                              {{ planting_image_small | product_img_url: '700x' }} 700w,
+                              {{ planting_image_small | product_img_url: '800x' }} 800w,
+                              {{ planting_image_small | product_img_url: '900x' }} 900w"
+              /> 

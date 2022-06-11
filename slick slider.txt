@@ -89,3 +89,4 @@
    
   });
 </script>
+$('.ab_slide').slick('setPosition');
