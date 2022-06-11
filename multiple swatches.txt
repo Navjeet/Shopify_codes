@@ -8,6 +8,65 @@
  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   
    
+        <div class="u_custom_options">
+          {% for product_options in product.options_with_values %}
+          <div class="u_swatch">
+            <h3 class="u_option_name"> {{product_options.name}}: </h3>
+            {% for values in product_options.values  %}
+
+            <input id="u_{{values}}" class="u_radio_btn" type="radio" name="{{product_options.name}}" value="{{ values | escape }}" {% if product_options.selected_value == values %} checked{% endif %} >
+            <label for="u_{{values}}"  data-index="option{{ forloop.index }}" >{{values}}</label>
+
+            {% endfor %}
+          </div>
+          {% endfor %}   
+        </div>
+        <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
+          {% for variant in product.variants %}
+          <option data-iq="{{variant.inventory_quantity}}" data-handle="{{variant.url}}" value="{{ variant.id }}" data-image="{{ variant.image | img_url:'master' | split:'?' | first}}" price-data="{{variant.price | money_without_trailing_zeros}}" compare-price-data="{{variant.compare_at_price | money_without_trailing_zeros}}"
+                  {%- if variant == current_variant %} selected="selected" {%- endif -%} 
+                  >
+            {{ variant.title }}  {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+                </option>
+          {% endfor %}
+        </select> 
+<style>
+.u_swatch {
+    padding: 10px 0;
+  }
+  .u_swatch input{
+    display: none;
+  }
+  .u_swatch label{
+    border: 1px solid;
+    padding: 10px;
+    transition: all 0.6s ease;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .u_swatch label:hover {
+    background: black;
+    color: white;
+  }
+  .u_swatch input:checked + label {
+    background: black;
+    color: white;
+  }
+  .u_option_name {
+    font-size: 20px;
+  }
+  .u_slider{
+    padding-left:30px;
+  }
+  .u_error_combination p{
+     color: red;
+    text-transform: capitalize;
+  }
+  .alertify-notifier .ajs-message.ajs-error{
+    color: white;
+   
+}
+</style>
 <script>
   $('.minus').click(function(){
     var $input =$(this).parent().find('input');
