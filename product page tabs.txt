@@ -1,0 +1,50 @@
+ {% if block.settings.u_tabs_show == true %}
+<div class="u_description_tabs_blocks">
+  <div class="u_desc_tabs">
+   {% assign descriptionparts = product.description | split: '<h5>' %} 
+  <div class="u_tab"> 
+     {% for description in descriptionparts %}
+     {% assign numbers = forloop.index0 %}
+     {% unless numbers == 0 %}
+          <a href="#" data-id="#tab-{{numbers}}" class="u_tab_links {% if numbers == 1 %} active{% endif %}">
+            {% if description contains '</h5>' %}
+            {% assign heading = description | split :'</h5>' %}
+             {{heading[0]}}
+            {% endif %}        
+          </a> 
+     {% endunless %}
+     {% endfor %}       
+  </div>
+  </div>
+  <div class="u_tab_content">
+   {% for description in descriptionparts %}
+  {% assign numbers = forloop.index0 %}
+  {% unless numbers == 0 %}
+   <div id="tab-{{numbers}}" class="u_content">
+       {% if description contains '</h5>' %}
+      {% assign partscontent = description | split: '</h5>' %}
+     {{ partscontent[1] }}     
+     {% endif %}
+   </div>     
+      {% endunless %}
+  {% endfor %}
+  </div>
+</div>
+  {% endif %}
+//script
+ $(document).ready(function() {
+        $('.u_tab .u_tab_links').removeClass('active');
+        $('.u_tab .u_tab_links:first-child').addClass('active');
+        $('.u_tab_content .u_content').hide();
+        $('.u_tab_content .u_content:first').show();
+
+        $('.u_tab .u_tab_links').click(function(){
+          $('.u_tab .u_tab_links').removeClass('active');
+          $('.u_tab_content .u_content').hide();
+          $(this).addClass('active');
+          var activetab =$(this).attr('data-id');
+          console.log(activetab);
+          $(activetab).show();
+          return false
+        });
+      });
