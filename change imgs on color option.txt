@@ -1,0 +1,152 @@
+ <!-------- custom slider -->
+  {%- if product.media != blank -%}
+      <div class="u_slider_for">
+      {% for image in product.images %}
+        <div>          
+  	<img src="{{ image | img_url: 'master' }}" class="u_for_img">
+        </div>
+	{% endfor %}
+      </div>
+    <div class="u_slider_nav">
+      {% for image in product.images %}
+      <div>
+ 	 <img src="{{ image | img_url: 'master' }}" class="u_nav_img">
+      </div>
+	{% endfor %}
+      </div>
+  {%- endif -%}
+
+//hide images
+  {% for media in product.media %}
+  {% case media.media_type %}
+    {% when 'image' %}
+<div class="custom-img" style="display: none;" data-alt="{{media.alt | handleize | downcase | strip }}" data-index="{{forloop.index0}}"  >
+  <div > 
+  <img src="{{ media | img_url: 'master' }}" class="u_nav_img">
+  </div>
+  </div>
+  {% endcase %}
+  {% endfor %}
+   {% for media in product.media %}
+  {% case media.media_type %}
+{% when 'image' %}
+  <div class="pro_img" style="display: none;" data-alt="{{media.alt | handleize | downcase | strip }}">
+    <div> 
+      <a data-fancybox="gallery-" data-src="{{ media | img_url: 'master' }}" >
+    <img  class="product-featured-image u_for_img" src="{{ media | img_url: 'master' }}" alt="{{ media.alt | escape }}">
+  </a>
+  </div>
+  </div>
+   {% endcase %}
+  {% endfor %}
+//script
+  $('.u_slider_for').slick({
+        slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            asNavFor: '.u_slider_nav',
+            infinite:false,
+            adaptiveHeight: true,
+            infinite:false,
+            swipe: false,
+
+      });
+      $('.u_slider_nav').slick({
+         focusOnSelect: true,
+            arrows: true,
+            dots: false,
+            slidesToScroll: 1,
+            slidesToShow: 4,
+            cssEase: 'linear',
+            lazyLoad: 'ondemand',
+            asNavFor: '.u_slider_for',
+            infinite:false,
+            swipe: false,
+      });
+
+      $(".u_color_swatch").click(function(){
+        let val='';
+        let final_text = $(this).attr("data-swatch").toLowerCase().trim();
+        let data_handle = $(this).attr("data-handle").toLowerCase().trim();
+        console.log('data color',final_text,'data handle',data_handle);
+        let flag = 'false';
+
+        $(".custom-img").each(function(){
+          if($(this).attr("data-alt").toLowerCase() == final_text ){
+            $('.u_slider_nav').append($(this).html()); 
+            flag = 'true'
+          }
+        }); 
+        if(flag == 'true'){
+          console.log('true')
+          $('.u_slider_nav').slick('unslick').empty();
+          $(".custom-img").each(function(){
+            if($(this).attr("data-alt").toLowerCase() == final_text ){
+              $('.u_slider_nav').append($(this).html()); 
+            }
+          });
+          $('.u_slider_nav').slick({
+            focusOnSelect: true,
+            arrows: true,
+            dots: false,
+            slidesToScroll: 1,
+            slidesToShow: 4,
+            cssEase: 'linear',
+            lazyLoad: 'ondemand',
+            asNavFor: '.u_slider_for',
+            infinite:false,
+            swipe: false,
+          });
+          $('.u_slider_for').slick('unslick').empty(); 
+          $(".pro_img").each(function(){
+            if($(this).attr("data-alt").toLowerCase() == final_text ){
+              $('.u_slider_for').append($(this).html())
+            }
+          });
+          $('.u_slider_for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            asNavFor: '.u_slider_nav',
+            infinite:false,
+            adaptiveHeight: true,
+            infinite:false,
+            swipe: false,
+
+          });
+        }
+        else{
+          console.log('false')
+             $('.u_slider_nav').slick('unslick').empty();
+           $(".custom-img").each(function(){           
+             $('.u_slider_nav').append($(this).html());             
+          });
+           $('.u_slider_nav').slick({
+            focusOnSelect: true,
+            arrows: true,
+            dots: false,
+            slidesToScroll: 1,
+            slidesToShow: 4,
+            cssEase: 'linear',
+            lazyLoad: 'ondemand',
+            asNavFor: '.u_slider_for',
+            infinite:false,
+            swipe: false,
+          });
+           $('.u_slider_for').slick('unslick').empty(); 
+          $(".pro_img").each(function(){           
+              $('.u_slider_for').append($(this).html())
+          });
+          $('.u_slider_for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            asNavFor: '.u_slider_nav',
+            infinite:false,
+            adaptiveHeight: true,
+            infinite:false,
+            swipe: false,
+
+          });
+        }
+      });
