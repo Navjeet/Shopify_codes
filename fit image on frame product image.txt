@@ -1,0 +1,192 @@
+     {% assign landscape = 'false' %}
+                {% assign portrait = 'false' %}
+        {% for tag in product.tags %}
+      {% if tag == 'orientation-landscape' %}
+      {% assign landscape = 'true' %}
+      {% elsif tag == 'orientation-portrait'%}
+       {% assign portrait = 'true' %}
+      {% endif %}
+      {% endfor %}
+<div class="u_product_imgs_wrapper {% if landscape == 'true' %} landscape {% elsif portrait == 'true'%} portrait{% endif %}">
+  <div class="u_product_imgs_wid">
+  <div class="u_product_imgs_content">
+  <div class="u_product_img">
+    <div class="u_product_object_fit">
+     {% for image in product.images %}
+    <img src="{{image.src | product_img_url:"master"}}" class="u_img_size">
+    {% endfor %}
+    </div>
+  </div>
+  </div>
+  </div>
+      </div>
+<style>
+  .landscape .u_product_img{
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top:78%;
+        position: relative;
+        border: none;
+    margin: auto;
+    box-shadow: 0 20px 30px #0000004d, inset 0 0 0 1px #0000001a;
+    transition: opacity .4s;
+  }
+.landscape .u_product_object_fit {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 66%;
+    height: 57%;
+}
+.landscape .u_product_imgs_content{
+    margin: auto;
+}
+.landscape [data-frame][data-frame*=small] {
+    width: 65%;
+}
+.landscape [data-frame][data-frame*=medium] {
+    width: 70%;
+}
+.landscape [data-frame][data-frame*=large] {
+    width: 75%;
+}
+.landscape [data-frame][data-frame*=x-large] {
+    width: 80%;
+}
+.landscape [data-frame][data-frame*=xx-large] {
+    width: 85%;
+}
+.landscape [data-frame][data-frame*=medium] .u_product_img{
+padding-top:76%
+}
+.landscape [data-frame][data-frame*=medium] .u_product_object_fit{
+width: 72%;
+    height: 63%;
+}
+.landscape [data-frame][data-frame*=large] .u_product_img{
+padding-top:74%
+}
+.landscape [data-frame][data-frame*=large] .u_product_object_fit{
+width: 77%;
+    height: 70%;
+}
+.landscape [data-frame][data-frame*=x-large] .u_product_img{
+padding-top:71%
+}
+.landscape [data-frame][data-frame*=x-large] .u_product_object_fit{
+width: 77%;
+    height: 70%;
+}
+.landscape [data-frame][data-frame*=xx-large] .u_product_img{
+padding-top:69.5%
+}
+.landscape [data-frame][data-frame*=xx-large] .u_product_object_fit{
+width: 77%;
+    height: 70%;
+}
+  .portrait .u_product_img{
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top:128%;
+        position: relative;
+        border: none;
+    margin: auto;
+    box-shadow: 0 20px 30px #0000004d, inset 0 0 0 1px #0000001a;
+    transition: opacity .4s;
+  }
+.portrait .u_product_imgs_content{
+    margin: auto;
+}
+.portrait .u_product_object_fit {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 56.5%;
+    height: 66%;
+}
+.portrait [data-frame][data-frame*=small] {
+    width: 49%;
+}
+.portrait [data-frame][data-frame*=medium] {
+    width: 54%;
+}
+.portrait [data-frame][data-frame*=large] {
+    width: 56%;
+}
+.portrait [data-frame][data-frame*=x-large] {
+    width: 58%;
+}
+.portrait [data-frame][data-frame*=xx-large] {
+    width: 60%;
+}
+.portrait [data-frame][data-frame*=medium] .u_product_img{
+padding-top:131.5%
+}
+.portrait [data-frame][data-frame*=medium] .u_product_object_fit{
+width: 63.5%;
+    height: 72.5%;
+}
+.portrait [data-frame][data-frame*=large] .u_product_img{
+padding-top:134.5%
+}
+.portrait [data-frame][data-frame*=large] .u_product_object_fit{
+    width: 70%;
+    height: 78%;
+}
+.portrait [data-frame][data-frame*=x-large] .u_product_img{
+padding-top:140.5%
+}
+.portrait [data-frame][data-frame*=x-large] .u_product_object_fit{
+width: 85%;
+    height: 89%;
+}
+.portrait [data-frame][data-frame*=xx-large] .u_product_img{
+padding-top:143.7%
+}
+.portrait [data-frame][data-frame*=xx-large] .u_product_object_fit{
+    width: 87%;
+    height: 91%;
+}
+.original-selector{
+display:none
+}
+</style>
+ <script>
+    $(function(){
+      c_default();
+    // on change 
+       let  selected_val = '';
+//       $('.vario-variants').change(function(){
+//         c_default()
+//       })  
+      $('.vario-variants .vario-variant').click(function(){
+       c_default()
+      });
+      function c_default(){
+      //by default
+       let  selected_val = ''; 
+     selected_val = $('.sv_active').attr('data-value') +' / ';         
+                 $('.vario-variants option:selected').each(function(){
+      selected_val += $(this).val() +' / ';      
+    })             
+                 let finall = selected_val.slice(0,selected_val.length-2).trim();
+          console.log('combination',finall)
+           $(".original-selector option").each(function(){
+        if($(this).text().trim() == finall){
+          console.log('title',$(this).attr('data-title'))
+          let dd =$('.u_product_imgs_content').attr('data-frame',$(this).attr('data-title'))
+       let frame = $(this).attr('meta-img')
+       
+          if(typeof frame != 'undefined'){
+       $('.u_product_img').attr('style','background-image:url('+frame +')' +'!important');           
+        }
+          else{
+          $('.u_product_img').attr('style','background-image:unset !important');
+          }
+        }
+        });
+    }
+    });
+  </script>
