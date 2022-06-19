@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .u_table_cont {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 10px;
+    overflow: auto;
+}
+.u_table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+    overflow: auto;
+}
+.u_trow.u_first_row {
+    background: red;
+}
+.u_table_td {
+    border: 1px solid black;
+    padding: 10px;
+}
+.u_th_sticky{
+    width: 40%;
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+    position: sticky;
+    left: -5%;
+    z-index: 9999;
+    background: white;
+
+}
+.u_table_td{
+width: 10%;
+text-align: center;
+}
+.u_first_row th{
+background-color: red !important;
+
+}
+@media screen and (max-width:990px){
+
+    .u_th_sticky{
+width: 16%;
+
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="u_table_cont">
+            <table class="u_table">
+        <tbody class="u_tbody">
+            <tr class="u_trow u_first_row">
+                <th class="u_th_sticky">basketball</th>
+                <td class="u_table_td">0-5</td>
+                <td class="u_table_td">10-15</td>
+                <td class="u_table_td">20-25</td>
+                <td class="u_table_td">30-35</td>
+                <td class="u_table_td">35-40</td>
+                <td class="u_table_td">45-50</td>
+            </tr>
+            <tr class="u_trow">
+                <th class="u_th_sticky">basketball</th>
+                <td class="u_table_td">0-5</td>
+                <td class="u_table_td">10-15</td>
+                <td class="u_table_td">20-25</td>
+                <td class="u_table_td">30-35</td>
+                <td class="u_table_td">35-40</td>
+                <td class="u_table_td">45-50</td>
+            </tr>
+            <tr class="u_trow ">
+                <th class="u_th_sticky">basketball</th>
+                <td class="u_table_td">0-5</td>
+                <td class="u_table_td">10-15</td>
+                <td class="u_table_td">20-25</td>
+                <td class="u_table_td">30-35</td>
+                <td class="u_table_td">35-40</td>
+                <td class="u_table_td">45-50</td>
+            </tr>
+            <tr class="u_trow ">
+                <th class="u_th_sticky">basketball</th>
+                <td class="u_table_td">0-5</td>
+                <td class="u_table_td">10-15</td>
+                <td class="u_table_td">20-25</td>
+                <td class="u_table_td">30-35</td>
+                <td class="u_table_td">35-40</td>
+                <td class="u_table_td">45-50</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
