@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-circle-progress/1.2.2/circle-progress.min.js" integrity="sha512-6kvhZ/39gRVLmoM/6JxbbJVTYzL/gnbDVsHACLx/31IREU4l3sI7yeO0d4gw8xU5Mpmm/17LMaDHOCf+TvuC2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(document).ready(function(){
+ var progressBarOptions = {
+	startAngle: -1.55,
+	size: 100,
+    value: .90,
+    fill:{
+    color:'#000'
+    }
+}
+$('.u_outer_circle').circleProgress(progressBarOptions).on('circle-animation-progress', function(event, progress, stepValue) {
+console.log('value',stepValue)
+if(stepValue == '1'){
+	$(this).find('.u_inner_text').text('100%');
+}
+else if(stepValue == '0'){
+	$(this).find('.u_inner_text').text('0%');
+}
+else{
+	$(this).find('.u_inner_text').text(`${String(stepValue.toFixed(2).substr(2))}%`);
+    }
+});
+});
+</script>
+<style>
+body{
+height:100vh
+}
+.u_outer_circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+       position: relative;
+}
+.u_inner_text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 9;
+    margin:0;
+    font-size:16px;
+}
+</style>
+</head>
+<body>
+
+<div class="u_outer_circle">
+<h3 class="u_inner_text">
+</h3>
+</div>
+
+</body>
+</html>
+{% for block in section.blocks %}
+      {% if block.type == "select_slide" %}
+        <div class="se_ss_ct_outer" data-range="{%- if block.settings.se_ss_ct_nbr < 100 -%}0.{%- endif -%}{%- if block.settings.se_ss_ct_nbr <= 10 -%}0 {%- endif -%}{%- if block.settings.se_ss_ct_nbr >= 100 -%}1 {%- else -%}{{- block.settings.se_ss_ct_nbr -}}{%- endif -%}" id="circle-a">
+          <div class="se_ss_ct_inner"></div>
+        </div>
+{% endif %}
+{% endfor %}
+// for multiple progress bar
+$('.se_ss_ct_outer').each(function(){
+  let range = $(this).attr("data-range");
+    var progressBarOptions = {
+  startAngle: -1.55,
+  size: 200,
+  value: range,
+  fill: {
+      color: '#ddbbb9'
+  }
+}
+  $(this).circleProgress(progressBarOptions).on('circle-animation-progress', function(event, progress, stepValue) {
+  $(this).find('se_ss_ct_inner').text(String(stepValue.toFixed(2)).substr(1));
+});
