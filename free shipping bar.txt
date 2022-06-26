@@ -1,0 +1,48 @@
+    <div class="u_outer_bar">
+         <div class="u_inner_bar">
+      </div>
+    </div>
+<style>
+  .u_outer_bar {
+    width: 100%;
+    background: #ddd;
+    height: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+  .u_inner_bar {
+    background: blue;
+    height: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition:1s
+}
+</style>
+<script>
+$.getJSON('/cart.js',functionn(cart){
+          let total_price = parseInt(cart.total_price);
+          console.log('total price',total_price);
+          let threshold = '{{settings.u_threshold |  times :100 }}';
+          console.log('threshold',threshold);
+          let value_left = threshold - total_price;
+                 let value_left_money = Shopify.formatMoney(value_left);
+          let bar_value = total_price/threshold;
+                    let bar_value_int = parseInt(total_price/threshold);
+          console.log('bar value',bar_value)
+          if(bar_value_int == 1){
+          $('.u_inner_bar').attr('style','width:100%');
+                                let unlocked_text = '{{settings.u_unloked_text}}';
+                    $('.u_shipping_message').text(`${unlocked_text}`)
+          }
+          else{
+          console.log('value left',value_left);
+          let bar_width = bar_value*100;
+          console.log('bar width',bar_width)
+          $('.u_inner_bar').attr('style','width:'+bar_width+'%');
+                                            let locked_text = '{{settings.u_loked_text}}';
+                                                                           console.log('locked text',locked_text)
+                                             locked_text = locked_text.replace("[value]",value_left_money)
+                    $('.u_shipping_message').text(`${locked_text}`)
+          }
+})
+</script>
