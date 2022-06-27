@@ -1,0 +1,72 @@
+   {%- if product.handle contains '_' -%}
+      <div class="u_releated_products">
+          <div class="u_rel_pro_up_row">
+        <span class="u_related_pro_title">color</span>
+        <div class="u_rel_pro_row">
+          {%- assign handleFirst = product.handle | split: '_' | first | strip -%}
+        {%- assign handleLast = product.handle | split: '_' | last | strip -%}
+        {%- paginate collections['all'].products by 15000 -%}
+        {%- for p in collections['all'].products -%}
+        {%- assign allHandleFirst = p.handle | split: '_' | first | strip -%}
+        {%- assign allHandleLast = p.handle | split: '_' | last | strip -%}
+        {%- if allHandleFirst == handleFirst -%}
+
+        <a href="{{ p.url }}" data-color="{{ allHandleLast }}" style="background: {{ allHandleLast }};{% if product.handle == p.handle %} outline-color:{{allHandleLast}}{% endif %}"  class="u_rel_pro_title codehouse-{{ allHandleLast }} {% if product.handle == p.handle %}u_related_active {% endif %}"></a>
+
+        {%- endif -%}
+        {%- endfor -%}
+        {%- endpaginate -%}
+        </div>
+        <div class="u_rel_pro_hover"></div>
+        </div>
+      </div>
+      {% endif %}
+<style>
+  .u_rel_pro_title {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+        margin: 0 6px;
+}
+  .u_rel_pro_up_row {
+    display: flex;
+    align-items: center;
+}
+.u_rel_pro_row {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+  .u_related_active {
+        outline-width: 1px;
+    outline-offset: 2px;
+    outline-style: solid; 
+  }
+  .u_releated_products {
+    padding: 10px 0;
+}
+  .u_related_pro_title {
+    text-transform: capitalize;
+    font-family: 'nimbus-sans';
+  }
+  .u_rel_pro_hover {
+    padding-left: 10px;
+}
+  
+  </style>
+   <script>
+      $(function(){
+        if($(window).width()>768){
+          console.log('width',$(window).width())
+      $(".u_rel_pro_title").hover(function(){
+        let data_clr =$(this).attr('data-color')
+        console.log('color',data_clr)
+        $('.u_rel_pro_hover').text(`(${data_clr})`)
+  }, function(){
+   $('.u_rel_pro_hover').empty()
+});
+        }
+      })
+      
+    </script>
