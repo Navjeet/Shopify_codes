@@ -93,3 +93,8 @@ $('a.stop-video').click(function(){
 //internal video
 $(this).trigger('pause')
 $(this).trigger('play')
+//iframe aotuplay
+$(document).on('click','.u_coll_video_icon',function(){
+  $('.u_col_video').toggle()
+   $(".u_col_video iframe")[0].src += "?autoplay=1";
+  })
