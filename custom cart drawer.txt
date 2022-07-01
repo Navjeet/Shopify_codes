@@ -1,3 +1,4 @@
+     <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
 <div class="u_cart_drawer">
   <div class="u_cart_drawer_content">
     <div class="u_cart_drawer_header">
@@ -7,40 +8,54 @@
                  </div>
  
     </div>
+    <div class="u_outer_bar">
+         <div class="u_inner_bar">
+      </div>
+    </div>
+          <p class="u_shipping_message"></p>
     <div class="u_drawer_body">
       </div>
     </div>
 
-  <div class="u_cart_sticky">
     <div class="u_cart_drawer_footer">
-          <a href="{{routes.cart_url}}" class="u_drawer_checkout_btn" >view cart</a>
+      <div class="u_total_row">
+      </div>
+          <a href="{{routes.cart_url}}" class="u_drawer_checkout_btn" >View cart</a>
+                     <button type="submit" id="checkout" class="u_drawer_checkout_btn" name="checkout"{% if cart == empty %} disabled{% endif %} form="cart">
+                  {{ 'sections.cart.checkout' | t }}
+                </button>
       </div>
   </div>
-  </div>
-<div class="u_cart_drawer_overlay">
-</div>
+</form>
 <style>
-  .u_cart_drawer_overlay{
-    position: fixed;
-    top: 0;
-    left: 0;
+  .u_outer_bar {
     width: 100%;
-    height: 100%;
-    z-index: 99;
-    background: rgba(0,0,0,.5);
-    display: none;
+    background: #ddd;
+    height: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
   }
+  .u_inner_bar {
+    background: blue;
+    height: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition:1s
+}
   .u_cart_drawer {
     position: fixed;
     top: 0;
     right: -150%;
-    z-index: 999999999999;
+    z-index: 99999;
     background: white;
     box-shadow: 0px 0px 10px #ddd;
     width: 400px;
     height: 100%;
     overflow-y: auto;
-    transition: 1s;
+    transition: all .3s ease;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
   }
   .u_cart_drawer.active{
     right:0
@@ -54,7 +69,6 @@
 }
   .u_cart_drawer_content {
     padding: 10px;
-        height: calc(100% - 50px);
 }
   .u_cart_item_detail {
     padding: 0 10px;
@@ -64,8 +78,6 @@
     letter-spacing: .5px;
     color: black;
        text-transform: capitalize;
-    margin:0;
-    padding-bottom: 5px
 }
   .u_item_price {
     font-size: 14px;
@@ -89,8 +101,6 @@
   .u_drawer_item {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid;
-    padding: 10px 0;
 }
   .u_cart_drawer_header {
     border-bottom: 1px solid;
@@ -142,7 +152,7 @@ width: 130px;
     cursor:pointer;
         text-decoration: none;
     display: block;
-    height:45px
+    margin:5px 0;
   }
   .u_drawer_checkout_btn:hover{
   background:#6a6a6a
@@ -156,9 +166,9 @@ width: 130px;
     letter-spacing: .5px;
   }
   .u_drawer_product_image {
-    width: 75px;
+    width: 130px;
     height: 75px;
-    object-fit: contain;
+    object-fit: cover;
   }
   .u_drawer_remove i{
   display:block !important
@@ -168,31 +178,46 @@ width: 130px;
     width: 20px;
     text-align: center;
 }
-  .u_cart_drawer_footer { 
-    box-shadow: 0 0 2px 4px white;
+  .u_cart_drawer_footer {
+/*     background: white; */
+    padding: 0 0 5px 0;
+/*     box-shadow: 0 0 2px 4px white; */
+  }
+  .u_drawer_discount svg{
+  width:15px;
+    height:15px;
+        vertical-align: middle;
+  }
+  .u_drawer_discount{
+    color:#ea0606;
+    margin: 0;
+    padding-top: 0px;
+      font-size: 13px;
+    text-transform: capitalize;
+  }
+  .u_total_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+  .u_total_tag,.u_total_price {
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    letter-spacing: .5px;
+}
+  .u_drawer_items {
+    border-bottom: 1px solid;
+    margin: 10px 0;
   }
   .u_drawer_error {
     text-align: center;
     text-transform: capitalize;
-    letter-spacing: .5px;
     color: black;
-    margin: 0;
-    padding: 5px 0;
-  }
-  .u_cart_item_image,.u_cart_item_detail,.u_cart_item_remove {
-    width: 33.3%;
-    text-align:center
 }
-  @media screen and (max-width:768px){
-  .u_cart_drawer {
-    width: 100%;
-  }
-   
-    .u_cart_item_remove{
-    text-align:right
-    }
-  }
-
 </style>
     <script>
      function getCartCount() {
@@ -228,14 +253,13 @@ width: 130px;
           $('body').removeClass('c_overflow');
         $('.u_cart_drawer_overlay').hide();
       })
-      function cart_render(){
-        $.getJSON('/cart.js', function(cart){
-          
+     function cart_render(){
+        $.getJSON('/cart.js', function(cart){          
           console.log(cart);
           var cart_count = cart.item_count;
           if(cart_count == 0){
             $('.u_drawer_body').html('<h3 class="u_bag_empty"> your bag is empty </h3>')
-            $('.u_cart_sticky').hide()
+            $('.u_cart_drawer_footer').hide()
           }
           else{
             let i= '';
@@ -245,8 +269,18 @@ width: 130px;
               let pro_title = cart.items[i].title;
               let pro_image = cart.items[i].image;
               let qty = cart.items[i].quantity;
-              let price =Shopify.formatMoney(cart.items[i].line_price);
+                       let org_price =Shopify.formatMoney(cart.items[i].original_price);
+              let price =Shopify.formatMoney(cart.items[i].final_line_price);
               let var_id = cart.items[i].variant_id;
+                            let dis_data = ``;
+              let u_strike = '';
+              if(cart.items[i].line_level_discount_allocations.length > 0){
+                dis_data = `<p class="u_drawer_discount">
+<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-saletag"><path d="M10 3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-3H7a1 1 0 0 0-.71.29l-6 6a1 1 0 0 0 0 1.42l4 4a1 1 0 0 0 1.42 0c.19-.2 5.8-5.81 6-6A1 1 0 0 0 12 5V2a2 2 0 0 0-2-2z" fill="#231F20"></path></svg>
+<span>${cart.items[i].line_level_discount_allocations[0].discount_application.title}</span> (-<span>${Shopify.formatMoney(cart.items[i].line_level_discount_allocations[0].discount_application.total_allocated_amount)}</span>)
+      </p>`
+                u_strike = 'style="text-decoration: line-through;"';
+              }
               cart_body += `<div class="u_drawer_items">
 <div class="u_drawer_item">
 <div  class="u_cart_item_image">
@@ -255,6 +289,8 @@ src="${pro_image}">
       </div>
 <div  class="u_cart_item_detail">
 <h3 class="u_cart_item_title">${pro_title}</h3>
+<h3 class="u_org_price">${org_price}</h3>
+${dis_data}
 <div class="u_quantity">
 <span class="u_drawer_minus">-</span>
 <input type="text"  name="number"  value="${qty}" class="u_number" readonly>
@@ -265,16 +301,50 @@ src="${pro_image}">
 <div  class="u_cart_item_remove">
 <div class="u_item_clear">remove</div>
                    <input type="hidden" class="u_item_var_id" value="${var_id}">
-<p class="u_item_price">${price} </p>
-      </div>
+<p class="u_item_price" ${u_strike}>${price}</p>
       </div>
 <p class="u_drawer_error"></p>
+
+      </div>
       </div>`
             }
+            let total ='';           
+        total =`<div class="u_total_title">
+          <p class="u_total_tag">Total:</p>
+        </div>
+                <div class="u_total_value">
+<p class="u_total_price">${Shopify.formatMoney(cart.total_price)}</p>
+        </div>`
             $('.u_drawer_body').html(cart_body);
-             $('.u_cart_sticky').show()
+                       $('.u_total_row').html(total);
+             $('.u_cart_drawer_footer').show()
           }
           $('.u_cart_drawer').addClass('active');
+          //shipping bar
+          let total_price = parseInt(cart.total_price);
+          console.log('total price',total_price);
+          let threshold = '{{settings.u_threshold |  times :100 }}';
+          console.log('threshold',threshold);
+          let value_left = threshold - total_price;
+                 let value_left_money = Shopify.formatMoney(value_left);
+          let bar_value = total_price/threshold;
+                    let bar_value_int = parseInt(total_price/threshold);
+          console.log('bar value',bar_value)
+          if(bar_value_int >= 1){
+          $('.u_inner_bar').attr('style','width:100%');
+                                let unlocked_text = '{{settings.u_unloked_text}}';
+                    $('.u_shipping_message').text(`${unlocked_text}`)
+          }
+          else{
+          console.log('value left',value_left);
+          let bar_width = bar_value*100;
+          console.log('bar width',bar_width)
+          $('.u_inner_bar').attr('style','width:'+bar_width+'%');
+                                            let locked_text = '{{settings.u_loked_text}}';
+                                                                           console.log('locked text',locked_text)
+                                             locked_text = locked_text.replace("[value]",value_left_money)
+                    $('.u_shipping_message').text(`${locked_text}`)
+          }          
         });
       }
       $(document).on('click','.u_drawer_plus',function(){
@@ -285,28 +355,13 @@ src="${pro_image}">
         console.log('counter',counter);
         let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
         console.log('variant id',var_id);
-        $.ajax({
-          type:'POST',
-          url:'/cart/change.js',
-          data:{
-            quantity: counter, 
-            id: var_id
-          },
-          dataType: 'json',
-          beforeSend: function() {
-            // setting a timeout
-            console.log('before enter');
-          },
-          success: function(result){
-            console.log('change');
-            cart_render();                        
-          },
-          error: function(err) {
-            console.log('error',err);
-          },
-          complete: function() {
-            console.log('complete');
-                    setTimeout(function(){
+        jQuery.post('/cart/change.js',{
+         quantity: counter, 
+          id: var_id
+        }).done(function(){
+          cart_render();
+          getCartCount();
+                              setTimeout(function(){
             $('.u_item_variant_id').each(function(){
             let id = $(this).attr('value')
             if(id == var_id){
@@ -320,43 +375,43 @@ src="${pro_image}">
             }
             })
                       },2000)  
-          }
-        })
+        }).fail(function(){
+          console.log('fail')
+        });
+//         jQuery.post('/cart/update.js', 'updates['+var_id+']='+counter+'');
+//                 setTimeout(function(){
+//                   cart_render();
+//           getCartCount();
+//         },1000);
+
       });   
+
+
+     
       $(document).on('click','.u_drawer_minus',function(){
-        console.log('click');
-        let input =$(this).parent('.u_quantity').find('.u_number');
-        let count =parseInt(input.val()) -1;
-        let counter = count <1 ?1:count;
-        input.val(counter);
+        console.log('click mm');
+        let input =$(this).parent('.u_quantity').find('.u_number').attr('value');
+        let countm =parseInt(input) -1;
+        console.log('count',countm)
         let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
         console.log('variant id',var_id);
-        $.ajax({
-          type:'POST',
-          url:'/cart/change.js',
-          data:{
-            quantity: counter, 
-            id: var_id
-          },
-          dataType: 'json',
-          beforeSend: function() {
-            // setting a timeout
-            console.log('before enter');
-          },
-          success: function(result){
-            console.log('change');
-            cart_render();
-            
-          },
-          error: function(err) {
-            console.log('error',err);
-          },
-          complete: function() {
-            console.log('complete');
-          }
-        })     
+//             jQuery.post('/cart/change.js',{
+//          quantity: countm, 
+//           id: var_id
+//         }).done(function(){
+//           cart_render();
+//           getCartCount();
+//         }).fail(function(){
+//           console.log('fail')
+//         });
+        jQuery.post('/cart/update.js', 'updates['+var_id+']='+countm+'');
+        setTimeout(function(){
+          console.log('ab chlna chye');
+          cart_render();
+          getCartCount();
+        },1000);
       })
-            $(document).on("click",".u_item_clear",function() {
+      $(document).on("click",".u_item_clear",function() {
         let data_idd = $(this).parent().find('.u_item_var_id').val();
         jQuery.post('/cart/change.js', { 
           quantity: 0, 
@@ -378,56 +433,6 @@ src="${pro_image}">
 
          })
 </script>
- for( i= 0;i<cart.items.length ;i++)
-            {
-              let pro_title = cart.items[i].title;
-              let pro_image = cart.items[i].image;
-              let qty = cart.items[i].quantity;
-              let price =Shopify.formatMoney(cart.items[i].final_line_price);
-              let var_id = cart.items[i].variant_id;
-              let disc = ``;
-              let strike = '';
-              if(cart.items[i].line_level_discount_allocations.length > 0){
-                disc = `<p style="color:#ea0606;margin: 0;padding-top: 0px;margin-top:-10px;">
-<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-saletag"><path d="M10 3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-3H7a1 1 0 0 0-.71.29l-6 6a1 1 0 0 0 0 1.42l4 4a1 1 0 0 0 1.42 0c.19-.2 5.8-5.81 6-6A1 1 0 0 0 12 5V2a2 2 0 0 0-2-2z" fill="#231F20"></path></svg>
-<span>${cart.items[i].line_level_discount_allocations[0].discount_application.title}</span> (-<span>${Shopify.formatMoney(cart.items[i].line_level_discount_allocations[0].discount_application.total_allocated_amount)}</span>)
-      </p>`
-                strike = 'style="text-decoration: line-through;"';
-              }
-              cart_body += `<div class="u_drawer_items">
-<div class="u_drawer_item">
-<div  class="u_cart_item_image">
-<img class="u_drawer_product_image"
-src="${pro_image}">
-      </div>
-<div  class="u_cart_item_detail">
-<h3 class="u_cart_item_title">${pro_title}</h3>
-${disc}
-<div class="u_quantity">
-<span class="u_drawer_minus">-</span>
-<input type="text"  name="number"  value="${qty}" class="u_number" readonly>
-<span class="u_drawer_plus">+</span>
-<input type="hidden" class="u_item_variant_id" value="${var_id}">
-      </div>
-      </div>
-<div  class="u_cart_item_remove">
-<input type="hidden" class="u_item_var_id" value="${var_id}">
-<p class="u_item_price" ${strike}>${price}  </p>
-      </div>
-      </div>
-<p class="u_drawer_error"></p>
-      </div>`
-            }
-            $('.u_drawer_body').html(cart_body);
-            $('.u_cart_sticky').show()
-            let cart_subtotal = `<div class="u_cart_subtotal_row">
-<h2 class="u_cart_subtotal_title">subtotal</h2>
-<p class="u_cart_sub_price">${Shopify.formatMoney(subtotal)}</p>
-      </div>`;
-            $('.u_cart_drawer_footer').html(cart_subtotal);
-          }
-          $('.u_cart_drawer').addClass('active');
-        });
 //qauntity update
  $(document).on('click','.u_drawer_plus',function(){
         console.log('click');
