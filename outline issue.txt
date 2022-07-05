@@ -1,0 +1,5 @@
+used baox shsdow instead of outline   
+ box-shadow: 0 0 0 2px white, 0 0 0 3px #d3d3d3;
+.u_related_active {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #a9a9a9;
+}
