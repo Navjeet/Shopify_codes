@@ -175,8 +175,8 @@ width: 130px;
   })
   $('.u_plus').click(function(){
     let input =$(this).parent().find('.u_number');
-    let input_val =input.val();
-    let pro_qty =$(this).parents('.u_quantity').find('.u_pro_qty').val();
+    let input_val =parseInt(input.val());
+    let pro_qty =parseInt($(this).parents('.u_quantity').find('.u_pro_qty').val());
     console.log('product qty',pro_qty);
     if(input_val >= pro_qty  )
     {
