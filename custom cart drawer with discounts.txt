@@ -347,34 +347,56 @@ ${dis_data}
           }          
         });
       }
-      $(document).on('click','.u_drawer_plus',function(){
+    $(document).on('click','.u_drawer_plus',function(){
         console.log('click');
+        let $this =$(this);
         let input =$(this).parent('.u_quantity').find('.u_number');
         let count =parseInt(input.val()) + 1;
         let counter = count <1 ?1:count;
         console.log('counter',counter);
         let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
+        let handle = $(this).parent('.u_quantity').find('.u_item_variant_id').attr("data-handle");
         console.log('variant id',var_id);
         jQuery.post('/cart/change.js',{
-         quantity: counter, 
+          quantity: counter, 
           id: var_id
         }).done(function(){
           cart_render();
           getCartCount();
-                              setTimeout(function(){
-            $('.u_item_variant_id').each(function(){
-            let id = $(this).attr('value')
-            if(id == var_id){
-            console.log('variant id ',id)
-            let b_qty = $(this).parent('.u_quantity').find('.u_number').attr('value');
-              console.log('---qty',b_qty)
-                          if(counter != b_qty ){
-                            $(this).parents('.u_drawer_items').find('.u_drawer_error').text('no inventory left')
-            console.log('no inventory left')
-            } 
-            }
-            })
-                      },2000)  
+//for check quantity of variant
+add template of product.json.liquid
+            $.ajax({
+              type: "GET",
+              url: `{{-shop.url-}}/products/${handle}?view=json`,
+              dataType: "html",
+              success: function(result){
+                let res = $(result).filter(".custom---data").text();
+                console.warn("--------------------------result", res, res.split("--")[0]);
+                if(res.indexOf(",") != -1){
+                  let rarr = res.split(",");
+                  for(let item of rarr){
+                    let rvid = item.split("--")[0];
+                    let rqty = item.split("--")[1];
+                    if(var_id == rvid){
+                      console.warn("total quantity :", rqty);
+                    }
+                  }
+                }
+                else{
+                  let rvid = res.split("--")[0];
+                  let rqty = res.split("--")[1];
+                  if(var_id == rvid){
+                    if(counter >= rqty){
+                    console.warn("counter",counter,"total quantity :", rqty);
+                    $this.parents('.u_drawer_items').find('.u_drawer_error').text(`all ${rqty}items are in your cart`)
+            console.log(`all ${rqty} items are in your cart`);    
+                                              alertify.error(`all ${rqty} items are in your cart`)
+                                               }
+                  }
+                }
+              }
+            });                           
+
         }).fail(function(){
           console.log('fail')
         });
@@ -433,38 +455,10 @@ ${dis_data}
 
          })
 </script>
-//qauntity update
- $(document).on('click','.u_drawer_plus',function(){
-        console.log('click');
-        let input =$(this).parent('.u_quantity').find('.u_number').attr('value');
-        console.log('quantity found', input);
-        let count =parseInt(input) + 1;
-        let counter = count <1 ?1:count;
-        console.log('counter',counter);
-        let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
-        console.log('variant id',var_id);
-        jQuery.post('/cart/update.js', 'updates['+var_id+']='+counter+'');
-        setTimeout(function(){
-          console.log('ab chlna chye');
-          cart_render();
-          getCartCount();
-        },1000);
-      });   
-
-
-
-
-      $(document).on('click','.u_drawer_minus',function(){
-        console.log('click mm');
-        let input =$(this).parent('.u_quantity').find('.u_number').attr('value');
-        let countm =parseInt(input) -1;
-        console.log('count',countm)
-        let var_id =$(this).parent('.u_quantity').find('.u_item_variant_id').val();
-        console.log('variant id',var_id);
-        jQuery.post('/cart/update.js', 'updates['+var_id+']='+countm+'');
-        setTimeout(function(){
-          console.log('ab chlna chye');
-          cart_render();
-          getCartCount();
-        },1000);
-      })
+file product.json.liquid
+{%- layout none -%}
+<div class="custom---data">
+{%- for variant in product.variants -%}
+{{- variant.id -}}--{{- variant.inventory_quantity -}}{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+</div>
