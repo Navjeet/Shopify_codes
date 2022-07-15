@@ -38,6 +38,87 @@
         $(this).text(text == "read less" ? "read more" : "read less");
       })
     </script>
+{% capture mushkil %}
+        {% if product.metafields["global"]["pest_disease_resist_image"] and product.metafields["global"]["pest_disease_resist"] and product.metafields["global"]["pest_disease_resist_expanded"] %}
+        {{ product.metafields["global"]["pest_disease_resist_image"] }}--
+        {{ product.metafields["global"]["pest_disease_resist"] }}--
+        {{ product.metafields["global"]["pest_disease_resist_expanded"] | strip_html | remove: "MORE"}}|
+        {% endif %}
+
+        {% for variant in product.variants %}
+        {% if variant.metafields["global"]["watering_image"] and variant.metafields["global"]["watering"] and variant.metafields["global"]["watering_expanded"] %}
+        {%- if variant == product.selected_or_first_available_variant %}
+     		  {{ variant.metafields["global"]["watering_image"] }}--
+        {{ variant.metafields["global"]["watering"] }}--
+        {{ variant.metafields["global"]["watering_expanded"] | strip_html | remove: "MORE" }}|
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        {% if product.metafields["global"]["position_in_image"] and product.metafields["global"]["position_in"] and product.metafields["global"]["position_in_expanded"] %}
+        {{ product.metafields["global"]["position_in_image"] }}--
+        {{ product.metafields["global"]["position_in"] }}--
+        {{ product.metafields["global"]["position_in_expanded"] | strip_html | remove: "MORE"}}|
+        {% endif %}
+
+        {% for variant in product.variants %}
+        {% if variant.metafields["global"]["temperature_image"] and variant.metafields["global"]["temperature"] and variant.metafields["global"]["temperature_expanded"] %}
+        {%- if variant == product.selected_or_first_available_variant %}
+              {{ variant.metafields["global"]["temperature_image"] }}--
+        {{ variant.metafields["global"]["temperature"] }}--
+        {{ variant.metafields["global"]["temperature_expanded"] | strip_html | remove: "MORE"}}|
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        {% if product.metafields["global"]["soil_type_image"] and product.metafields["global"]["soil_type"] and product.metafields["global"]["soil_type_expanded"] %}
+        {{ product.metafields["global"]["soil_type_image"] }}--
+        {{ product.metafields["global"]["soil_type"] }}--
+        {{ product.metafields["global"]["soil_type_expanded"] | strip_html | remove: "MORE" }}|
+        {% endif %}
+
+
+        {% for variant in product.variants %}
+        {% if variant.metafields["global"]["feeding_image"] and variant.metafields["global"]["feeding"] and variant.metafields["global"]["feeding_expanded"] %}
+        {%- if variant == product.selected_or_first_available_variant %}
+			  {{ variant.metafields["global"]["feeding_image"] }}--
+        {{ variant.metafields["global"]["feeding"] }}--
+        {{ variant.metafields["global"]["feeding_expanded"] | strip_html | remove: "MORE" }}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+
+        {% if product.metafields["global"]["pruning_image"] and product.metafields["global"]["pruning"] and product.metafields["global"]["pruning_expanded"] %}
+        {{ product.metafields["global"]["pruning_image"] }}--
+        {{ product.metafields["global"]["pruning"] }}--
+        {{ product.metafields["global"]["pruning_expanded"] | strip_html | remove: "MORE"}}
+        {% endif %}
+{% endcapture %}
+  <div class="u_care_guide_cont">
+    <div class="u_care-guide">
+      <h2 class="u_care-title">
+        {% if product.metafields.my_fields.product_care_guide != blank %}
+        {{ product.metafields.my_fields.product_care_guide }}
+        {% else %}
+        {{section.settings.heading}}
+        {% endif %}
+      </h2>
+
+        {% assign m_split = mushkil | split: '|' %}
+        {% for m in m_split %}
+        {% assign mm = m | split: '--' %}
+        {% assign _src = mm[0] | strip %}
+        {% assign _title = mm[1] | strip %}
+        {% assign _text = mm[2] | strip %}
+        {% render 'custom-care', src: _src, title: _title, text: _text%}
+        {% endfor %}
+<div class="u_knowledge_text">
+  <span class="u_knowledge_text_size">{{section.settings.u_knowledege_text}}</span>
+</div>
+
+    </div>
+  </div>
 <script>
   $(document).ready(function(){
     $('.u_var_desp').each(function(){
