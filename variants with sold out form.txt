@@ -1,0 +1,204 @@
+        {%- if form.posted_successfully? -%}
+        <p class="u_notify_text">{{section.settings.u_notify_msg}}</p>
+        {% endif %}
+        <div class="u_notify_head">
+          <p class="u_notify_title"></p>
+        </div>
+        <div class="u_notify_body">
+          <input type="hidden" name="contact[body]" value="Customer signup to be notified when this product variant become available">
+          <input type="hidden" name="contact[product title]" value="{{product.title}}">
+          <input type="hidden" name="contact[product url]" value="{{shop.url}}{{product.url}}">
+          <input type="hidden" name="contact[product variant name]" class="u_selected_option" >
+          <input type="hidden" name="contact[product option selected]" class="u_selected_variant">
+          {%  if product.handle contains '_' %}
+          <input type="hidden" name="contact[product color]" value="{{ product.handle | split: "_" | last }}" >
+          {% endif %}
+          <input type="email" name="contact[email]" placeholder="Email Address">
+        </div>
+        <div class="u_notify_footer">
+          <button type="submit" class="u_notify_btn">Join the waitlist</button>
+        </div>
+        {% endform %}
+<script>
+ $(document).ready(function(){
+    Shopify.money_format = "{{ shop.money_with_currency_format }}";   
+  });
+  $(document).ready(function(){
+    let ls = localStorage.getItem("notify");
+    if(ls != null && ls != undefined){
+      $(`.u_radio_btn[value="${ls}"]`).prop("checked", true);
+      localStorage.removeItem("notify");
+    }
+    swatches();
+  })
+  $('.u_radio_btn').change(function(){
+    swatches()
+    $('.u_notify_text').empty();
+  })
+  function swatches(){
+    localStorage.removeItem("notify");    
+    let final ='';
+    let comb= '';
+    let pre_condition_flag= 'false';
+    let option_name='';
+    let cccc_valllllll = $('.u_radio_btn:checked').val().trim();
+    $('.u_radio_btn:checked').each(function(){
+      let checked_val= $(this).val(); 
+      comb += checked_val + ' / ';
+      option_name = $(this).parents('.u_swatch').children('.u_option_name').text().trim()
+    })
+        $('.u_selected_option').val(option_name)
+    console.log(comb)
+    var finall =comb.slice(0 ,comb.length-2).trim();
+    console.log('--final combination',finall);
+
+    let flag=false;
+    $(".u_master_select option").each(function(){
+      var word =$(this).text().trim();
+      if(word == finall){
+        console.log('---',word);
+        flag =true; 
+      } 
+
+    }); 
+    if(flag==true)
+    {
+      //master select
+      $(".u_master_select option").each(function(){
+        if($(this).text().trim() == finall){
+          $('.u_master_select').val($(this).val()).trigger('change');
+          // variant change price
+          var variant_price = $(this).attr('price-data');
+          console.log('variant price',variant_price);
+          $('.text-primary-accent').text(variant_price);
+          let compare_variant_price = $(this).attr('compare-price-data');
+          console.log('variant compare price',compare_variant_price);  
+          $('.u_campare_price').text(compare_variant_price);       
+          let variant_id =  $(this).attr('value');
+          $('.u_variant_id').attr('value',variant_id);
+          $('.u_custom_qty').attr('value',1);
+          $('.u_custom_qty').val(1);
+
+          $('.u_qty_error').text(' ');         
+          let var_qty = parseInt($(this).attr('data-iq'));
+          $('.u_custom_variant_qty').val(var_qty);
+          $('.u_custom_variant_qty_show').text(var_qty);
+          $('.u_sold_out_error').text();
+          $('.u_custom_variant_qty_show').attr('org_qty',var_qty);
+          history.pushState({}, '','?variant='+$(this).val());
+          
+          $('.u_selected_variant').val($(this).text().trim())
+          if(parseInt($(this).attr('data-iq')) > 0){
+            console.log('variant quantity',parseInt($(this).attr('data-iq')));
+            $('.u_notify_wrapper').hide();
+            $('.u_add_cart_form').show();
+            $('.u_add_to_cart').text('add to cart')                        
+            $('.u_preorder_text').empty();
+            $('.u_notify_title').empty()
+
+          }
+          else if(parseInt($(this).attr('data-iq')) < 1 && $(this).attr('data-ip')=='deny'){
+            console.log('sold out');
+             localStorage.setItem("notify",cccc_valllllll);
+            let sold_title =$(this).text().trim();
+            console.log('sold title',sold_title)
+            $('.u_notify_wrapper').show();
+            $('.u_add_cart_form').hide();
+            if(typeof $(this).attr('soldout-text') != 'undefined'){
+              $('.u_notify_title').text($(this).attr('soldout-text'))
+
+            }
+            else{
+              $('.u_notify_title').empty();
+            }
+          }
+          else if(parseInt($(this).attr('data-iq')) < 1 && $(this).attr('data-ip')=='continue'){
+            if(parseInt($(this).attr('data-iq')) == parseInt($(this).attr('pre_qty'))){
+                            
+            localStorage.setItem("notify",cccc_valllllll);
+              
+              console.log('pre order quantity condition')
+              $('.u_notify_wrapper').show();
+              $('.u_add_cart_form').hide();
+              pre_condition_flag = 'true';
+                  $('.u_radio_btn:checked').each(function(){
+          if(pre_condition_flag == 'true'){
+    $(this).parent().find('.u_option_v').addClass('u_sold_out')
+    }
+                  });
+              if(typeof $(this).attr('soldout-text') != 'undefined'){
+                $('.u_notify_title').text($(this).attr('soldout-text'))
+
+              }
+              else{
+                $('.u_notify_title').empty();
+              }
+            }
+            else{
+              console.log('pre order quantity condition not true')
+              $('.u_notify_wrapper').hide();
+              $('.u_add_cart_form').show();
+              $('.u_add_to_cart ').text('preorder')
+              if(typeof $(this).attr('preorder-text') != 'undefined'){
+                $('.u_preorder_text').text($(this).attr('preorder-text'))
+              }
+              else{
+                $('.u_preorder_text').empty()            
+              }
+
+            }
+          }
+        }
+
+      });
+
+    }
+
+    else{
+
+      console.log(' combination does not exists');
+      $('.custom-atc-btn').text('unavialable').prop('disabled',true);
+      $('.u_sold_out_error').text(' ');
+    }
+  }
+
+  $(function(){
+    $('.u_master_select option').each(function(){
+      let master = $(this);
+      let master_val = $(this).attr('data-title').trim();
+      $('.u_radio_btn').each(function(){
+        let option_val = $(this).val().trim();
+        if(master_val == option_val ){
+          console.log('master value',master_val)
+          if($(master).attr('data-iq') >0 )
+          {
+            console.log('add to cart',master_val) 
+          }
+          else if($(master).attr('data-iq') < 1 && $(master).attr('data-ip')=='continue')
+          {
+             if(parseInt($(master).attr('data-iq')) == parseInt($(master).attr('pre_qty'))){
+              console.log('pre order quantity condition')
+              $(this).parent().find('.u_option_v').addClass('u_sold_out')
+            }
+            else{
+              console.log('pre order quantity condition not true')            
+            }
+          }
+          else if($(master).attr('data-iq') < 1 && $(master).attr('data-ip')=='deny')
+          {
+            $(this).parent().find('.u_option_v').addClass('u_sold_out')
+            console.log('sold out',master_val) 
+
+          }    
+        }
+
+      })
+    });
+  });
+  $(function(){
+
+    let data_clr = $('.u_related_active').attr('data-color')
+    $('.u_color_line').val(data_clr)
+
+  });
+</script>
