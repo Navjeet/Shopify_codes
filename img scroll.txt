@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<style>
+.u_img_row {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+}
+.u_img_row img{
+padding-right:10px;
+}
+</style>
+</head>
+<body>
+<div class="u_img_cont">
+<div class="u_img_row">
+<img src="https://picsum.photos/200">
+<img src="https://picsum.photos/200">
+<img src="https://picsum.photos/200">
+<img src="https://picsum.photos/200">
+<img src="https://picsum.photos/200">
+<img src="https://picsum.photos/200">
+</div>
+</div>
+<script>
+$(document).ready(function(){
+  $(".u_img_row img").click(function(){
+  console.log('click')
+     window.scrollBy(100, 0);
+  });
+});
+</script>
+</body>
+</html>
