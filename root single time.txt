@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <body>
-<button class="btn" data-d1="Wednesday" data-c1="Thursday 13">Add to Cart</button>
-<p class="u_item_dm"></p>
+<button class="btn" data-d1="Friday" data-c1="Monday 22" data-gap="1">Add to Cart</button>
+<p class="demo"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
@@ -13,35 +13,32 @@
       let d1 = $(this).attr("data-d1");
       let c1Day = $(this).attr("data-c1").split(" ")[0];
       let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
-      let day =6;
+      let day =d.getDay();
+            let gap =$(this).attr("data-gap");
+      console.log('gap',gap)
       let deliver = '';
-      
-       if(day >= days.indexOf(c1Day)){
+       if(day <= days.indexOf(c1Day)){
               if(days[day] == c1Day){
                 if(time >= c1Time){
-                  deliver = Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
-                  console.log(Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
-                  $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} same day time greater than`)
-                  
+                            deliver = Date.parse('next'+ d1.toLowerCase().trim()).addWeeks(`${gap}`);
+        $(".demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " +Date.parse(deliver).toString("dddd")+ " gap "+gap +" weeks add and date is delivery date case 1");
                 }
                 else{
-                  deliver = 'next '+d1.toLowerCase().trim();
-                  console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
-                  $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} same day time less than`)
+                 deliver = Date.parse('next'+ d1.toLowerCase().trim());
+        $(".demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " +Date.parse(deliver).toString("dddd")+" case 2");
                 }
               }
               else{
-
-                deliver = 'next'+ d1.toLowerCase().trim();
-                console.log(Date.parse(deliver).toString("dddd yyyy-MM-dd") + " " + d1 + " !main if!")
-                $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} upper else`)
+                   deliver = Date.parse('next'+ d1.toLowerCase().trim());
+        $(".demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " +Date.parse(deliver).toString("dddd")+" case 3");
               }
             }
             else{
             
-              deliver =Date.parse('next'+ d1.toLowerCase().trim()).add(7).day();
-              console.log(Date.parse('next'+ d1.toLowerCase().trim()).add(7).day().toString("dddd yyyy-MM-dd") + " " + d1 )
-              $('.u_item_dm').text(`Order before ${c1Time}:00 ${c1Day} for delivery ${Date.parse(deliver).toString("dddd")} ${Date.parse(deliver).toString("dd/MM/yyyy")} main else`)
+                         deliver = Date.parse('next'+ d1.toLowerCase().trim()).addWeeks(`${gap}`);
+                                                     console.log(deliver)
+        $(".demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " +Date.parse(deliver).toString("dddd")+ " gap "+gap +" weeks add and date is delivery date case 4");
+
              
             }
      
