@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <body>
-<button class="btn" data-d1="Friday" data-c1="Monday 22" data-gap="1">Add to Cart</button>
+<button class="btn" data-d1="Wednesday" data-c1="Friday 22" data-gap="1">Add to Cart</button>
 <p class="demo"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     $(".btn").click(function(){
       const d = new Date();
-      const days =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const days =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
       const time =d.getHours();
       let d1 = $(this).attr("data-d1");
       let c1Day = $(this).attr("data-c1").split(" ")[0];
