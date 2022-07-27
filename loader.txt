@@ -1,0 +1,56 @@
+theme.liquid
+  <body class="gradient">
+<!--     <div class="u_loader_cont">
+      <div class="u_loader">
+      </div>   
+    </div>
+    <div class="u_overlay">
+    </div> -->
+
+    <div class="u_content" template-name="{{template.name}}">
+css
+  <style>
+         .u_loader_cont{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index:999999;
+      transform: translate(-50%,-50%);
+           display:none
+      }
+      .u_loader {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 10px solid #f3f3f3;
+      border-top: 10px solid brown;
+      animation: u_loader 2s linear infinite;
+
+      }
+      @keyframes u_loader {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+      }
+/*       .u_content{
+      display:none
+      } */
+      /*
+      .u_loader_hide,.u_content{
+      display:none
+      }
+      .u_overlay{
+      position:fixed;
+      top:0;
+      left:0;
+      background:rgba(0,0,0,.7);
+      right:0;
+      width:100%;
+      height:100%
+      } */
+jquery
+            $(window).on('load',function(){
+              setTimeout(function(){
+            $('.glitch').fadeOut();
+              $('.u_content').fadeIn();
+             },2000)
+                 })
