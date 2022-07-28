@@ -1,0 +1,4 @@
+{% for link in linklists.blogs.links %}
+  {% assign bg = link.object  %}
+	{{ bg.title }}
+{% endfor %}
