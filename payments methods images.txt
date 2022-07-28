@@ -1,0 +1,10 @@
+{%- assign arr = block.settings.svg | remove: ' ' | split:"," -%}
+                     <style>.bot_footer_svg img {padding: 2.5px;height: {{block.settings.height}}px;}</style>
+                     <div class="dib bot_footer_svg">{%- for img in arr -%}<img class="lazyload" src="https://cdn.shopify.com/s/assets/payment_icons/generic-dfdcaf09b6731ca14dd7441354c0ad8bc934184eb15ae1fda6a6b9e307675485.svg" data-src="{{ img | payment_type_img_url }}" alt="{{img | replace:'_',' '}}" />{%- endfor -%}</div>
+ {
+           "type": "textarea",
+           "id": "svg",
+           "label": "SVG list",
+           "default": "amazon_payments,american_express,apple_pay,bitcoin,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,google_pay,jcb,klarna,klarna-pay-later,litecoin,maestro,master,paypal,shopify_pay,sofort,visa",
+           "info": "amazon_payments,american_express,apple_pay,bitcoin,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,google_pay,jcb,klarna,klarna-pay-later,litecoin,maestro,master,paypal,shopify_pay,sofort,visa"
+         }
