@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button class="btn" data-d1="Wednesday" data-c1="Tuesday 22" data-gap="0">Add to Cart</button>
+    <p class="demo"></p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      $(".btn").click(function(){
+        const d = new Date();
+        const days =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+        const time =d.getHours();
+        let d1 = $(this).attr("data-d1");
+        let c1Day = $(this).attr("data-c1").split(" ")[0];
+        let c1Time = parseInt($(this).attr("data-c1").split(" ")[1]);
+        let day =1;
+        let gap =parseInt($(this).attr("data-gap"));
+        console.log('gap',gap)
+        let deliver = '';
+        if(day <= days.indexOf(c1Day)){
+        if(time >= c1Time && gap == 0){
+        gap = 1;
+        }
+          deliver = Date.parse('next'+ d1.toLowerCase().trim()).addWeeks(`${gap}`);
+          $(".demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " +Date.parse(deliver).toString("dddd"));
+        }
+        else{
+        let _gap = 1;
+        if(gap > 0){
+        _gap = gap + 1;
+        }
+          deliver = Date.parse('next'+ d1.toLowerCase().trim()).addWeeks(`${_gap}`);
+          $(".demo").text(Date.parse(deliver).toString("dd/MM/yyyy") + " " +Date.parse(deliver).toString("dddd")+ " gap "+gap +" weeks add and date is delivery date case 3");
+        }
+      });
+    </script>
+  </body>
+</html>
