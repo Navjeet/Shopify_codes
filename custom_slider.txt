@@ -96,14 +96,16 @@ $(".u_f_product_img_size:first-child").addClass("custom-img-active");
       if($(this).hasClass("custom-img-active") && $(this).prev().hasClass("u_f_product_img_size")){
         $(this).removeClass("custom-img-active");
         $(this).prev().addClass("custom-img-active");
+$('.u_f_product_img_size').removeClass("infinite-img");
+        $(this).addClass("infinite-img");
         return false;
       }
     });
- $(this).parent().find(".u_f_product_img_size").each(function(){
-      if($(this).hasClass("custom-img-active") && $(this).prev().length == 0){
-console.log('left img length',$(this).prev().length);
-$(".u_f_product_img_size").removeClass("custom-img-active");
-$(".u_f_product_img_size:last-child").addClass("custom-img-active");
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+if($(this).hasClass("infinite-img") && parseInt($(this).attr('data-size')) == 1){
+console.log('last img');
+$(".u_f_product_img_size_gallery").removeClass("custom-img-active");
+$(".u_f_product_img_size_gallery:last-child").addClass("custom-img-active");
 }
 });
     let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
