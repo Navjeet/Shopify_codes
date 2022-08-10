@@ -90,3 +90,18 @@
   });
 </script>
 $('.ab_slide').slick('setPosition');
+// slick go to
+ <div class="u_pro_media_slider kkp-Thumb">
+</div>
+ <div class="u_pro_media_block">
+        {% if product.media.size > 0 %}
+        {% for media in product.media limit : 6 %}
+        <div class="u_media_index"  data-index="{{forloop.index0}}">
+data
+</div>
+{% endfor %}
+</div>
+  $('.u_media_index').click(function(){
+    let index =$(this).attr('data-index')
+    $('.u_pro_media_slider').slick('slickGoTo', index);
+  })
