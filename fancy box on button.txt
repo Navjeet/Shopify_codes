@@ -1,0 +1,55 @@
+<button class="u_pro_all_media_title" href="javascript:;" data-fancybox-trigger="gallery" data-fancybox-index="1">
+      show all photos 
+      <img src="https://cdn.shopify.com/s/files/1/0513/3428/3424/files/image_76.png?v=1644991296" class="u_all_media_size">
+    </button>
+link
+https://codepen.io/fancyapps/pen/VGoRqO?editors=1010
+{% if product.media.size > 0 %}
+            {% assign count = 0 %}
+          {% capture vid %}
+          {% assign external_videos = product.media | where: "media_type", "external_video" %}
+          {% for external_video in external_videos %}
+          https://www.{{ external_video.host }}.com/watch?v={{ external_video.external_id }},
+          {% endfor %}
+          {% endcapture %}
+          {% assign videos = vid | split: ',' %} 
+          {% for media in product.media %}
+          {% if media.media_type == 'image' %}
+          <div class="fff u_pro_upper_media_block">
+<a href="{{ media.src | img_url: 'master' }}" class="custom_lightboX_img" data-fancybox="gallery" >
+              {% comment %}
+               {% render 'optimize-images', s_img:media.src %}
+            {% endcomment %}
+                 {% capture sizes %}100x,480x,765x,1400x,2048x{% endcapture %}
+  {% assign sizes = sizes | split: ',' %}
+       <img  src="{{ media.src | product_img_url: '100x' }}"
+                alt="{{ alt_text | escape }}"
+                class="lazy {{ settings.image_loading_style }} mainImg"
+                data-sizes="auto"
+                data-src="{{ media.src | product_img_url: 'master' }}"
+                data-srcset=" {{ media.src | product_img_url: '300x' }} 300w,
+                              {{ media.src | product_img_url: '400x' }} 400w,
+                              {{ media.src | product_img_url: '500x' }} 500w,
+                              {{ media.src | product_img_url: '600x' }} 600w,
+                              {{ media.src | product_img_url: '700x' }} 700w,
+                              {{ media.src | product_img_url: '800x' }} 800w,
+                              {{ media.src | product_img_url: '900x' }} 900w"
+              />             
+</a>
+          </div>
+          {% elsif media.media_type == 'video' %}
+<a href="{{ media | video_tag }}" class="custom_lightboX_img" data-fancybox="gallery" >
+          <div class="u_pro_upper_media_block">
+            {{ media | video_tag: controls: true , image_size: "1024x" : class: "internal_video" }}
+          </div>
+</a>
+          {% elsif media.media_type == 'external_video' %}
+<a data-src="{{- videos[count] -}}"  class="custom_lightboX_img" data-fancybox="gallery" >
+          <div class="u_pro_upper_media_block">
+            {{ media | external_video_tag : class: "youtube_video" }}
+          </div>
+</a>
+          {% assign count = count | plus: 1 %}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
