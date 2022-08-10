@@ -1,9 +1,9 @@
-<a href="{{f_product.url}}"class="u_f_product_title_link_img" >
-              {% for image in f_product.images %}
-              <img src="{{ image.src | product_img_url: 'master' }}"  class="u_f_product_img_size {% if forloop.first %}custom-img-active{% endif %}" 
+<div class="u_img_flex" data-img-size="{{product.images.size}}">
+       {% for image in product.images %}
+              <img src="{{ image.src | product_img_url: 'master' }}"  class="u_f_product_img_size {% if forloop.first %}custom-img-active{% endif %}" {% if forloop.first %}data-size="1" {% endif %} {% if forloop.last %}data-size="{{product.images.size}}" {% endif %} 
                    data-transform="{% if forloop.first %}0{% else %}-{{forloop.index0 | times: 100}}{% endif %}">
               {% endfor %}
-            </a>
+</div>
 {% if f_product.images.size>1 %}
             <div class="u_product_left_arrow">
               <i class="fas fa-caret-left"></i>
@@ -12,6 +12,36 @@
               <i class="fas fa-caret-right"></i>
             </div>
             {% endif %}
+<style>
+.u_img_flex {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: 75%;
+    margin: auto;
+}
+.product__info-container--sticky {
+    position: unset;
+    top: 3rem;
+}
+.u_product_left_arrow {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translateY(-50%);
+    z-index: 99999;
+}
+.u_product_right_arrow {
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translateY(-50%);
+    z-index: 99999;
+}
+.product__media-wrapper{
+position:relative;
+}
+</style>
 <script>
 $(document).on('click','.u_product_right_arrow',function(){
    console.log('click');
@@ -21,12 +51,7 @@ $(document).on('click','.u_product_right_arrow',function(){
         $(this).next().addClass("custom-img-active");
         return false;
       }
-      else{
-        $(this).removeClass("custom-img-active");
-        $(this).prev().addClass("custom-img-active");
-        // return false;
-      }  
-    });
+        });
     let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
     $(this).parent().find(".u_f_product_img_size").attr("style", `transform: translateX(${x}%)`);
   })
@@ -38,6 +63,51 @@ $(document).on('click','.u_product_right_arrow',function(){
         return false;
       }
     });
+    let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
+    $(this).parent().find(".u_f_product_img_size").attr("style", `transform: translateX(${x}%)`);
+  });
+//infinite images
+$(document).on('click','.u_product_right_arrow',function(){
+   console.log('click');
+let p_img_size=parseInt($('.u_img_flex').attr('data-img-size'));
+console.log('total img size',p_img_size);
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+      if($(this).hasClass("custom-img-active")){
+console.log('if condition')
+        $(this).removeClass("custom-img-active");
+        $(this).next().addClass("custom-img-active");
+$('.u_f_product_img_size').removeClass("infinite-img");
+        $(this).addClass("infinite-img");
+        return false;
+      }
+    });
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+if($(this).hasClass("infinite-img") && parseInt($(this).attr('data-size')) == p_img_size){
+console.log('last img');
+$(".u_f_product_img_size").removeClass("custom-img-active");
+$(".u_f_product_img_size:first-child").addClass("custom-img-active");
+}
+});
+    let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
+    $(this).parent().find(".u_f_product_img_size").attr("style", `transform: translateX(${x}%)`);
+  })
+     $(document).on('click','.u_product_left_arrow',function(){
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+      if($(this).hasClass("custom-img-active") && $(this).prev().hasClass("u_f_product_img_size")){
+        $(this).removeClass("custom-img-active");
+        $(this).prev().addClass("custom-img-active");
+$('.u_f_product_img_size').removeClass("infinite-img");
+        $(this).addClass("infinite-img");
+        return false;
+      }
+    });
+    $(this).parent().find(".u_f_product_img_size").each(function(){
+if($(this).hasClass("infinite-img") && parseInt($(this).attr('data-size')) == 1){
+console.log('last img');
+$(".u_f_product_img_size_gallery").removeClass("custom-img-active");
+$(".u_f_product_img_size_gallery:last-child").addClass("custom-img-active");
+}
+});
     let x = parseInt($(this).parent().find(".custom-img-active").attr("data-transform"));
     $(this).parent().find(".u_f_product_img_size").attr("style", `transform: translateX(${x}%)`);
   });
