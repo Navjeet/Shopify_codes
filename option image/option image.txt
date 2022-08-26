@@ -1,0 +1,37 @@
+<div class="select_size">
+          <div class="v-variant-swatches">
+          {% for product_option in product.options_with_values %}
+            {% assign name = product_option.name | downcase %}
+            {% if name == 'color' %}
+            <div class="prod_opt_main">
+             <p class="variant-title-color selected">{{product_option.name}}:</p>
+          <div class="v-variant">
+           
+            {% for value in product_option.values %}
+              {% for variant in product.variants %}
+                {% if variant.available %}
+                {% if name == 'color' %}
+                 {% if variant.title contains value %}
+                 {% capture v_image %}                   
+                   {{ variant.image | img_url : "master" }}
+                   {% endcapture %}
+                   {% endif %}
+                  {% endif %}
+                  {% endif %}
+                {% endfor %}
+            <label class="v-variant-btn siz_lab">
+              <input class="siz_inp lab_swat ab_color_input" type="radio" value="{{ value }}"
+              name="{{ product_option.name }}" id="{{ value }}" {% if product_option.selected_value == value %}checked{% endif %}> 
+   <div class="lab_size size ab_color_value" style="background-color:{{ value }}" for="{{ value }}"> 
+              <img src="{{v_image }}" alt="">
+              <p class="ab_color_name"> {{ value }} </p>
+              </div> 
+            </label>
+            {% endfor %}
+          </div>
+            </div>
+          {% endif %}
+          {% endfor %}
+ 
+        </div>
+        </div>

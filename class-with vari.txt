@@ -1,0 +1,9 @@
+  //Click on variant to show message
+    $(document).on("click",".u_var_label",function(){
+      $(".custom----msg").hide();
+      let ccvid = `.custom----msg[vid="${$(this).attr("var-id")}"]`;
+      console.log(ccvid);
+      $(ccvid).show();
+      delivery_msg();
+      text();
+    });
