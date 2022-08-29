@@ -1,0 +1,51 @@
+<div class="u_tooltip {{block.settings.u_tooltip_border_alignment}}">
+</div>
+<style>
+ ._top_left.u_tooltip:before{
+    left:-7px;
+        content: '';
+    position: absolute;
+    top: 50%;
+    border: 1px solid;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%) rotate(45deg);
+        background: white;
+    z-index: -1;
+  }
+  ._top_right.u_tooltip:before{
+    right:-7px; 
+        content: '';
+    position: absolute;
+    top: 50%;
+    border: 1px solid;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%) rotate(45deg);
+        background: white;
+    z-index: -1;
+  }
+</style>
+"blocks":[
+{
+"name":"Selection construct block",
+"type":"u_selection_product",
+"settings":[
+{
+"type":"select",
+"id":"u_tooltip_border_alignment",
+"label":"Tooltip border alignment",
+"options":[
+{
+"value":"_top_left",
+"label":"Top left"
+},
+{
+"value":"_top_right",
+"label":"top right"
+}
+]
+}
+]
+}
+]
